@@ -20,4 +20,3 @@ Desktop.ini
 $RECYCLE.BIN/
 
 # Ignore these so they're not stored in source control
-node_modules
