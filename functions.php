@@ -75,12 +75,12 @@ if( !function_exists( "wp_bootstrap_theme_support" ) ) {
 // launching this stuff after theme setup
 add_action( 'after_setup_theme','wp_bootstrap_theme_support' );
 
-function wp_bootstrap_main_nav() {
+function wp_bootstrap_main_nav($mc) {
   // Display the WordPress menu if available
   wp_nav_menu( 
     array( 
       'menu' => 'main_nav', /* menu name */
-      'menu_class' => 'nav navbar-nav',
+      'menu_class' => 'nav navbar-nav '.$mc,
       'theme_location' => 'main_nav', /* where in the theme it's assigned */
       'container' => 'false', /* container class */
       'fallback_cb' => 'wp_bootstrap_main_nav_fallback', /* menu fallback */
@@ -89,11 +89,12 @@ function wp_bootstrap_main_nav() {
   );
 }
 
-function wp_bootstrap_footer_links() { 
+function wp_bootstrap_footer_links($mc) { 
   // Display the WordPress menu if available
   wp_nav_menu(
     array(
       'menu' => 'footer_links', /* menu name */
+      'menu_class' => $mc,
       'theme_location' => 'footer_links', /* where in the theme it's assigned */
       'container_class' => 'footer-links clearfix', /* container class */
       'fallback_cb' => 'wp_bootstrap_footer_links_fallback' /* menu fallback */
@@ -721,5 +722,46 @@ function wp_bootstrap_filter_ptags_on_images( $content ){
   return preg_replace( '/<p>\s*(<a .*>)?\s*(<img .* \/>)\s*(<\/a>)?\s*<\/p>/iU', '\1\2\3', $content );
 }
 add_filter( 'the_content', 'wp_bootstrap_filter_ptags_on_images' );
+
+add_action( 'init', 'page_types' );
+function page_types() {
+  $labels = array(
+    'name'               => _x( 'Team', 'post type general name', 'beeswax' ),
+    'singular_name'      => _x( 'Team Member', 'post type singular name', 'beeswax' ),
+    'menu_name'          => _x( 'Team', 'admin menu', 'beeswax' ),
+    'name_admin_bar'     => _x( 'Team Member', 'add new on admin bar', 'beeswax' ),
+    'add_new'            => _x( 'Add New', 'book', 'beeswax' ),
+    'add_new_item'       => __( 'Add New Team Member', 'beeswax' ),
+    'new_item'           => __( 'New Team Member', 'beeswax' ),
+    'edit_item'          => __( 'Edit Team Member', 'beeswax' ),
+    'view_item'          => __( 'View Team Member', 'beeswax' ),
+    'all_items'          => __( 'All Team Members', 'beeswax' ),
+    'search_items'       => __( 'Search Team Member', 'beeswax' ),
+    'parent_item_colon'  => __( 'Parent Team Member:', 'beeswax' ),
+    'not_found'          => __( 'No team member found.', 'beeswax' ),
+    'not_found_in_trash' => __( 'No team members found in Trash.', 'beeswax' )
+  );
+
+  $args = array(
+    'labels'             => $labels,
+    'public'             => true,
+    'publicly_queryable' => true,
+    'show_ui'            => true,
+    'show_in_menu'       => true,
+    'show_in_admin_bar'  => true,
+    'query_var'          => true,
+    'rewrite'            => array( 'slug' => 'teammembers' ),
+    'capability_type'    => 'post',
+    'has_archive'        => false,
+    'hierarchical'       => false,
+    'menu_position'      => 20,
+    'supports'           => array( 'title', 'editor', 'thumbnail' )
+  );
+
+  register_post_type( 'teammembers', $args );
+}
+
+require_once('library/pagetypes.php');
+
 
 ?>

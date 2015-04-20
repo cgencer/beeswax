@@ -1,53 +1,6 @@
 <?php get_header(); ?>
 
-    <!--[if lt IE 10]>
-      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-      <![endif]-->
-
-      <nav class="navbar navbar-default navbar-fixed-top">
-        <div class="container">
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-menu">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="fa fa-bars"></span>
-            </button>
-            <a class="navbar-brand" href="#">
-              <img alt="Beeswax" src="images/brand.svg">
-            </a>
-          </div>
-
-          <!-- Collect the nav links, forms, and other content for toggling -->
-          <div class="collapse navbar-collapse" id="navbar-collapse-menu">
-            <ul class="nav navbar-nav navbar-right">
-              <a href="#" class="btn btn-secondary navbar-btn">Sign up</a>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Home <span class="caret"></span></a>
-                <ul class="dropdown-menu" role="menu">
-                  <li><a href="#">Action</a></li>
-                  <li><a href="#">Another action</a></li>
-                  <li><a href="#">Something else here</a></li>
-                  <li class="divider"></li>
-                  <li><a href="#">Separated link</a></li>
-                </ul>
-              </li>
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Blog <span class="caret"></span></a>
-                <ul class="dropdown-menu" role="menu">
-                  <li><a href="#">Action</a></li>
-                  <li><a href="#">Another action</a></li>
-                  <li><a href="#">Something else here</a></li>
-                  <li class="divider"></li>
-                  <li><a href="#">Separated link</a></li>
-                </ul>
-              </li>
-              <li><a href="#">Login</a></li>
-            </ul>
-          </div><!-- /.navbar-collapse -->
-        </div><!-- /.container-fluid -->
-      </nav>
-
+  
       <section class="section-full-height" style="background-image: url(../images/photo.png);">
         <div class="middle bounceInUp animated">
           <h2 class="lead text-center text-white text-shadow"><strong>Theme for everyday use</strong></h2>
@@ -299,25 +252,4 @@
         </div>
       </section>
 
-      <footer class="navbar navbar-inverse mt-xxxlg">
-        <div class="container">
-          <div class="navbar-header">
-            <a class="navbar-brand" href="#">
-              <img alt="Beeswax" src="images/brand.svg">
-            </a>
-          </div>
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Blog</a></li>
-            <li><a href="#">Portfolio</a></li>
-            <li><a href="#">Download</a></li>
-          </ul>
-          <div class="row">
-            <div class="col-xs-12">
-              <p class="text-left">All rights Reserved. BEESWAX</p>
-            </div>
-          </div>
-        </div>
-      </footer>
-      
 <?php get_footer(); ?>
