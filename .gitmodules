@@ -1,0 +1,9 @@
+[submodule "library/honeyguide/vendor/settings-api"]
+	path = library/honeyguide/vendor/settings-api
+	url = https://github.com/tareq1988/wordpress-settings-api-class.git
+[submodule "library/honeyguide/vendor/mustache-php"]
+	path = library/honeyguide/vendor/mustache-php
+	url = https://github.com/bobthecow/mustache.php.git
+[submodule "library/honeyguide/vendor/mustache-cache"]
+	path = library/honeyguide/vendor/mustache-cache
+	url = https://github.com/khromov/mustache-wordpress-cache.git

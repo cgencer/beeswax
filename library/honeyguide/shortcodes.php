@@ -1,5 +1,4 @@
 <?php
-
 // shortcodes
 
 
@@ -34,7 +33,6 @@ function buttons( $atts, $content = null ) {
 	
 	return $output;
 }
-
 add_shortcode('button', 'buttons'); 
 
 // Alerts
@@ -53,7 +51,6 @@ function alerts( $atts, $content = null ) {
 	
 	return $output;
 }
-
 add_shortcode('alert', 'alerts');
 
 // Block Messages
@@ -72,7 +69,6 @@ function block_messages( $atts, $content = null ) {
 	
 	return $output;
 }
-
 add_shortcode('block-message', 'block_messages'); 
 
 // Block Messages
@@ -99,10 +95,4 @@ function blockquotes( $atts, $content = null ) {
 	
 	return $output;
 }
-
 add_shortcode('blockquote', 'blockquotes'); 
- 
-
-
-
-?>

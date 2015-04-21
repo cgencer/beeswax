@@ -1,15 +1,23 @@
 <?php 
+console('pagetypes boot...');
 
-function call_beeswax_pagetypes() {
-	new beeswax_pagetypes();
-}
-
-if ( is_admin() ) {
-	add_action( 'load-post.php', 'call_beeswax_pagetypes' );
-	add_action( 'load-post-new.php', 'call_beeswax_pagetypes' );
-}
+new beeswax_pagetypes();
 
 class beeswax_pagetypes {
+
+	var $allfields = [[
+		type => 'text',
+		description => 'Linkedin profile page', 
+		fieldname => 'field_slug'
+		], [
+		type => 'text',
+		description => 'Facebook profile page', 
+		fieldname => 'field_slug'
+		], [
+		type => 'text',
+		description => 'Twitter profile page', 
+		fieldname => 'field_slug'
+	]];
 
 	public function __construct() {
 		add_action( 'init', array($this, 'page_types') );
@@ -52,19 +60,63 @@ class beeswax_pagetypes {
 			);
 		register_post_type( 'teammembers', $args );
 
+		$labels = array(
+			'name'               => _x( 'Services', 'post type general name', 'beeswax' ),
+			'singular_name'      => _x( 'Service', 'post type singular name', 'beeswax' ),
+			'menu_name'          => _x( 'Services', 'admin menu', 'beeswax' ),
+			'name_admin_bar'     => _x( 'Service', 'add new on admin bar', 'beeswax' ),
+			'add_new'            => _x( 'Add New', 'book', 'beeswax' ),
+			'add_new_item'       => __( 'Add New Service', 'beeswax' ),
+			'new_item'           => __( 'New Service', 'beeswax' ),
+			'edit_item'          => __( 'Edit Service', 'beeswax' ),
+			'view_item'          => __( 'View Service', 'beeswax' ),
+			'all_items'          => __( 'All Services', 'beeswax' ),
+			'search_items'       => __( 'Search Service', 'beeswax' ),
+			'parent_item_colon'  => __( 'Parent Service:', 'beeswax' ),
+			'not_found'          => __( 'No service found.', 'beeswax' ),
+			'not_found_in_trash' => __( 'No services found in Trash.', 'beeswax' )
+			);
+
+		$args = array(
+			'labels'             => $labels,
+			'public'             => true,
+			'publicly_queryable' => true,
+			'show_ui'            => true,
+			'show_in_menu'       => true,
+			'show_in_admin_bar'  => true,
+			'query_var'          => true,
+			'rewrite'            => array( 'slug' => 'services' ),
+			'capability_type'    => 'post',
+			'has_archive'        => false,
+			'hierarchical'       => false,
+			'menu_position'      => 20,
+			'supports'           => array( 'title', 'editor', 'thumbnail' )
+			);
+		register_post_type( 'services', $args );
 	}
 
 	public function add_meta_box( $post_type ) {
-		$post_types = array('teammembers'); 
+		$post_types = array('team'); 
 
 		if ( in_array( $post_type, $post_types )) {
 			add_meta_box(
 				'beeswax_team' ,__( 'Social Media Links', 'beeswax' ), 
 				array( $this, 'render_meta_box_content' ), $post_type, 'advanced', 'high' );
 		}
+
+		$post_types = array('service'); 
+
+		if ( in_array( $post_type, $post_types )) {
+			add_meta_box(
+				'beeswax_service' ,__( 'Service details', 'beeswax' ), 
+				array( $this, 'render_meta_box_content' ), $post_type, 'advanced', 'high' );
+		}
+
 	}
 
 	public function save( $post_id ) {
+		foreach ($this->allfields as $fld) {
+
 		if ( ! isset( $_POST['myplugin_meta_box_nonce'] ) ) {
 			return;
 		}
@@ -86,8 +138,9 @@ class beeswax_pagetypes {
 		if ( ! isset( $_POST['beeswax_team_new_field'] ) ) {
 			return;
 		}
-		$my_data = sanitize_text_field( $_POST['beeswax_team_new_field'] );
+		$my_data = sanitize_text_field( $_POST['beeswax_team_'.$fld['fieldname']] );
 		update_post_meta( $post_id, '_my_meta_value_key', $my_data );
+	}
 	}
 
 	public function render_meta_box_content( $post ) {
@@ -96,12 +149,13 @@ class beeswax_pagetypes {
 
 		$value = get_post_meta( $post->ID, '_my_meta_value_key', true );
 
-		// Display the form, using the current value.
-		echo '<label for="beeswax_team_new_field">';
-		_e( 'Description for this field', 'beeswax' );
-		echo '</label> ';
-		echo '<input type="text" id="beeswax_team_new_field" name="beeswax_team_new_field"';
-		echo ' value="' . esc_attr( $value ) . '" size="25" />';
+		foreach ($this->allfields as $fld) {
+			echo '<label for="beeswax_team_' . $fld['fieldname'] . '">';
+			_e( $fld['description'], 'beeswax' );
+			echo '</label> ';
+			echo '<input type="text" id="beeswax_team_' . $fld['fieldname'] . '" name="beeswax_team_' . $fld['fieldname'] . '"';
+			echo ' value="' . esc_attr( $value ) . '" size="25" /><br />';
+		}
 	}
 }
 ?>
