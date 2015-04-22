@@ -3,6 +3,9 @@
 		"id": 		"admin_settings_basic",
 		"title":	"Basic Settings"
 	},{
+		"id":		"admin_settings_frontpage_builder",
+		"title":	"Frontpage Builder"
+	},{
 		"id":		"admin_settings_apikeys",
 		"title":	"API Keys & Personalization"
 	}

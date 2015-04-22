@@ -453,6 +453,10 @@ function wp_bootstrap_related_posts() {
   echo '</ul>';
 }
 
+function beeswax_distribute_columns($arr) {
+  return false;
+
+}
 // Numeric Page Navi (built into the theme by default)
 function wp_bootstrap_page_navi($before = '', $after = '') {
   global $wpdb, $wp_query;
@@ -511,3 +515,4 @@ function wp_bootstrap_page_navi($before = '', $after = '') {
   }
   echo '</ul>'.$after."";
 }
+

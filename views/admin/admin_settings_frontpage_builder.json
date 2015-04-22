@@ -1,0 +1,43 @@
+[
+	{
+		"name":"beeswax_blox_header",
+		"label":"Use the header block?",
+		"desc":"",
+		"type":"checkbox"
+	},{
+		"name":"beeswax_blox_services",
+		"label":"Use the services block?",
+		"desc":"",
+		"type":"checkbox"
+	},{
+		"name":"beeswax_blox_team",
+		"label":"Use the team members block?",
+		"desc":"",
+		"type":"checkbox"
+	},{
+		"name":"beeswax_blox_teamnum",
+		"label":"Number of team members",
+		"desc":"",
+		"type":"select",
+		"default":"5",
+		"options":{
+			"2":"2",
+			"3":"3",
+			"4":"4",
+			"5":"5",
+			"6":"6",
+			"7":"7"
+		}
+	},{
+        "name": "beeswax_blox_teamdist",
+        "label": "Column distribution",
+        "desc": "",
+        "type": "text",
+        "default": "2-3"
+	},{
+		"name":"beeswax_blox_counter",
+		"label":"Use the counter block?",
+		"desc":"",
+		"type":"checkbox"
+	}
+]

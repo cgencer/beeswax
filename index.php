@@ -1,12 +1,14 @@
 <?php get_header(); ?>
 
-  
+
+<?php if (($settings_api->get_option( 'beeswax_blox_header', 'admin_settings_frontpage_builder', 'off' )) == 'on') : ?>
       <section class="section-full-height" style="background-image: url(../images/photo.png);">
         <div class="middle bounceInUp animated">
           <h2 class="lead text-center text-white text-shadow"><strong>Theme for everyday use</strong></h2>
           <h3 class="text-center text-white lead text-shadow">Product taggline or short description about it</h3>
         </div>
       </section>
+<?php endif; ?>
 
       <section class="container mt-xxxlg">
         <div class="row">
@@ -50,6 +52,7 @@
         </div>
       </section>
 
+<?php if (($settings_api->get_option( 'beeswax_blox_services', 'admin_settings_frontpage_builder', 'off' )) == 'on') : ?>
       <section class="container mt-xxxlg">
         <div class="row">
           <div class="col-xs-12">
@@ -71,6 +74,7 @@
           </div>
         </div>
       </section>
+<?php endif; ?>
 
       <section class="section-full-height mt-xxxlg" style="background-image: url(../images/photo-2.png);">
         <div class="section-full-height col-xs-offset-2 col-xs-10 col-md-offset-5 col-md-7 bg-secondary">
@@ -103,6 +107,7 @@
         </div>
       </section>
 
+<?php if (($settings_api->get_option( 'beeswax_blox_team', 'admin_settings_frontpage_builder', 'off' )) == 'on') : ?>
       <section class="container mt-xxxlg">
         <div class="row">
           <div class="col-xs-12">
@@ -110,99 +115,24 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-xs-12 col-md-6">
-            <div class="mt-lg">
-              <figure class="team-member">
-                <img src="https://randomuser.me/api/portraits/women/30.jpg" alt="img25"/>
-                <figcaption>
-                  <span class="title">
-                    <h1 class="mt-none mb-none">Sarah Ron</h1>
-                    <h4 class="mt-none mb-none">Head of Products</h4>
-                  </span>
-                  <p class="description text-center">
-                    <a href="#" class="text-white"><i class="fa fa-4x fa-twitter"></i></a>
-                    <a href="#" class="text-white"><i class="fa fa-4x fa-linkedin"></i></a>
-                    <a href="#" class="text-white"><i class="fa fa-4x fa-skype"></i></a>
-                  </p>
-                </figcaption>
-              </figure>
-            </div>
-          </div>
-          <div class="col-xs-12 col-md-6">
-            <div class="mt-lg">
-              <figure class="team-member">
-                <img src="https://randomuser.me/api/portraits/women/10.jpg" alt="img25"/>
-                <figcaption>
-                  <span class="title">
-                    <h1 class="mt-none mb-none">Sarah Ron</h1>
-                    <h4 class="mt-none mb-none">Head of Products</h4>
-                  </span>
-                  <p class="description text-center">
-                    <a href="#" class="text-white"><i class="fa fa-4x fa-twitter"></i></a>
-                    <a href="#" class="text-white"><i class="fa fa-4x fa-linkedin"></i></a>
-                    <a href="#" class="text-white"><i class="fa fa-4x fa-skype"></i></a>
-                  </p>
-                </figcaption>
-              </figure>
-            </div>
-          </div>
-          <div class="col-xs-12 col-md-4">
-            <div class="mt-lg">
-              <figure class="team-member">
-                <img src="https://randomuser.me/api/portraits/women/12.jpg" alt="img25"/>
-                <figcaption>
-                  <span class="title">
-                    <h1 class="mt-none mb-none">Sarah Ron</h1>
-                    <h4 class="mt-none mb-none">Head of Products</h4>
-                  </span>
-                  <p class="description text-center">
-                    <a href="#" class="text-white"><i class="fa fa-4x fa-twitter"></i></a>
-                    <a href="#" class="text-white"><i class="fa fa-4x fa-linkedin"></i></a>
-                    <a href="#" class="text-white"><i class="fa fa-4x fa-skype"></i></a>
-                  </p>
-                </figcaption>
-              </figure>
-            </div>
-          </div>
-          <div class="col-xs-12 col-md-4">
-            <div class="mt-lg">
-              <figure class="team-member">
-                <img src="https://randomuser.me/api/portraits/women/15.jpg" alt="img25"/>
-                <figcaption>
-                  <span class="title">
-                    <h1 class="mt-none mb-none">Sarah Ron</h1>
-                    <h4 class="mt-none mb-none">Head of Products</h4>
-                  </span>
-                  <p class="description text-center">
-                    <a href="#" class="text-white"><i class="fa fa-4x fa-twitter"></i></a>
-                    <a href="#" class="text-white"><i class="fa fa-4x fa-linkedin"></i></a>
-                    <a href="#" class="text-white"><i class="fa fa-4x fa-skype"></i></a>
-                  </p>
-                </figcaption>
-              </figure>
-            </div>
-          </div>
-          <div class="col-xs-12 col-md-4">
-            <div class="mt-lg">
-              <figure class="team-member">
-                <img src="https://randomuser.me/api/portraits/women/17.jpg" alt="img25"/>
-                <figcaption>
-                  <span class="title">
-                    <h1 class="mt-none mb-none">Sarah Ron</h1>
-                    <h4 class="mt-none mb-none">Head of Products</h4>
-                  </span>
-                  <p class="description text-center">
-                    <a href="#" class="text-white"><i class="fa fa-4x fa-twitter"></i></a>
-                    <a href="#" class="text-white"><i class="fa fa-4x fa-linkedin"></i></a>
-                    <a href="#" class="text-white"><i class="fa fa-4x fa-skype"></i></a>
-                  </p>
-                </figcaption>
-              </figure>
-            </div>
-          </div>
+<?php
+$cx = explode('-', $settings_api->get_option( 'beeswax_blox_teamdist', 'admin_settings_frontpage_builder', '2-3' ));
+
+foreach ($cx as $key => $val) {
+$cols = "col-md-12";
+if($val=="2"){$cols = "col-md-6";}
+if($val=="3"){$cols = "col-md-4";}
+if($val=="4"){$cols = "col-md-3";}
+for ($i=0; $i < (int)$val ; $i++) { 
+  $tpl = $loader->load('team_members');
+  echo($mustache->render($tpl, array('cols' => $cols)));
+}
+}?>
         </div>
       </section>
+<?php endif; ?>
 
+<?php if (($settings_api->get_option( 'beeswax_blox_counter', 'admin_settings_frontpage_builder', 'off' )) == 'on') : ?>
       <section class="section-full-height mt-xxxlg" style="background-image: url(../images/photo-3.png);">
         <div class="middle">
           <div class="container">
@@ -215,6 +145,7 @@
           </div>
         </div>
       </section>
+<?php endif; ?>
 
       <section class="container mt-xxxlg">
         <div class="row mt-xxlg">

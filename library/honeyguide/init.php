@@ -46,8 +46,8 @@ $mustache = new Mustache_Engine(array(
 	'strict_callables' 				=> true,
 	'pragmas' 						=> [Mustache_Engine::PRAGMA_FILTERS],
 ));
-$loader = new Mustache_Loader_FilesystemLoader(dirname(dirname(dirname(__FILE__))).'/views/admin', array('extension' => 'tpl') );
-
+$loader = new Mustache_Loader_FilesystemLoader( dirname(dirname(dirname(__FILE__))).'/views/front', array('extension' => 'tpl') );
+echo(dirname(dirname(dirname(__FILE__))).'/views/front');
 $bw_admin = new beeswax_Admin( 'Beeswax', '0.1.0' );
 
 // Add Translation Option
