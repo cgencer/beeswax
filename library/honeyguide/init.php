@@ -1,7 +1,11 @@
 <?php
-//	if(!class_exists('Mustache_Engine')) {
-//		require_once( dirname(__FILE__).'/lib/TGM-Plugin-Activation/class-tgm-plugin-activation.php');
-//	}
+	if(!class_exists('Mustache_Engine')) {
+		require_once( dirname(__FILE__).'/plugins/class-tgm-plugin-activation.php');
+}
+include_once get_template_directory() . '/library/honeyguide/plugins/multiple_sidebars.php';
+require_once get_template_directory() . '/library/honeyguide/plugins/post-link-plus.php';
+require_once get_template_directory() . '/library/honeyguide/plugins/multiple-featured-images/multiple-featured-images.php';
+
 if(!class_exists('Mustache_Engine')) {
 	require_once( dirname(__FILE__).'/vendor/mustache-php/mustache.php' );
 }
@@ -14,9 +18,11 @@ if(!class_exists('WeDevs_Settings_API_Test')) {
 
 require_once( dirname(__FILE__) . '/theme.php' );
 require_once( dirname(__FILE__) . '/cleanerwp.php' );
+require_once( dirname(__FILE__) . '/plugins.php' );
 require_once( dirname(__FILE__) . '/shortcodes.php' );
 require_once( dirname(__FILE__) . '/pagetypes.php' );
 require_once( dirname(__FILE__) . '/sidebars.php' );
+require_once( dirname(__FILE__) . '/admin.php' );
 
 define( 'CHILD_THEME_NAME', 'Beeswax Theme' );
 define( 'CHILD_THEME_URL', 'http://www.studiopress.com/' );
@@ -42,6 +48,7 @@ $mustache = new Mustache_Engine(array(
 ));
 $loader = new Mustache_Loader_FilesystemLoader(dirname(dirname(dirname(__FILE__))).'/views/admin', array('extension' => 'tpl') );
 
+$bw_admin = new beeswax_Admin( 'Beeswax', '0.1.0' );
 
 // Add Translation Option
 load_theme_textdomain( 'wpbootstrap', TEMPLATEPATH.'/languages' );

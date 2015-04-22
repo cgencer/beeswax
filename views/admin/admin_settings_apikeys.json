@@ -1,0 +1,24 @@
+[
+	{
+		"name":"checkbox",
+		"label":"Checkbox",
+		"desc":"Use Google Fonts API?",
+		"type":"checkbox"
+	},{
+		"name":"text",
+		"label":"Text Input",
+		"desc":"Google Font API Key",
+		"type":"text",
+		"default":""
+	},{
+		"name":"selectbox",
+		"label":"A Dropdown",
+		"desc":"Dropdown description",
+		"type":"select",
+		"default":"no",
+		"options":{
+			"yes":"Yes",
+			"no":"No"
+		}
+	}
+]

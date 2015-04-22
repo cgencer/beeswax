@@ -1,5 +1,4 @@
 <?php 
-console('pagetypes boot...');
 
 new beeswax_pagetypes();
 

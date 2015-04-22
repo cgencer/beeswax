@@ -1,0 +1,29 @@
+[
+	{
+		"name":"text",
+		"label":"Text Input",
+		"desc":"Text input description",
+		"type":"text",
+		"default":"Title"
+	},{
+		"name":"textarea",
+		"label":"Textarea Input",
+		"desc":"Textarea description",
+		"type":"textarea"
+	},{
+		"name":"checkbox",
+		"label":"Checkbox",
+		"desc":"Checkbox Label",
+		"type":"checkbox"
+	},{
+		"name":"selectbox",
+		"label":"A Dropdown",
+		"desc":"Dropdown description",
+		"type":"select",
+		"default":"no",
+		"options":{
+			"yes":"Yes",
+			"no":"No"
+		}
+	}
+]
