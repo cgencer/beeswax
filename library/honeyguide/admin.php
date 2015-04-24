@@ -47,6 +47,7 @@ class beeswax_Admin {
 	}
 
 	public function beeswax_AdminInit() {
+		echo(plugin_dir_url( __FILE__ ));
 
 		$sections = json_decode(file_get_contents(dirname(dirname(dirname(__FILE__))).'/views/admin/admin_settings.json'), true);
 		$fields = array();
@@ -62,11 +63,13 @@ class beeswax_Admin {
 	public function enqueue_styles() {
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/flipCard-admin.css', array(), $this->version, 'all' );
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/codemirror.css', array(), $this->version, 'all' );
+//		wp_enqueue_style( $this->plugin_name, dirname(dirname(plugin_dir_url( __FILE__ ))) . 'bower_components/jquery-sortable/source/css/jquery-sortable.css', array(), $this->version, 'all' );
 	}
 
 	public function enqueue_scripts() {
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/flipCard-admin.js', array( 'jquery' ), $this->version, false );
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/codemirror.js', array(), $this->version, false );
+		wp_enqueue_script( $this->plugin_name, dirname(dirname(plugin_dir_url( __FILE__ ))) . 'bower_components/jquery-sortable/source/js/jquery-sortable-min.js', array('jquery'), $this->version, 'all' );
 	}
 
 	public function do_patches() {

@@ -1,5 +1,17 @@
 <?php
 
+if( !function_exists( "templateRender" ) && class_exists('WeDevs_Settings_API') && class_exists('Mustache_Engine') ) {  
+function templateRender($template, $attributes) {
+  global $settings_api, $mustache, $loader;
+  $arr = (is_array($attributes)) ? $attributes : array();
+  if (($settings_api->get_option( 'beeswax_blox_'.$template, 'admin_settings_frontpage_builder', 'off' )) == 'on'){
+    return ($mustache->render($loader->load($template), $arr));
+  }else{
+    return "";
+  }
+}
+}
+
 // Add WP 3+ Functions & Theme Support
 if( !function_exists( "wp_bootstrap_theme_support" ) ) {  
   function wp_bootstrap_theme_support() {

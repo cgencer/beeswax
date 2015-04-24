@@ -1,32 +1,10 @@
-<?php get_header(); ?>
-
-
-<?php if (($settings_api->get_option( 'beeswax_blox_header', 'admin_settings_frontpage_builder', 'off' )) == 'on') :
-  $tpl = $loader->load('header');
-  echo($mustache->render($tpl));
-endif; 
-
-  $tpl = $loader->load('showcase');
-  echo($mustache->render($tpl));
-
+<?php 
+  get_header();
+  echo templateRender('header', null);
+  echo templateRender('services', null);
+  echo templateRender('banners', null);
 ?>
 
-
-
-<?php if (($settings_api->get_option( 'beeswax_blox_services', 'admin_settings_frontpage_builder', 'off' )) == 'on') :
-  $tpl = $loader->load('services');
-  echo($mustache->render($tpl));
-endif; ?>
-
-<?php
-  $tpl = $loader->load('fullbanner_left');
-  echo($mustache->render($tpl));
-?>
-
-<?php
-  $tpl = $loader->load('halfbanner_right');
-  echo($mustache->render($tpl));
-?>
 
 <?php if (($settings_api->get_option( 'beeswax_blox_team', 'admin_settings_frontpage_builder', 'off' )) == 'on') : ?>
       <section class="container mt-xxxlg">
@@ -54,15 +32,8 @@ for ($i=0; $i < (int)$val ; $i++) {
       </section>
 <?php endif; ?>
 
-<?php if (($settings_api->get_option( 'beeswax_blox_counter', 'admin_settings_frontpage_builder', 'off' )) == 'on') :
-  $tpl = $loader->load('counter');
-  echo($mustache->render($tpl));
-endif; ?>
-
-<?php
-  $tpl = $loader->load('content');
-  echo($mustache->render($tpl));
+<?php 
+  echo templateRender('counter', null);
+  echo templateRender('content', null);
+  get_footer();
 ?>
-
-
-<?php get_footer(); ?>
