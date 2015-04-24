@@ -15,3 +15,7 @@
 /.irbrc
 *_out
 *.gz
+
+node_nodules/
+bower_components/
+library/hoenyguide/vendor/
