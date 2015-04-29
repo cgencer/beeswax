@@ -25,6 +25,7 @@
     "modernizer": "~2.8.2",
     "font-awesome": "~4.2.0",
     "bootstrap": "~3.3.1",
-    "jquery-sortable": "*"
+    "jquery-sortable": "*",
+    "sass-bootstrap-glyphicons": "*"
   }
 }

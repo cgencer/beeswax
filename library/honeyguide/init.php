@@ -23,6 +23,7 @@ require_once( dirname(__FILE__) . '/shortcodes.php' );
 require_once( dirname(__FILE__) . '/pagetypes.php' );
 require_once( dirname(__FILE__) . '/sidebars.php' );
 require_once( dirname(__FILE__) . '/admin.php' );
+require_once( dirname(__FILE__) . '/theme_functions.php' );
 
 define( 'CHILD_THEME_NAME', 'Beeswax Theme' );
 define( 'CHILD_THEME_URL', 'http://www.studiopress.com/' );
@@ -55,3 +56,41 @@ load_theme_textdomain( 'wpbootstrap', TEMPLATEPATH.'/languages' );
 $locale = get_locale();
 $locale_file = TEMPLATEPATH . "/languages/$locale.php";
 if ( is_readable( $locale_file ) ) require_once( $locale_file );
+
+
+// http://stackoverflow.com/questions/15613903/php-mustache-implicit-iterator-how-to-get-key-of-current-valuenumeric-php-arr
+class MustacheIterator implements IteratorAggregate
+{
+    private $values;
+
+    public function __construct($values)
+    {
+        if (!is_array($values) && !$values instanceof Traversable) {
+            throw new InvalidArgumentException('MustacheIterator requires an array or Traversable object');
+        }
+
+        $this->values = $values;
+    }
+
+    public function getIterator()
+    {
+        $values = array();
+        foreach ($this->values as $key => $val) {
+            $values[$key] = array(
+                'key'   => $key,
+                'value' => $val,
+                'first' => false,
+                'last'  => false,
+            );
+        }
+
+        $keys = array_keys($values);
+
+        if (!empty($keys)) {
+            $values[reset($keys)]['first'] = true;
+            $values[end($keys)]['last']    = true;
+        }
+
+        return new ArrayIterator($values);
+    }
+}

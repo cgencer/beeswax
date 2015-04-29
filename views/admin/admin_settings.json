@@ -4,6 +4,9 @@
 		"title":	"Basic Settings"
 	},{
 		"id":		"admin_settings_frontpage_builder",
+		"options": {
+					"runjs":	"stacksInjection"
+			},
 		"title":	"Frontpage Builder"
 	},{
 		"id":		"admin_settings_apikeys",

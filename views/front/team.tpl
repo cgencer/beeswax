@@ -5,6 +5,6 @@
           </div>
         </div>
         <div class="row">
-        {{> team_members}}
+        {{{content}}}
         </div>
       </section>

@@ -1,10 +1,12 @@
-          <div class="col-xs-12 {{cols}}">
+          <div class="col-xs-12 {{columns}}">
             <div class="mt-lg">
               <figure class="team-member">
-                <img src="https://randomuser.me/api/portraits/women/30.jpg" alt="img25"/>
+              {{#attachments}}
+                <img src="{{guid}}" alt="img25" />
+              {{/attachments}}
                 <figcaption>
                   <span class="title">
-                    <h1 class="mt-none mb-none">Sarah Ron</h1>
+                    <h1 class="mt-none mb-none">{{post.post_title}}</h1>
                     <h4 class="mt-none mb-none">Head of Products</h4>
                   </span>
                   <p class="description text-center">

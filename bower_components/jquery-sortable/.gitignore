@@ -16,6 +16,6 @@
 *_out
 *.gz
 
-node_nodules/
+node_modules/
 bower_components/
-library/hoenyguide/vendor/
+library/honeyguide/vendor/

@@ -16,6 +16,8 @@ class beeswax_Admin {
 		add_action( 'admin_menu', array( $this, 'beeswax_AdminPage' ) );
 		register_activation_hook( __FILE__, array( $this, 'flipCard_Options' ) );
 		add_action( 'admin_init', array( $this, 'beeswax_AdminInit' ) );
+		add_action( 'admin_init', array( $this, 'beeswax_AdminStyles' ) );
+		add_action( 'admin_init', array( $this, 'beeswax_AdminScripts' ) );
 	}
 
 	public function beeswax_AdminPage() {
@@ -47,8 +49,6 @@ class beeswax_Admin {
 	}
 
 	public function beeswax_AdminInit() {
-		echo(plugin_dir_url( __FILE__ ));
-
 		$sections = json_decode(file_get_contents(dirname(dirname(dirname(__FILE__))).'/views/admin/admin_settings.json'), true);
 		$fields = array();
 		foreach($sections as $id=>$section) {
@@ -60,16 +60,15 @@ class beeswax_Admin {
 		$this->settings_api->admin_init();
 	}
 
-	public function enqueue_styles() {
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/flipCard-admin.css', array(), $this->version, 'all' );
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/codemirror.css', array(), $this->version, 'all' );
-//		wp_enqueue_style( $this->plugin_name, dirname(dirname(plugin_dir_url( __FILE__ ))) . 'bower_components/jquery-sortable/source/css/jquery-sortable.css', array(), $this->version, 'all' );
+	public function beeswax_AdminStyles() {
+		wp_enqueue_style( $this->theme_name.'-bootstrap-styles', get_template_directory_uri() . '/bower_components/bootstrap/dist/css/bootstrap.min.css');
+		wp_enqueue_style( $this->theme_name.'-bootstrap-styles', get_template_directory_uri() . '/bower_components/sass-bootstrap-glyphicons/css/bootstrap-glyphicons.css');
+		wp_enqueue_style( $this->theme_name.'-admin-styles', get_template_directory_uri() . '/library/honeyguide/assets/css/admin.css', array(), $this->version, true);
 	}
 
-	public function enqueue_scripts() {
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/flipCard-admin.js', array( 'jquery' ), $this->version, false );
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/codemirror.js', array(), $this->version, false );
-		wp_enqueue_script( $this->plugin_name, dirname(dirname(plugin_dir_url( __FILE__ ))) . 'bower_components/jquery-sortable/source/js/jquery-sortable-min.js', array('jquery'), $this->version, 'all' );
+	public function beeswax_AdminScripts($hook) {
+		wp_enqueue_script( $this->theme_name.'-bootstrap-scripts', get_template_directory_uri() . '/bower_components/bootstrap/dist/js/bootstrap.min.js');
+		wp_enqueue_script( $this->theme_name.'-admin-scripts', get_template_directory_uri() . '/library/honeyguide/assets/js/admin.js', array('jquery'), $this->version, true);
 	}
 
 	public function do_patches() {
