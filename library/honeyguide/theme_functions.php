@@ -59,8 +59,7 @@ if( !function_exists( "templateRender" ) && class_exists('WeDevs_Settings_API') 
 							}
 							$attributes['metakeys'] = $cfk;
 
-							$t = $loader->load( $template['repeater'] );
-							$s .= $mustache->render( $t, $attributes );
+							$s .= $mustache->render( $loader->load( $template['repeater'] ), $attributes );
 							$colNo++;
 						}
 					}
