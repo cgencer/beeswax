@@ -48,6 +48,17 @@ if( !function_exists( "templateRender" ) && class_exists('WeDevs_Settings_API') 
 							$attributes['columns'] = "col-md-" . (string) (12 / $colsInThisRow);
 							$attributes['post'] = $posts->posts[$colNo];
 							$attributes['attachments'] = $attachments;
+							$attributes['tags'] = get_the_tags();
+
+							$cfk = get_post_custom_keys();
+							foreach ( $cfk as $key => $value ) {
+								$valuet = trim($value);
+								if ( '_' == $valuet{0} )
+								continue;
+								$attributes['meta'][$key] = $value;
+							}
+							$attributes['metakeys'] = $cfk;
+
 							$t = $loader->load( $template['repeater'] );
 							$s .= $mustache->render( $t, $attributes );
 							$colNo++;
@@ -60,7 +71,9 @@ if( !function_exists( "templateRender" ) && class_exists('WeDevs_Settings_API') 
 
 				}
 			}
-			$s = $mustache->render($loader->load( $template['container'] ), array('content' => $s));
+			$attrU['title'] = $template['title'];
+			$attrU['content'] = $s;
+			$s = $mustache->render($loader->load( $template['container'] ), $attrU);
 		}else{
 			$s = $mustache->render($loader->load( $template ));			
 		}
