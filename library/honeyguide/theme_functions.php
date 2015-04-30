@@ -7,7 +7,7 @@ if( !function_exists( "templateRender" ) && class_exists('WeDevs_Settings_API') 
 		if($query != null)
 		{
 			if(!array_key_exists('post_status', $query)){         $query['post_status'] = 'publish';}
-			if(!array_key_exists('posts_per_page', $query)){      $query['posts_per_page'] = 5;}
+			if(!array_key_exists('posts_per_page', $query)){      $query['posts_per_page'] = $template['number'];}
 			if(!array_key_exists('orderby', $query)){             $query['orderby'] = 'menu_order name';}
 			if(!array_key_exists('order', $query)){               $query['order'] = 'ASC';}
 		}
