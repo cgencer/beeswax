@@ -1,16 +1,15 @@
 <?php
-
 class beeswax_Admin {
 
+	protected $theParent;
 	private $theme_name;
 	private $version;
-	private $settings_api;
 
-	public function __construct( $theme_name, $version ) {
+	public function __construct( $theParent) {
 
-		$this->theme_name = $theme_name;
-		$this->version = $version;
-		$this->settings_api = new WeDevs_Settings_API;
+		$this->theParent = $theParent;
+		$this->theme_name = $theParent->theme_name;
+		$this->version = $theParent->version;
 
 		define('VERSION', $version);
 		add_action( 'admin_menu', array( $this, 'beeswax_AdminPage' ) );
@@ -30,8 +29,8 @@ class beeswax_Admin {
 		} ?>
 		<div class="wrap">
 			<form name="beeswax_options_form_settings_api" method="post" action="options.php">
-<?php	$this->settings_api->show_navigation();
-		$this->settings_api->show_forms();
+<?php	$this->theParent->settingsApi->show_navigation();
+		$this->theParent->settingsApi->show_forms();
 
 		settings_fields('beeswax_Settings');
 		do_settings_sections( 'beeswax_settings_section' ); ?>
@@ -55,9 +54,9 @@ class beeswax_Admin {
 			$partial = json_decode(file_get_contents(dirname(dirname(dirname(__FILE__))).'/views/admin/' . $section['id'] . '.json'), true);
 			$fields[ $section['id'] ] = $partial;
 		}
-		$this->settings_api->set_sections( $sections );
-		$this->settings_api->set_fields( $fields );
-		$this->settings_api->admin_init();
+		$this->theParent->settingsApi->set_sections( $sections );
+		$this->theParent->settingsApi->set_fields( $fields );
+		$this->theParent->settingsApi->admin_init();
 	}
 
 	public function beeswax_AdminStyles() {
