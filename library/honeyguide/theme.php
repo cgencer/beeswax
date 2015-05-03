@@ -16,7 +16,6 @@ class honeyguide_theme {
 		$this->version = $version;
 
 		$this->settingsApi = new Settings_API;
-
 		$this->settingsApi->saveRef($this);
 
 		// Add Translation Option
@@ -53,7 +52,7 @@ class honeyguide_theme {
 
 //	if( /* !method_exists('honeyguide_theme', 'templateRender') && */ class_exists('WeDevs_Settings_API') && class_exists('Mustache_Engine') ) {
 
-		public function templateRender($template, $attributes=array(), $query=null) 
+		public function templateRender($isDynamic, $template, $attributes=array(), $query=null) 
 		{
 			global $settingsApi, $mustache, $loader;
 			if($query != null)
@@ -65,7 +64,7 @@ class honeyguide_theme {
 			}
 
 			$s = "";
-			if(is_array($template))
+			if($isDynamic)
 			{
 				$arr = explode('-', $template['arrangement']);
 				if(count($arr) > 1) {
@@ -111,7 +110,7 @@ class honeyguide_theme {
 								}
 								$attributes['metakeys'] = $cfk;
 
-								$s .= $mustache->render( $loader->load( $template['repeater'] ), $attributes );
+								$s .= $this->mustacheEngine->render( $this->mustacheLoader->load( $template['repeater'] ), $attributes );
 								$colNo++;
 							}
 						}
@@ -124,9 +123,9 @@ class honeyguide_theme {
 				}
 				$attrU['title'] = $template['title'];
 				$attrU['content'] = $s;
-				$s = $mustache->render($loader->load( $template['container'] ), $attrU);
+				$s = $this->mustacheEngine->render($this->mustacheLoader->load( $template['container'] ), $attrU);
 			}else{
-				$s = $mustache->render($loader->load( $template ));			
+				$s = $this->mustacheEngine->render($this->mustacheLoader->load( $template['name'] ));			
 			}
 			return $s;
 		}
