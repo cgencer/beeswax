@@ -17,8 +17,8 @@ if(!class_exists('Mustache_Engine')) {
 if(!class_exists('Khromov\Mustache_Cache\Mustache_Cache_WordPressCache')) {
 	require_once( dirname(__FILE__).'/vendor/mustache-cache/src/Mustache_Cache_WordPressCache.php' );	
 }
-if(!class_exists('WeDevs_Settings_API')) {
-	require_once( dirname(__FILE__).'/vendor/settings-api/class.settings-api.php' );
+if(!class_exists('Settings_API')) {
+	require_once( dirname(__FILE__).'/vendor/settings-api.php' );
 }
 require_once( dirname(__FILE__) . '/theme.php' );
 $theTheme = new honeyguide_theme(THEME_NAME, THEME_VERSION);

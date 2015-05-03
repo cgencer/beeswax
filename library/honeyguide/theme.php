@@ -15,7 +15,9 @@ class honeyguide_theme {
 		$this->theme_name = $theme_name;
 		$this->version = $version;
 
-		$this->settingsApi = new WeDevs_Settings_API;
+		$this->settingsApi = new Settings_API;
+
+		$this->settingsApi->saveRef($this);
 
 		// Add Translation Option
 		load_theme_textdomain( 'wpbootstrap', TEMPLATEPATH.'/languages' );
