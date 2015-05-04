@@ -68,7 +68,7 @@ class honeyguide_theme {
 			if($isDynamic)
 			{
 				$arr = explode('-', $template['arrangement']);
-				if(count($arr) > 1) {
+				if(count($arr) >= 1) {
 				// it is multi-rows
 					$offset = 0;
 					$colsInThisRow = 0;
@@ -83,7 +83,6 @@ class honeyguide_theme {
 						$query['posts_per_page'] = $colsInThisRow;
 						$query['offset'] = $offset;
 						$posts = new WP_Query($query);
-
 						$colNo = 0;
 						if( $posts->have_posts() ) {
 							while ($posts->have_posts()) {
