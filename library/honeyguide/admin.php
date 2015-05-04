@@ -1,5 +1,5 @@
 <?php
-return new honeyguide_customizer();
+return new honeyguide_admin();
 
 class honeyguide_admin {
 
@@ -7,7 +7,7 @@ class honeyguide_admin {
 	private $theme_name;
 	private $version;
 
-	public function __construct( $theParent) {
+	public function __construct() {
 
 		$this->theParent = $theParent;
 		$this->theme_name = $theParent->theme_name;
@@ -20,6 +20,10 @@ class honeyguide_admin {
 		add_action( 'admin_init', array( $this, 'honeyguide_AdminStyles' ) );
 		add_action( 'admin_init', array( $this, 'honeyguide_AdminScripts' ) );
 	}        
+
+    public function saveRef($id) {
+		$this->theParent = $id;
+    }
 
 	public function honeyguide_AdminPage() {
 		add_options_page( 'Beeswax Settings Page', 'beeswax', 'manage_options', 'beeswaxsettings', array( $this, 'honeyguide_Settings' ) );
