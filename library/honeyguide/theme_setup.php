@@ -453,7 +453,7 @@ function wp_bootstrap_related_posts() {
   echo '</ul>';
 }
 
-function beeswax_distribute_columns($arr) {
+function honeyguide_distribute_columns($arr) {
   return false;
 
 }

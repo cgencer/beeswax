@@ -1,8 +1,8 @@
 <?php 
 
-new beeswax_pagetypes();
+return new honeyguide_pagetypes();
 
-class beeswax_pagetypes {
+class honeyguide_pagetypes {
 
 	var $allfields = [[
 		type => 'text',
@@ -99,7 +99,7 @@ class beeswax_pagetypes {
 
 		if ( in_array( $post_type, $post_types )) {
 			add_meta_box(
-				'beeswax_team' ,__( 'Social Media Links', 'beeswax' ), 
+				'honeyguide_team' ,__( 'Social Media Links', 'beeswax' ), 
 				array( $this, 'render_meta_box_content' ), $post_type, 'advanced', 'high' );
 		}
 
@@ -107,7 +107,7 @@ class beeswax_pagetypes {
 
 		if ( in_array( $post_type, $post_types )) {
 			add_meta_box(
-				'beeswax_service' ,__( 'Service details', 'beeswax' ), 
+				'honeyguide_service' ,__( 'Service details', 'beeswax' ), 
 				array( $this, 'render_meta_box_content' ), $post_type, 'advanced', 'high' );
 		}
 
@@ -119,7 +119,7 @@ class beeswax_pagetypes {
 		if ( ! isset( $_POST['myplugin_meta_box_nonce'] ) ) {
 			return;
 		}
-		if ( ! wp_verify_nonce( $_POST['beeswax_team_meta_box_nonce'], 'beeswax_team_meta_box' ) ) {
+		if ( ! wp_verify_nonce( $_POST['honeyguide_team_meta_box_nonce'], 'honeyguide_team_meta_box' ) ) {
 			return;
 		}
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
@@ -134,27 +134,26 @@ class beeswax_pagetypes {
 				return;
 			}
 		}
-		if ( ! isset( $_POST['beeswax_team_new_field'] ) ) {
+		if ( ! isset( $_POST['honeyguide_team_new_field'] ) ) {
 			return;
 		}
-		$my_data = sanitize_text_field( $_POST['beeswax_team_'.$fld['fieldname']] );
+		$my_data = sanitize_text_field( $_POST['honeyguide_team_'.$fld['fieldname']] );
 		update_post_meta( $post_id, '_my_meta_value_key', $my_data );
 	}
 	}
 
 	public function render_meta_box_content( $post ) {
 
-		wp_nonce_field( 'beeswax_team_inner_custom_box', 'beeswax_team_inner_custom_box_nonce' );
+		wp_nonce_field( 'honeyguide_team_inner_custom_box', 'honeyguide_team_inner_custom_box_nonce' );
 
 		$value = get_post_meta( $post->ID, '_my_meta_value_key', true );
 
 		foreach ($this->allfields as $fld) {
-			echo '<label for="beeswax_team_' . $fld['fieldname'] . '">';
+			echo '<label for="honeyguide_team_' . $fld['fieldname'] . '">';
 			_e( $fld['description'], 'beeswax' );
 			echo '</label> ';
-			echo '<input type="text" id="beeswax_team_' . $fld['fieldname'] . '" name="beeswax_team_' . $fld['fieldname'] . '"';
+			echo '<input type="text" id="honeyguide_team_' . $fld['fieldname'] . '" name="honeyguide_team_' . $fld['fieldname'] . '"';
 			echo ' value="' . esc_attr( $value ) . '" size="25" /><br />';
 		}
 	}
 }
-?>

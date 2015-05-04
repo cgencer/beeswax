@@ -7,7 +7,7 @@ class honeyguide_theme {
 	public $admin;
 	public $mustacheEngine;
 	public $mustacheLoader;
-	private $themeFiles = array('theme_setup', 'cleanerwp', 'plugins', 'utils', 'sidebars', 'shortcodes', 'pagetypes', 'admin');
+	private $themeFiles = array('theme_setup', 'cleanerwp', 'customizer', 'plugins', 'utils', 'sidebars', 'shortcodes', 'pagetypes', 'admin');
 	public $themeBlocks = array('header', 'services', 'banners', 'team', 'counter');
 
 	public function __construct( $theme_name, $version ) {
@@ -25,7 +25,10 @@ class honeyguide_theme {
 		if ( is_readable( $locale_file ) ) require_once( $locale_file );
 		foreach ($this->themeFiles as $file) {
 			if ( is_readable( dirname(__FILE__) . '/'.$file.'.php' ) )
-				require_once( dirname(__FILE__) . '/'.$file.'.php' );
+				$obj = require_once( dirname(__FILE__) . '/'.$file.'.php' );
+				if( method_exists( $obj, 'saveRef') ) {
+					$obj->saveRef($this);
+				}
 		}
 
 		$this->mustacheEngine = new Mustache_Engine(array(
@@ -43,11 +46,9 @@ class honeyguide_theme {
 			'logger' 						=> new Mustache_Logger_StreamLogger('php://stderr'),
 			'strict_callables' 				=> true,
 			'pragmas' 						=> [Mustache_Engine::PRAGMA_FILTERS],
-			'partials_loader'				=> new Mustache_Loader_FilesystemLoader( dirname(dirname(dirname(__FILE__))).'/views/front', array('extension' => 'tpl') )
+			'partials_loader'				=> new Mustache_Loader_FilesystemLoader( dirname(__FILE__).'/stacks/front', array('extension' => 'tpl') )
 		));
-		$this->mustacheLoader = new Mustache_Loader_FilesystemLoader( dirname(dirname(dirname(__FILE__))).'/views/front', array('extension' => 'tpl') );
-
-		$this->admin = new beeswax_Admin($this);
+		$this->mustacheLoader = new Mustache_Loader_FilesystemLoader( dirname(__FILE__).'/stacks/front', array('extension' => 'tpl') );
 	}
 
 //	if( /* !method_exists('honeyguide_theme', 'templateRender') && */ class_exists('WeDevs_Settings_API') && class_exists('Mustache_Engine') ) {
@@ -131,4 +132,3 @@ class honeyguide_theme {
 		}
 //	}
 }
-?>
