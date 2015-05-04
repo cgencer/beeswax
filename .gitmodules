@@ -7,3 +7,6 @@
 [submodule "library/honeyguide/vendor/mustache-cache"]
 	path = library/honeyguide/vendor/mustache-cache
 	url = https://github.com/khromov/mustache-wordpress-cache.git
+[submodule "library/honeyguide/vendor/customizer-custom-controls"]
+	path = library/honeyguide/vendor/customizer-custom-controls
+	url = https://github.com/bueltge/WordPress-Theme-Customizer-Custom-Controls.git

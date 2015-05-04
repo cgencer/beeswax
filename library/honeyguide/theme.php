@@ -24,11 +24,17 @@ class honeyguide_theme {
 		$locale_file = TEMPLATEPATH . "/languages/$locale.php";
 		if ( is_readable( $locale_file ) ) require_once( $locale_file );
 		foreach ($this->themeFiles as $file) {
-			if ( is_readable( dirname(__FILE__) . '/' . $file . '.php' ) )
+			if ( is_readable( dirname(__FILE__) . '/' . $file . '.php' ) ) {
 				$obj = require_once( dirname(__FILE__) . '/' . $file . '.php' );
 				if( method_exists( $obj, 'saveRef') ) {
 					$obj->saveRef($this);
 				}
+			}
+		}
+		foreach (glob(dirname(__FILE__).'/vendor/*.php') as $filename) {
+			if(is_readable($filename)) {
+				include $filename;
+			}
 		}
 
 		$this->mustacheEngine = new Mustache_Engine(array(
