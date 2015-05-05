@@ -12,18 +12,22 @@ class stacks_customizer {
 	}
 
 	public function __construct() {
+		add_action('customize_preview_init', array($this, 'honeyguide_stacks_scripts') );
 		add_action('customize_register', array($this, 'honeyguide_customize_register'));
-		print_r( $this->getStacks() );
 	}
 
 	public function getStacks() {
 		return $this->theParent->themeBlocks;
 	}
 
+	public function honeyguide_stacks_scripts() {
+		wp_enqueue_script( 'stack-scripts', get_template_directory_uri() . '/library/honeyguide/stacks/js/stacks.js', array('jquery', 'customize-preview') );
+	}
+
 	public function honeyguide_customize_register($wp_customize){
 
 		$wp_customize->add_section(
-			'stacks_section', array(
+			'stacks', array(
 				'title'			=> __("Stacks", 'honeyguide'),
 				'capability'	=> 'edit_theme_options',
 				'priority'		=> $this->pri,

@@ -14,12 +14,13 @@ class honeyguide_admin {
 		$this->version = $theParent->version;
 
 		define('VERSION', $version);
-		add_action( 'admin_menu', array( $this, 'honeyguide_AdminPage' ) );
+		add_action('admin_menu', array( $this, 'honeyguide_AdminPage' ) );
 		register_activation_hook( __FILE__, array( $this, 'flipCard_Options' ) );
-		add_action( 'admin_init', array( $this, 'honeyguide_AdminInit' ) );
-		add_action( 'admin_init', array( $this, 'honeyguide_AdminStyles' ) );
-		add_action( 'admin_init', array( $this, 'honeyguide_AdminScripts' ) );
-	}        
+		add_action('admin_init', array( $this, 'honeyguide_AdminInit' ) );
+		add_action('admin_init', array( $this, 'honeyguide_AdminStyles' ) );
+		add_action('admin_init', array( $this, 'honeyguide_AdminScripts' ) );
+		add_action('customize_preview_init', array($this, 'honeyguide_StacksScripts') );
+	}
 
     public function saveRef($id) {
 		$this->theParent = $id;
@@ -40,7 +41,8 @@ class honeyguide_admin {
 		$this->theParent->settingsApi->show_forms();
 
 		settings_fields('honeyguide_Settings');
-		do_settings_sections( 'honeyguide_settings_section' ); ?>
+		do_settings_sections( 'honeyguide_settings_section' );
+?>
 			</form>
 		</div>
 <?php }
@@ -71,8 +73,12 @@ class honeyguide_admin {
 		wp_enqueue_style( $this->theme_name.'-bootstrap-styles', get_template_directory_uri() . '/bower_components/sass-bootstrap-glyphicons/css/bootstrap-glyphicons.css');
 	}
 
-	public function honeyguide_AdminScripts($hook) {
+	public function honeyguide_AdminScripts() {
 		wp_enqueue_script( $this->theme_name.'-bootstrap-scripts', get_template_directory_uri() . '/bower_components/bootstrap/dist/js/bootstrap.min.js');
+	}
+
+	public function honeyguide_StacksScripts() {
+		wp_enqueue_script( $this->theme_name.'-stack-scripts', dirname(__FILE__) . '/stacks/js/stacks.js', array('jquery', 'customize-preview'));
 	}
 
 	public function do_patches() {
