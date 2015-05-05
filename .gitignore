@@ -13,3 +13,8 @@ $RECYCLE.BIN/
 tmp/cache/mustache/
 bower_components/
 node_modules/
+library/honeyguide/stacks/js/vendor/
+library/honeyguide/vendor/mustache-php/
+library/honeyguide/vendor/mustache-cache/
+library/honeyguide/vendor/customizer-custom-cotnrols/
+library/honeyguide/vendor/settings-api/
