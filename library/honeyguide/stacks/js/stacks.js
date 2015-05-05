@@ -1,5 +1,7 @@
 (function($) {
 
-    wp.customize.section('stacks').activate();
+    var api = wp.customize;
+
+    api.section('stacks-section').activate();
 
 })(jQuery);

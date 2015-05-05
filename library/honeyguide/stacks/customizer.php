@@ -5,7 +5,7 @@ class stacks_customizer {
 
 	protected $theParent;
 	public $themeBlocks;
-	private $pri = 40;
+	private $pri = 45;
 
 	public function saveRef($id) {
 		$this->theParent = $id;
@@ -27,10 +27,10 @@ class stacks_customizer {
 	public function honeyguide_customize_register($wp_customize){
 
 		$wp_customize->add_section(
-			'stacks', array(
+			'stacks-section', array(
 				'title'			=> __("Stacks", 'honeyguide'),
 				'capability'	=> 'edit_theme_options',
-				'priority'		=> $this->pri,
+				'priority'		=> $this->pri++,
 				'description'	=> __("Allows you to edit your theme's stacks.", 'honeyguide')
 		));
 

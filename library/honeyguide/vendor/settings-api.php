@@ -1,6 +1,6 @@
 <?php
 if(!class_exists('WeDevs_Settings_API')) {
-	require_once( dirname(__FILE__).'/settings-api/class.settings-api.php' );
+	require_once( dirname(__FILE__).'/settings-api/src/class.settings-api.php' );
 }
 if ( class_exists( 'WeDevs_Settings_API' ) ):
 class Settings_API extends WeDevs_Settings_API {

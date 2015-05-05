@@ -1,0 +1,21 @@
+{
+  "name": "stacks",
+  "version": "0.1.0",
+  "authors": [
+    "Cem Gencer <o.cem.gencer@gmail.com>"
+  ],
+  "moduleType": [
+    "globals"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "gridster": "~0.5.6"
+  }
+}
