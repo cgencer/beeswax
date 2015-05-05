@@ -11,7 +11,6 @@ class honeyguide_theme {
 	public $themeBlocks = array('header', 'services', 'banners', 'team', 'counter');
 
 	public function __construct( $theme_name, $version ) {
-
 		$this->theme_name = $theme_name;
 		$this->version = $version;
 
@@ -33,7 +32,7 @@ class honeyguide_theme {
 		}
 		foreach (glob(dirname(__FILE__).'/vendor/*.php') as $filename) {
 			if(is_readable($filename)) {
-				include $filename;
+				include_once $filename;
 			}
 		}
 
@@ -84,6 +83,7 @@ class honeyguide_theme {
 
 					// loop trough cols
 						$colsInThisRow = (int) $arr[$rowNo];
+						$colsInThisRow = (!is_int($colsInThisRow) || 0 == $colsInThisRow) ? 1 : $colsInThisRow;
 
 					// get the cols as seperate queries
 						$query['posts_per_page'] = $colsInThisRow;
@@ -101,7 +101,6 @@ class honeyguide_theme {
 									'post_status' => null,
 									'post_parent' => $posts->posts[$colNo]->ID
 									) );
-
 								$attributes['columns'] = "col-md-" . (string) (12 / $colsInThisRow);
 								$attributes['post'] = $posts->posts[$colNo];
 								$attributes['attachments'] = $attachments;
