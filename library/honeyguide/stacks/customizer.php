@@ -22,6 +22,8 @@ class stacks_customizer {
 
 	public function honeyguide_stacks_scripts() {
 		wp_enqueue_script( 'stack-scripts', get_template_directory_uri() . '/library/honeyguide/stacks/js/stacks.js', array('jquery', 'customize-preview') );
+		wp_enqueue_script( 'stack-scripts-xeditable', get_template_directory_uri() . '/library/honeyguide/stacks/js/vendor/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.min.js', array('jquery', 'customize-preview') );
+		wp_enqueue_style( 'stack-styles-xeditable', get_template_directory_uri() . '/library/honeyguide/stacks/js/vendor/x-editable/dist/bootstrap3-editable/css/bootstrap-editable.css');
 	}
 
 	public function honeyguide_customize_register($wp_customize){
