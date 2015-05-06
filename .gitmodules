@@ -13,3 +13,6 @@
 [submodule "library/honeyguide/stacks/js/vendor/x-editable"]
 	path = library/honeyguide/stacks/js/vendor/x-editable
 	url = https://github.com/vitalets/x-editable.git
+[submodule "zero"]
+	path = zero
+	url = git@bitbucket.org:Honey_Guide/beeswax-design.git
