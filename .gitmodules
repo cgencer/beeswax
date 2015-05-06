@@ -10,3 +10,6 @@
 [submodule "library/honeyguide/vendor/customizer-custom-controls"]
 	path = library/honeyguide/vendor/customizer-custom-controls
 	url = https://github.com/bueltge/WordPress-Theme-Customizer-Custom-Controls.git
+[submodule "library/honeyguide/stacks/js/vendor/x-editable"]
+	path = library/honeyguide/stacks/js/vendor/x-editable
+	url = https://github.com/vitalets/x-editable.git
