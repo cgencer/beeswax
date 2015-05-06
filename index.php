@@ -7,12 +7,12 @@ foreach ($frontPageOrder as $fpBlock) {
   echo templateRender($fpBlock);
 }
 */
-echo $theTheme->templateRender(false, array('name' => 'header'));
+echo $theTheme->templateRender(true, array('name' => 'header', 'container'=> 'header'));
 
 echo $theTheme->templateRender(true, 
     array('container' => 'group_container', 
           'repeater' => 'item_services', 
-          'number' => 3,
+          'number' => 1,
           'name' => 'services',
           'title' => 'Our Services'), 
     array(), 

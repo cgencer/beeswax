@@ -40,43 +40,56 @@ class honeyguide_theme {
 			'template_class_prefix' 		=> '__MyTemplates_',
 			'cache' 						=> dirname(dirname(dirname(__FILE__))).'/tmp/cache/mustache',
 			'cache_file_mode' 				=> 0666, // Please, configure your umask instead of doing this :)
-			'cache_lambda_templates' 		=> true,
-			'helpers' 						=> array('i18n' => function($text) {
+		'cache_lambda_templates' 		=> true,
+		'helpers' 						=> array('i18n' => function($text) {
 				// do something translatey here...
-			}),
-			'escape' 						=> function($value) {
-				return htmlspecialchars($value, ENT_COMPAT, 'UTF-8');
-			},
-			'charset' 						=> 'UTF-8',
-			'logger' 						=> new Mustache_Logger_StreamLogger('php://stderr'),
-			'strict_callables' 				=> true,
-			'pragmas' 						=> [Mustache_Engine::PRAGMA_FILTERS],
-			'partials_loader'				=> new Mustache_Loader_FilesystemLoader( dirname(__FILE__).'/stacks/front', array('extension' => 'tpl') )
+		}),
+		'escape' 						=> function($value) {
+			return htmlspecialchars($value, ENT_COMPAT, 'UTF-8');
+		},
+		'charset' 						=> 'UTF-8',
+		'logger' 						=> new Mustache_Logger_StreamLogger('php://stderr'),
+		'strict_callables' 				=> true,
+		'pragmas' 						=> [Mustache_Engine::PRAGMA_FILTERS],
+		'partials_loader'				=> new Mustache_Loader_FilesystemLoader( dirname(__FILE__).'/stacks/front', array('extension' => 'tpl') )
 		));
 		$this->mustacheLoader = new Mustache_Loader_FilesystemLoader( dirname(__FILE__).'/stacks/front', array('extension' => 'tpl') );
+
+		add_theme_support( 'customize-inline-editing', array(
+			'blogname' => '.site-title',
+			'blogdescription' => '.site-description',
+			));
 	}
 
 //	if( /* !method_exists('honeyguide_theme', 'templateRender') && */ class_exists('WeDevs_Settings_API') && class_exists('Mustache_Engine') ) {
 
-		public function templateRender($isDynamic, $template, $attributes=array(), $query=null) 
+	public function templateRender($isDynamic, $template, $attributes=array(), $query=null) 
+	{
+		global $settingsApi, $mustache, $loader;
+		if($query != null)
 		{
-			global $settingsApi, $mustache, $loader;
-			if($query != null)
-			{
-				if(!array_key_exists('post_status', $query)){         $query['post_status'] = 'publish';}
-				if(!array_key_exists('posts_per_page', $query)){      $query['posts_per_page'] = $template['number'];}
-				if(!array_key_exists('orderby', $query)){             $query['orderby'] = 'menu_order name';}
-				if(!array_key_exists('order', $query)){               $query['order'] = 'ASC';}
-			}
+			if(!array_key_exists('post_status', $query)){         $query['post_status'] = 'publish';}
+			if(!array_key_exists('posts_per_page', $query)){      $query['posts_per_page'] = $template['number'];}
+			if(!array_key_exists('orderby', $query)){             $query['orderby'] = 'menu_order name';}
+			if(!array_key_exists('order', $query)){               $query['order'] = 'ASC';}
+		}
 
-			$s = "";
-			if($isDynamic)
-			{
+		$s = "";
+		if($isDynamic)
+		{
+			$attrU = array();
+			if(2 > (int) $template['number']) {
+
+					// its only one item
+					$attrU['vars'] = require(dirname(__FILE__) . '/stacks/admin/' . $template['name'] . '.php');
+
+			}else{
 				$arr = explode('-', $template['arrangement']);
 				if(count($arr) >= 1) {
 				// it is multi-rows
 					$offset = 0;
 					$colsInThisRow = 0;
+					$s = "";
 
 				// loop trough rows
 					for ($rowNo = 0; $rowNo < count($arr); $rowNo++) { 
@@ -93,7 +106,7 @@ class honeyguide_theme {
 						if( $posts->have_posts() ) {
 							while ($posts->have_posts()) {
 								$posts->the_post();
-//echo "<pre>"; print_r($posts); echo "</pre>";
+								//echo "<pre>"; print_r($posts); echo "</pre>";
 
 								$attachments = get_posts( array(
 									'post_type' => 'attachment',
@@ -128,11 +141,12 @@ class honeyguide_theme {
 				}
 				$attrU['title'] = $template['title'];
 				$attrU['content'] = $s;
-				$s = $this->mustacheEngine->render($this->mustacheLoader->load( $template['container'] ), $attrU);
-			}else{
-				$s = $this->mustacheEngine->render($this->mustacheLoader->load( $template['name'] ));			
 			}
-			return $s;
+			$s = $this->mustacheEngine->render($this->mustacheLoader->load( $template['container'] ), $attrU);
+		}else{
+			$s = $this->mustacheEngine->render($this->mustacheLoader->load( $template['name'] ));			
 		}
+		return $s;
+	}
 //	}
 }
