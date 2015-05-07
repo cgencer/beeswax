@@ -124,9 +124,10 @@ class honeyguide_theme {
 									$valuet = trim($value);
 									if ( '_' == $valuet{0} )
 										continue;
-									$attributes['meta'][$key] = $value;
+									$attributes['cfields'][$key] = $value;
 								}
 								$attributes['metakeys'] = $cfk;
+								$attributes['vars'] = require(dirname(__FILE__) . '/stacks/admin/' . $template['repeater'] . '.php');
 
 								$s .= $this->mustacheEngine->render( $this->mustacheLoader->load( $template['repeater'] ), $attributes );
 								$colNo++;
