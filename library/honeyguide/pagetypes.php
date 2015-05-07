@@ -22,6 +22,23 @@ class honeyguide_pagetypes {
 		add_action( 'init', array($this, 'page_types') );
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_box' ) );
 		add_action( 'save_post', array( $this, 'save' ) );
+		add_filter('rwmb_meta_boxes', array($this, 'honeyguide_register_meta_boxes'));
+	}
+
+	public function honeyguide_register_meta_boxes( $mb ) {
+
+		if ( ! class_exists( 'Spyc' ) )
+			require_once glob( plugin_dir_path( __FILE__ ) . '/meta-box-template/meta-box-template.php');
+
+//		$mb = Spyc::YAMLLoadString(glob(dirname(dirname(dirname(__FILE__))).'/views/fields.yaml'));
+/*
+		foreach (glob(dirname(dirname(dirname(__FILE__))).'/views/pagetypes/*.json') as $filename) {
+			if(is_readable($filename)) {
+				$mb = json_decode(file_get_contents($filename), true);
+			}
+		}
+*/
+		return $mb;
 	}
 
 	public function page_types() {

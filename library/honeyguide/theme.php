@@ -121,10 +121,12 @@ class honeyguide_theme {
 
 								$cfk = get_post_custom_keys();
 								foreach ( $cfk as $key => $value ) {
+
 									$valuet = trim($value);
 									if ( '_' == $valuet{0} )
 										continue;
-									$attributes['cfields'][$key] = $value;
+									echo($key);
+									$attributes['cfield'][$key] = $value;
 								}
 								$attributes['metakeys'] = $cfk;
 								$attributes['vars'] = require(dirname(__FILE__) . '/stacks/admin/' . $template['repeater'] . '.php');
@@ -133,11 +135,9 @@ class honeyguide_theme {
 								$colNo++;
 							}
 						}
-
 					// after the loop, go to next row & next query with offset & reset vars
 						$offset += $colsInThisRow;
 						wp_reset_query();
-
 					}
 				}
 				$attrU['title'] = $template['title'];

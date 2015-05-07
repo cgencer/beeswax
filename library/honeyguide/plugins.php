@@ -1,7 +1,8 @@
 <?php
 require_once dirname( __FILE__ ) . '/plugins/class-tgm-plugin-activation.php';
-add_action( 'tgmpa_register', 'beeswax_register_required_plugins' );
-function beeswax_register_required_plugins() {
+
+add_action( 'tgmpa_register', 'honeyguide_register_required_plugins' );
+function honeyguide_register_required_plugins() {
 
 	$plugins = array(
 		array(
@@ -12,7 +13,6 @@ function beeswax_register_required_plugins() {
 			'version' 				=> '4.6.5',
 			'force_activation' 		=> false,
 			'force_deactivation' 	=> false,
-			'external_url' 			=> '',
 			'image_url'				=> dirname( __FILE__ ) . '/assets/img/rev_slider.png',
 		),
 		array(
@@ -23,9 +23,24 @@ function beeswax_register_required_plugins() {
 			'version' 				=> '5.3.2',
 			'force_activation' 		=> false,
 			'force_deactivation' 	=> false,
-			'external_url' 			=> '',
 			'image_url'				=> dirname( __FILE__ ) . '/assets/img/layer_slider.png',
 		),
+		array(
+            'name'               	=> 'Meta Box',
+            'slug'               	=> 'meta-box',
+			'source'   			 	=> dirname( __FILE__ ) . '/plugins/meta-box.zip',
+            'required'           	=> true,
+            'force_activation'   	=> true,
+            'force_deactivation' 	=> false,
+        ),
+		array(
+            'name'               	=> 'Meta Box Template',
+            'slug'               	=> 'meta-box-template',
+			'source'   		 	 	=> dirname( __FILE__ ) . '/plugins/meta-box-template.zip',
+            'required'           	=> true,
+            'force_activation'   	=> true,
+            'force_deactivation' 	=> false,
+        ),
 	);
 
 	$theme_text_domain = 'beeswax';

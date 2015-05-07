@@ -1,0 +1,43 @@
+[{
+	"id"       : "socialmedia",
+	"title"    : "Social Media",
+	"pages"    : ["teammembers"],
+	"context"  : "normal",
+	"priority" : "high",
+	"fields" : [{
+		"name"  : "Personal website / blog",
+		"id"    : "cfield_blog",
+		"type"  : "url"
+	}, {
+		"name"  : "Linkedin profile",
+		"id"    : "cfield_linkedin",
+		"type"  : "url"
+	}, {
+		"name"  : "Facebook page",
+		"id"    : "cfield_facebook",
+		"type"  : "url"
+	}, {
+		"name"  : "Twitter page",
+		"id"    : "cfield_twitter",
+		"type"  : "url"
+	}]
+}, {
+	"id"       : "detail",
+	"title"    : "Other details",
+	"pages"    : ["teammembers"],
+	"context"  : "normal",
+	"priority" : "high",
+	"fields" : [{
+		"name"  : "Job title",
+		"id"    : "cfield_subtitle",
+		"type"  : "text"
+	}, {
+		"name"  : "Responsibilities",
+		"id"    : "cfield_responsibilities",
+		"type"  : "text"
+	}, {
+		"name"  : "Knowledge",
+		"id"    : "cfield_knowledge",
+		"type"  : "text"
+	}]
+}]

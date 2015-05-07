@@ -1,0 +1,34 @@
+#First Meta Box
+- title: Social Media
+  id: socialmedia
+  pages: teammembers
+  fields:
+    - name: Personal website / blog
+      id: cfield_blog
+      type: url
+    - name: Linkedin profile
+      id: cfield_linkedin
+      type: url
+    - name: Facebook page
+      id: cfield_facebook
+      type: url
+    - name: Twitter page
+      id: cfield_twitter
+      type: url
+
+# Second Meta Box
+- title: Other Details
+  pages: teammembers
+  fields:
+    - name: Job Title
+      id: cfield_subtitle
+      type: text
+    - name: Job Description
+      id: cfield_descr
+      type: text
+    - name: Responsibilities
+      id: cfield_resp
+      type: text
+    - name: Knowledge
+      id: cfield_knowledge
+      type: text
