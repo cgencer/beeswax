@@ -7,17 +7,14 @@
                 <figcaption>
                   <span class="title">
                     <h1 class="mt-none mb-none">{{post.post_title}}</h1>
-                    {{#cfield.subtitle}}<h4 class="mt-none mb-none">{{cfield.subtitle}}</h4>{{/cfield.subtitle}}
+                    <h4 class="mt-none mb-none">{{cfield.subtitle}}</h4>
                   </span>
                   <p class="description text-center">
-                    <a href="#" class="text-white">
-                    <i class="fa fa-4x fa-twitter">{{cfield.twitter}}</i></a>
-                    <a href="#" class="text-white">
-                    <i class="fa fa-4x fa-linkedin">{{cfield.linkedin}}</i></a>
-                    <a href="#" class="text-white">
-                    <i class="fa fa-4x fa-skype">{{cfield.facebook}}</i></a>
+                    <a href="{{cfield.twitter}}" class="text-white"><i class="fa fa-4x fa-twitter"></i></a>
+                    <a href="{{cfield.linkedin}}" class="text-white"><i class="fa fa-4x fa-linkedin"></i></a>
+                    <a href="{{cfield.facebook}}" class="text-white"><i class="fa fa-4x fa-skype"></i></a>
                   </p>
-                </figcaption>{{cfield.facebook}}
+                </figcaption>
               </figure>
             </div>
           </div>

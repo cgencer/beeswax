@@ -4,16 +4,16 @@
   pages: teammembers
   fields:
     - name: Personal website / blog
-      id: cfield_blog
+      id: blog
       type: url
     - name: Linkedin profile
-      id: cfield_linkedin
+      id: linkedin
       type: url
     - name: Facebook page
-      id: cfield_facebook
+      id: facebook
       type: url
     - name: Twitter page
-      id: cfield_twitter
+      id: twitter
       type: url
 
 # Second Meta Box
@@ -21,14 +21,14 @@
   pages: teammembers
   fields:
     - name: Job Title
-      id: cfield_subtitle
+      id: subtitle
       type: text
     - name: Job Description
-      id: cfield_descr
+      id: descr
       type: text
     - name: Responsibilities
-      id: cfield_resp
+      id: resp
       type: text
     - name: Knowledge
-      id: cfield_knowledge
+      id: knowledge
       type: text

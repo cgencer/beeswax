@@ -119,19 +119,16 @@ class honeyguide_theme {
 								$attributes['attachments'] = $attachments;
 								$attributes['tags'] = get_the_tags();
 
-								$cfk = get_post_custom_keys();
+								$cfk = get_post_custom();
 								foreach ( $cfk as $key => $value ) {
-
-									$valuet = trim($value);
-									if ( '_' == $valuet{0} )
-										continue;
-									echo($key);
-									$attributes['cfield'][$key] = $value;
+									if( '_' != substr($key, 0, 1) ) {
+										$attributes['cfield'][$key] = $value[0];
+									}
 								}
-								$attributes['metakeys'] = $cfk;
 								$attributes['vars'] = require(dirname(__FILE__) . '/stacks/admin/' . $template['repeater'] . '.php');
 
 								$s .= $this->mustacheEngine->render( $this->mustacheLoader->load( $template['repeater'] ), $attributes );
+								$attributes = array();
 								$colNo++;
 							}
 						}
