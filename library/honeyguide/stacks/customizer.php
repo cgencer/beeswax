@@ -85,14 +85,18 @@ class stacks_customizer {
 					'priority'		=> $this->pri++,
 			));
 
-			$stackMeta = require_once(dirname(__FILE__) . '/fieldsmeta.php');
+		if ( ! class_exists( 'Spyc' ) ) require_once (dirname(dirname(__FILE__)).'/vendor/spyc/Spyc.php');
+
+		$stackMeta = Spyc::YAMLLoad(dirname(__FILE__) . '/fieldsmeta.yaml');
+//print_r($stackMeta['template']);
+
+
 //			echo('>>>');print_r($stackMeta['template']['container']['type']);echo('<hr>');
 
 			if(file_exists(dirname(__FILE__) . '/admin/' . $v . '.php')) {
 				$stackAtr = require_once(dirname(__FILE__) . '/admin/' . $v . '.php');
 				if($stackAtr['template']){
 					foreach ($stackAtr['template'] as $tmpK => $tmpV) {
-print_r($stackMeta['template'][$tmpK]['type']);
 						$wp_customize->add_setting(
 							'stacks_'.$v.'_options['.$tmpK.']', array(
 								'capability'	=> 'edit_theme_options',

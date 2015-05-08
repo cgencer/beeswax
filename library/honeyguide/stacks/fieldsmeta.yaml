@@ -1,0 +1,28 @@
+template:
+  container:
+    type: select
+    default: 
+    source:
+  repeater:
+    type: select
+    default: 
+    source:
+  number:
+    type: text
+    default: 
+    source:
+  arrangement:
+    type: text
+    default: 
+    source:
+  name:
+    type: text
+    default: 
+    source:
+  title:
+    type: text
+    default: 
+    source:
+query:
+  post_type: post, page, any
+  post_status: publish, pending, private, draft, future, trash, any
