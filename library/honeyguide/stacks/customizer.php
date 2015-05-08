@@ -74,7 +74,7 @@ class stacks_customizer {
 		));
 
 //		$arr = $this->theParent->themeBlocks;
-		$arr = array('header', 'services', 'banners', 'team', 'counter');
+		$arr = array('header', 'services', 'item_services', 'banners', 'team', 'counter');
 		$dearr = array();
 		foreach ($arr as $v) {
 			$dearr[$v] = $v;
@@ -85,51 +85,33 @@ class stacks_customizer {
 					'priority'		=> $this->pri++,
 			));
 
-			$wp_customize->add_setting(
-				'stacks_'.$v.'_options[enable]', array(
-					'capability'	=> 'edit_theme_options',
-					'type'			=> 'option',
-					'default'		=> '1',
-			));
+			$stackMeta = require_once(dirname(__FILE__) . '/fieldsmeta.php');
+//			echo('>>>');print_r($stackMeta['template']['container']['type']);echo('<hr>');
 
-			$wp_customize->add_control(
-				'stacks_'.$v.'_options[enable]', array(
-					'label'			=> 'stack editing',
-					'section'		=> 'stacks_'.$v,
-					'type'			=> 'text',
-			));
+			if(file_exists(dirname(__FILE__) . '/admin/' . $v . '.php')) {
+				$stackAtr = require_once(dirname(__FILE__) . '/admin/' . $v . '.php');
+				if($stackAtr['template']){
+					foreach ($stackAtr['template'] as $tmpK => $tmpV) {
+print_r($stackMeta['template'][$tmpK]['type']);
+						$wp_customize->add_setting(
+							'stacks_'.$v.'_options['.$tmpK.']', array(
+								'capability'	=> 'edit_theme_options',
+								'type'			=> 'option',
+								'default'		=> $tmpV,
+						));
 
+						$wp_customize->add_control(
+							'stacks_'.$v.'_options['.$tmpK.']', array(
+								'label'			=> $tmpK,
+								'section'		=> 'stacks_'.$v,
+								'type'			=> $stackMeta['template'][$tmpK]['type'],
+						));
+					}
+				}
+			}
 		}
 
-		$wp_customize->add_setting(
-			'stacks_options[addStack]', array(
-				'capability'	=> 'edit_theme_options',
-				'type'			=> 'option',
-				'default'		=> '1',
-		));
 
-
-		$wp_customize->add_control(
-			'stacks_options[addStack]', array(
-				'label'			=> __("Add a stack:", 'honeyguide'),
-				'section'		=> 'stacks_section',
-				'type'			=> 'select',
-				'choices'		=> $dearr
-		));
-
-		$wp_customize->add_setting(
-			'stacks_options[text]', array(
-				'capability'	=> 'edit_theme_options',
-				'type'			=> 'option',
-				'default'		=> 'Custom text',
-		));
-		
-		$wp_customize->add_control(
-			'stacks_options[text]', array(
-				'label'			=> 'Custom text',
-				'section'		=> 'stacks_section',
-				'type'			=> 'text',
-		));
 
 	}
 }

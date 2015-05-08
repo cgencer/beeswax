@@ -374,6 +374,9 @@ if( !function_exists("wp_bootstrap_theme_styles") ) {
         wp_register_style( 'beeswax', get_template_directory_uri() . '/css/main.css', array(), '1.0', 'all' );
         wp_enqueue_style( 'beeswax' );
 
+        wp_register_style( 'hex', get_template_directory_uri() . '/library/honeyguide/assets/css/hex.css', array(), '1.0', 'all' );
+        wp_enqueue_style( 'hex' );
+
         // For child themes
         wp_register_style( 'wpbs-style', get_stylesheet_directory_uri() . '/style.css', array(), '1.0', 'all' );
         wp_enqueue_style( 'wpbs-style' );

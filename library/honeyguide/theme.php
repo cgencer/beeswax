@@ -106,7 +106,6 @@ class honeyguide_theme {
 						if( $posts->have_posts() ) {
 							while ($posts->have_posts()) {
 								$posts->the_post();
-								//echo "<pre>"; print_r($posts); echo "</pre>";
 
 								$attachments = get_posts( array(
 									'post_type' => 'attachment',
