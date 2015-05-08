@@ -28,9 +28,10 @@ class honeyguide_pagetypes {
 	public function honeyguide_register_meta_boxes( $mb ) {
 
 		if ( ! class_exists( 'Spyc' ) )
-			require_once glob( plugin_dir_path( __FILE__ ) . '/meta-box-template/meta-box-template.php');
+			require_once (get_home_path().'wp-content/plugins/meta-box-template/lib/Spyc.php');
 
-//		$mb = Spyc::YAMLLoadString(glob(dirname(dirname(dirname(__FILE__))).'/views/fields.yaml'));
+		$mb = Spyc::YAMLLoad(dirname(dirname(dirname(__FILE__))).'/views/fields.yaml');
+
 /*
 		foreach (glob(dirname(dirname(dirname(__FILE__))).'/views/pagetypes/*.json') as $filename) {
 			if(is_readable($filename)) {
