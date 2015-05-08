@@ -16,3 +16,6 @@
 [submodule "zero"]
 	path = zero
 	url = git@bitbucket.org:Honey_Guide/beeswax-design.git
+[submodule "library/honeyguide/vendor/spyc"]
+	path = library/honeyguide/vendor/spyc
+	url = https://github.com/mustangostang/spyc.git
