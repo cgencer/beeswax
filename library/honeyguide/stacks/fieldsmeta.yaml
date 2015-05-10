@@ -23,6 +23,3 @@ template:
     type: text
     default: 
     source:
-query:
-  post_type: post, page, any
-  post_status: publish, pending, private, draft, future, trash, any
