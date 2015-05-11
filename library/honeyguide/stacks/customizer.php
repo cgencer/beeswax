@@ -76,8 +76,12 @@ class stacks_customizer {
 //		$arr = $this->theParent->themeBlocks;
 		$arr = array('header', 'services', 'item_services', 'banners', 'team', 'counter');
 		$dearr = array();
+		if ( ! class_exists( 'Spyc' ) ) require_once (dirname(dirname(__FILE__)).'/vendor/spyc/Spyc.php');
+			$stackMeta = Spyc::YAMLLoad(dirname(__FILE__) . '/fields_meta.yaml');
+
 		foreach ($arr as $v) {
 			$dearr[$v] = $v;
+echo($v.'<br>');
 			$wp_customize->add_section(
 				'stacks_'.$v, array(
 					'title'			=> "stack: ".$v,
@@ -85,14 +89,12 @@ class stacks_customizer {
 					'priority'		=> $this->pri++,
 			));
 
-		if ( ! class_exists( 'Spyc' ) ) require_once (dirname(dirname(__FILE__)).'/vendor/spyc/Spyc.php');
 
-		$stackMeta = Spyc::YAMLLoad(dirname(__FILE__) . '/fields_meta.yaml');
 
 			if(file_exists(dirname(__FILE__) . '/admin/' . $v . '.php')) {
 				$stackAtr = require_once(dirname(__FILE__) . '/admin/' . $v . '.php');
-				if($stackAtr['template']){
-					foreach ($stackAtr['template'] as $tmpK => $tmpV) {
+				if($stackMeta[$v]){
+					foreach ($stackMeta[$v] as $tmpK => $tmpV) {
 
 						$wp_customize->add_setting(
 							'stacks_'.$v.'_options['.$tmpK.']', array(

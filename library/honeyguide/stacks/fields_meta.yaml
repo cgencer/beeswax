@@ -1,10 +1,23 @@
-template:
+item_services:
   container:
     type: select
     source: [DIR:/library/honeyguide/stacks/front,FILTER:GROUP]
   repeater:
     type: select
     source: [DIR:/library/honeyguide/stacks/front,FILTER:ITEM]
+  number:
+    type: text
+    default: 
+  arrangement:
+    type: text
+    default: 
+  name:
+    type: text
+    default: 
+  title:
+    type: text
+    default: 
+header:
   number:
     type: text
     default: 
