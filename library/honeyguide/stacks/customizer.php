@@ -74,13 +74,15 @@ class stacks_customizer {
 		));
 
 //		$arr = $this->theParent->themeBlocks;
-		$arr = array('header', 'services', 'item_services', 'banners', 'team', 'counter');
 		$dearr = array();
 		if ( ! class_exists( 'Spyc' ) ) require_once (dirname(dirname(__FILE__)).'/vendor/spyc/Spyc.php');
-			$stackMeta = Spyc::YAMLLoad(dirname(__FILE__) . '/fields_meta.yaml');
+		$stackMeta = Spyc::YAMLLoad(dirname(__FILE__) . '/fields_meta.yaml');
+		$enabled = Spyc::YAMLLoad(dirname(__FILE__) . '/enabled.yaml');
 
-		foreach ($arr as $v) {
-			$dearr[$v] = $v;
+		var_dump($stackMeta);
+
+		foreach ($enabled as $v) {
+			array_push($dearr, $v);
 echo($v.'<br>');
 			$wp_customize->add_section(
 				'stacks_'.$v, array(
