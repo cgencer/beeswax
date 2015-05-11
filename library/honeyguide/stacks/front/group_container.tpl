@@ -1,3 +1,4 @@
+{{!isa:GROUP}}
       <section class="container mt-xxxlg">
         {{#title}}
         <div class="row">

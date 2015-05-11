@@ -1,3 +1,4 @@
+{{!isa:ITEM}}
           <div class="col-xs-12 {{columns}}">
             <div class="mt-lg">
               <figure class="team-member">

@@ -87,34 +87,58 @@ class stacks_customizer {
 
 		if ( ! class_exists( 'Spyc' ) ) require_once (dirname(dirname(__FILE__)).'/vendor/spyc/Spyc.php');
 
-		$stackMeta = Spyc::YAMLLoad(dirname(__FILE__) . '/fieldsmeta.yaml');
-//print_r($stackMeta['template']);
-
-
-//			echo('>>>');print_r($stackMeta['template']['container']['type']);echo('<hr>');
+		$stackMeta = Spyc::YAMLLoad(dirname(__FILE__) . '/fields_meta.yaml');
 
 			if(file_exists(dirname(__FILE__) . '/admin/' . $v . '.php')) {
 				$stackAtr = require_once(dirname(__FILE__) . '/admin/' . $v . '.php');
 				if($stackAtr['template']){
 					foreach ($stackAtr['template'] as $tmpK => $tmpV) {
+
 						$wp_customize->add_setting(
 							'stacks_'.$v.'_options['.$tmpK.']', array(
 								'capability'	=> 'edit_theme_options',
 								'type'			=> 'option',
 								'default'		=> $tmpV,
 						));
+						// if source is a DIR command:
+						if ('array' == gettype($stackMeta['template'][$tmpK]['source']) && "DIR" == substr($stackMeta['template'][$tmpK]['source'][0], 0, 3)) {
+
+							// filter files into proper pulldown trough FILTER:
+							$filter = ('FILTER' == substr($stackMeta['template'][$tmpK]['source'][1], 0, 6)) ? substr($stackMeta['template'][$tmpK]['source'][1], 7) : "";
+
+							$path = dirname(dirname(dirname(dirname(__FILE__)))) . substr($stackMeta['template'][$tmpK]['source'][0], 4);
+							$addG = array('choices'=>array());
+							$addI = array('choices'=>array());
+							if (is_dir($path)) {
+								foreach (scandir($path) as $file) {
+									if ('.' === $file || '..' === $file || '.DS_Store' === $file) continue;
+									if ('select' == $stackMeta['template'][$tmpK]['type'])
+										$m = array();
+										preg_match('/\{{2}\![isa]+:([GROUP|ITEM]+)\}{2}/', file($path . '/' . $file)[0], $m);
+										if('GROUP' == $m[1])
+											array_push($addG['choices'], pathinfo($file, PATHINFO_FILENAME));											
+										if('ITEM' == $m[1])
+											array_push($addI['choices'], pathinfo($file, PATHINFO_FILENAME));											
+								}
+							}
+						}
+						// if source is available, it is 2-way select-list, use the appr. array otherwise use a blank array anyway
+						$add = (!$stackMeta['template'][$tmpK]['source']) ? array() : ('ITEM' == $filter) ? $addI : $addG;
 
 						$wp_customize->add_control(
-							'stacks_'.$v.'_options['.$tmpK.']', array(
+							'stacks_'.$v.'_options_'.$stackMeta['template'][$tmpK]['type'].'_['.$tmpK.']', array_merge($add, array(
 								'label'			=> $tmpK,
+								'settings'		=> 'stacks_'.$v.'_options['.$tmpK.']',
 								'section'		=> 'stacks_'.$v,
-								'type'			=> $stackMeta['template'][$tmpK]['type'],
-						));
+								'type'			=> $stackMeta['template'][$tmpK]['type']
+							))
+						);
+
+
 					}
 				}
 			}
 		}
-
 
 
 	}

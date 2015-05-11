@@ -1,3 +1,4 @@
+{{!isa:ITEM}}
       <section class="section-full-height mt-xxxlg" style="background-image: url(../images/photo-2.png);">
         <div class="section-full-height col-xs-offset-2 col-xs-10 col-md-offset-5 col-md-7 bg-secondary">
           <div class="middle">

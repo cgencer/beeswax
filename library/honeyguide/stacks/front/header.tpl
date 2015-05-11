@@ -1,3 +1,4 @@
+{{!isa:ITEM}}
       <section class="section-full-height" style="background-image: url(../images/photo.png);">
         <div class="middle bounceInUp animated">
           {{#vars}}

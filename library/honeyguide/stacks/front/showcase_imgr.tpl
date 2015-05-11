@@ -1,3 +1,4 @@
+{{!isa:ITEM}}
         <div class="row mt-xxlg">
           <div class="col-md-6">
             <h4 class="lead text-secondary mt-xxlg">Title of this section</h4>

@@ -1,3 +1,4 @@
+{{!isa:ITEM}}
         <div class="row mt-xxlg">
           <div class="col-md-5 mt-lg">
             <img src="images/photo-3.png" alt="" class="img-responsive">

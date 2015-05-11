@@ -1,25 +1,19 @@
 template:
   container:
     type: select
-    default: 
-    source:
+    source: [DIR:/library/honeyguide/stacks/front,FILTER:GROUP]
   repeater:
     type: select
-    default: 
-    source:
+    source: [DIR:/library/honeyguide/stacks/front,FILTER:ITEM]
   number:
     type: text
     default: 
-    source:
   arrangement:
     type: text
     default: 
-    source:
   name:
     type: text
     default: 
-    source:
   title:
     type: text
     default: 
-    source:
