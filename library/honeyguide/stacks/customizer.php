@@ -6,9 +6,11 @@ class stacks_customizer {
 	protected $theParent;
 	public $themeBlocks;
 	private $pri = 45;
+	private $me;
 
 	public function saveRef($id) {
 		$this->theParent = $id;
+		$this->me = dirname(dirname(dirname(dirname(__FILE__))));
 	}
 
 	public function __construct() {
@@ -79,11 +81,21 @@ class stacks_customizer {
 		$stackMeta = Spyc::YAMLLoad(dirname(__FILE__) . '/fields_meta.yaml');
 		$enabled = Spyc::YAMLLoad(dirname(__FILE__) . '/enabled.yaml');
 
-		var_dump($stackMeta);
+
+		// grab all DIR commands to read dirs first
+		$dirs = array();
+		preg_match_all("/\[DIR\:([\/a-zA-Z0-9]*),FILTER/", file_get_contents(dirname(__FILE__) . '/fields_meta.yaml'), $m);
+		var_dump($m[1]);
+
+		foreach (scandir($this->me . $m[1]) as $file) {
+			if ('.' === $file || '..' === $file || '.DS_Store' === $file) continue;
+			echo($file.'<br>');
+		}
+
 
 		foreach ($enabled as $v) {
 			array_push($dearr, $v);
-echo($v.'<br>');
+
 			$wp_customize->add_section(
 				'stacks_'.$v, array(
 					'title'			=> "stack: ".$v,
@@ -110,7 +122,7 @@ echo($v.'<br>');
 							// filter files into proper pulldown trough FILTER:
 							$filter = ('FILTER' == substr($stackMeta['template'][$tmpK]['source'][1], 0, 6)) ? substr($stackMeta['template'][$tmpK]['source'][1], 7) : "";
 
-							$path = dirname(dirname(dirname(dirname(__FILE__)))) . substr($stackMeta['template'][$tmpK]['source'][0], 4);
+							$path = $this->me . substr($stackMeta['template'][$tmpK]['source'][0], 4);
 							$addG = array('choices'=>array());
 							$addI = array('choices'=>array());
 							if (is_dir($path)) {
