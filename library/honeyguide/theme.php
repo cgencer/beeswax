@@ -32,7 +32,7 @@ class honeyguide_theme {
 		}
 		foreach (glob(dirname(__FILE__).'/vendor/*.php') as $filename) {
 			if(is_readable($filename)) {
-				include_once $filename;
+				include_once($filename);
 			}
 		}
 

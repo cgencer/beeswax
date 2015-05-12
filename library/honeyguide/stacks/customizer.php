@@ -7,15 +7,26 @@ class stacks_customizer {
 	public $themeBlocks;
 	private $pri = 45;
 	private $me;
+	private $vendors;
+	private $vendorsUrl;
+	private $stackMeta;
+	private $enabledStacks;
 
 	public function saveRef($id) {
 		$this->theParent = $id;
-		$this->me = dirname(dirname(dirname(dirname(__FILE__))));
 	}
 
 	public function __construct() {
 		add_action('customize_preview_init', array($this, 'honeyguide_stacks_scripts') );
 		add_action('customize_register', array($this, 'honeyguide_customize_register'));
+		$this->me = dirname(dirname(dirname(dirname(__FILE__))));
+		$this->vendors = dirname(dirname(__FILE__)) . '/vendor';
+		$this->vendorsUrl = get_template_directory_uri() . '/library/honeyguide/stacks/js/vendor/';
+		$this->stacksUrl = get_template_directory_uri() . '/library/honeyguide/stacks/';
+
+		if ( ! class_exists( 'Spyc' ) ) require_once ($this->vendors . '/spyc/Spyc.php');
+		$this->stackMeta = Spyc::YAMLLoad(dirname(__FILE__) . '/fields_meta.yaml');
+		$this->enabledStacks = Spyc::YAMLLoad(dirname(__FILE__) . '/enabled.yaml');
 
 //		add_action( 'customize_controls_enqueue_scripts', array( $this, 'customize_pane_scripts' ) );
 //		add_action( 'customize_preview_init', array( $this, 'customize_preview_init' ) );
@@ -37,7 +48,7 @@ class stacks_customizer {
 	}
 
 	public function customize_pane_scripts() {
-		wp_enqueue_script('customize-inline-editing-pane', get_template_directory_uri() . '/library/honeyguide/stacks/js/customize-pane.js', array('jquery', 'customize-preview'));
+		wp_enqueue_script('customize-inline-editing-pane', $this->stacksUrl . '/js/customize-pane.js', array('jquery', 'customize-preview'));
 		$this->export_script_data('customize-inline-editing-pane', '_CustomizeInlineEditingPane_exports', array(
 			'settingElementSelectors' => $this->get_theme_support(),
 			'l10n' => array('shiftClickNotice' => __( 'Shift + Click to edit inline.', 'customize-inline-editing' )),
@@ -45,7 +56,7 @@ class stacks_customizer {
 	}
 
 	public function customize_preview_scripts() {
-		wp_enqueue_script('customize-inline-editing-preview', get_template_directory_uri() . '/library/honeyguide/stacks/js/customize-preview.js', array('jquery', 'customize-preview'));
+		wp_enqueue_script('customize-inline-editing-preview', $this->stacksUrl() . '/js/customize-preview.js', array('jquery', 'customize-preview'));
 		$this->export_script_data('customize-inline-editing-preview', '_CustomizeInlineEditingPreview_exports', array(
 			'settingElementSelectors' => $this->get_theme_support(),
 			'l10n' => array('shiftClickNotice' => __( 'Shift + Click to edit inline.', 'customize-inline-editing' ))
@@ -60,9 +71,28 @@ class stacks_customizer {
 	}
 
 	public function honeyguide_stacks_scripts() {
-		wp_enqueue_script( 'stack-scripts', get_template_directory_uri() . '/library/honeyguide/stacks/js/stacks.js', array('jquery', 'customize-preview') );
-//		wp_enqueue_script( 'stack-scripts-xeditable', get_template_directory_uri() . '/library/honeyguide/stacks/js/vendor/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.min.js', array('jquery', 'customize-preview') );
-//		wp_enqueue_style( 'stack-styles-xeditable', get_template_directory_uri() . '/library/honeyguide/stacks/js/vendor/x-editable/dist/bootstrap3-editable/css/bootstrap-editable.css');
+		wp_enqueue_script( 'stack-scripts', $this->stacksUrl . '/js/stacks.js', array('jquery', 'customize-preview') );
+//		wp_enqueue_script( 'stack-scripts-xeditable', $this->vendorUrl . '/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.min.js', array('jquery', 'customize-preview') );
+//		wp_enqueue_style( 'stack-styles-xeditable', $this->vendorUrl . '/x-editable/dist/bootstrap3-editable/css/bootstrap-editable.css');
+	}
+
+	// grabs the dirs out of fields_meta and distributes them into 2 arrays according to the 1st line of each template file
+	public function distributeTemplates() {
+		$dirs = array();
+		$dirs['GROUP'] = array();
+		$dirs['ITEM'] = array();
+		preg_match_all("/\[DIR\:([\/a-zA-Z0-9]*),FILTER/", file_get_contents(dirname(__FILE__) . '/fields_meta.yaml'), $m);
+
+		$fn = $this->me . array_unique($m[1])[0];
+		foreach (scandir($fn) as $file) {
+			if ('.' === $file || '..' === $file || '.DS_Store' === $file) continue;
+			$n = array();
+			preg_match('/\{{2}\![isa]+:([GROUP|ITEM]+)\}{2}/', file($fn . '/' . $file)[0], $n);
+			if( is_string($n[1]) )
+				if('GROUP' == $n[1] || 'ITEM' == $n[1])
+					array_push($dirs[$n[1]], pathinfo($file, PATHINFO_FILENAME));												
+		}
+		return($dirs);
 	}
 
 	public function honeyguide_customize_register($wp_customize){
@@ -77,23 +107,10 @@ class stacks_customizer {
 
 //		$arr = $this->theParent->themeBlocks;
 		$dearr = array();
-		if ( ! class_exists( 'Spyc' ) ) require_once (dirname(dirname(__FILE__)).'/vendor/spyc/Spyc.php');
-		$stackMeta = Spyc::YAMLLoad(dirname(__FILE__) . '/fields_meta.yaml');
-		$enabled = Spyc::YAMLLoad(dirname(__FILE__) . '/enabled.yaml');
 
+		$dr = $this->distributeTemplates();
 
-		// grab all DIR commands to read dirs first
-		$dirs = array();
-		preg_match_all("/\[DIR\:([\/a-zA-Z0-9]*),FILTER/", file_get_contents(dirname(__FILE__) . '/fields_meta.yaml'), $m);
-		var_dump($m[1]);
-
-		foreach (scandir($this->me . $m[1]) as $file) {
-			if ('.' === $file || '..' === $file || '.DS_Store' === $file) continue;
-			echo($file.'<br>');
-		}
-
-
-		foreach ($enabled as $v) {
+		foreach ($this->enabledStacks as $v) {
 			array_push($dearr, $v);
 
 			$wp_customize->add_section(
@@ -102,8 +119,6 @@ class stacks_customizer {
 					'capability'	=> 'edit_theme_options',
 					'priority'		=> $this->pri++,
 			));
-
-
 
 			if(file_exists(dirname(__FILE__) . '/admin/' . $v . '.php')) {
 				$stackAtr = require_once(dirname(__FILE__) . '/admin/' . $v . '.php');
@@ -116,30 +131,9 @@ class stacks_customizer {
 								'type'			=> 'option',
 								'default'		=> $tmpV,
 						));
-						// if source is a DIR command:
-						if ('array' == gettype($stackMeta['template'][$tmpK]['source']) && "DIR" == substr($stackMeta['template'][$tmpK]['source'][0], 0, 3)) {
 
-							// filter files into proper pulldown trough FILTER:
-							$filter = ('FILTER' == substr($stackMeta['template'][$tmpK]['source'][1], 0, 6)) ? substr($stackMeta['template'][$tmpK]['source'][1], 7) : "";
-
-							$path = $this->me . substr($stackMeta['template'][$tmpK]['source'][0], 4);
-							$addG = array('choices'=>array());
-							$addI = array('choices'=>array());
-							if (is_dir($path)) {
-								foreach (scandir($path) as $file) {
-									if ('.' === $file || '..' === $file || '.DS_Store' === $file) continue;
-									if ('select' == $stackMeta['template'][$tmpK]['type'])
-										$m = array();
-										preg_match('/\{{2}\![isa]+:([GROUP|ITEM]+)\}{2}/', file($path . '/' . $file)[0], $m);
-										if('GROUP' == $m[1])
-											array_push($addG['choices'], pathinfo($file, PATHINFO_FILENAME));											
-										if('ITEM' == $m[1])
-											array_push($addI['choices'], pathinfo($file, PATHINFO_FILENAME));											
-								}
-							}
-						}
 						// if source is available, it is 2-way select-list, use the appr. array otherwise use a blank array anyway
-						$add = (!$stackMeta['template'][$tmpK]['source']) ? array() : ('ITEM' == $filter) ? $addI : $addG;
+						$add = (!$stackMeta['template'][$tmpK]['source']) ? array() : ('ITEM' == $filter) ? $dr['ITEM'] : $dr['GROUP'];
 
 						$wp_customize->add_control(
 							'stacks_'.$v.'_options_'.$stackMeta['template'][$tmpK]['type'].'_['.$tmpK.']', array_merge($add, array(
