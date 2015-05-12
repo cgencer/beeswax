@@ -6,8 +6,10 @@ class stacks_customizer {
 	protected $theParent;
 	public $themeBlocks;
 	private $pri = 45;
-	private $me;
-	private $vendors;
+	private $mePath;
+	private $stacksPath;
+	private $stacksUrl;
+	private $vendorsPath;
 	private $vendorsUrl;
 	private $stackMeta;
 	private $enabledStacks;
@@ -19,14 +21,16 @@ class stacks_customizer {
 	public function __construct() {
 		add_action('customize_preview_init', array($this, 'honeyguide_stacks_scripts') );
 		add_action('customize_register', array($this, 'honeyguide_customize_register'));
-		$this->me = dirname(dirname(dirname(dirname(__FILE__))));
-		$this->vendors = dirname(dirname(__FILE__)) . '/vendor';
+		$this->mePath = dirname(dirname(dirname(dirname(__FILE__))));
+		$this->vendorsPath = dirname(dirname(__FILE__)) . '/vendor/';
 		$this->vendorsUrl = get_template_directory_uri() . '/library/honeyguide/stacks/js/vendor/';
+		$this->stacksPath = dirname(dirname(dirname(dirname(__FILE__)))) . '/library/honeyguide/stacks/';
 		$this->stacksUrl = get_template_directory_uri() . '/library/honeyguide/stacks/';
 
-		if ( ! class_exists( 'Spyc' ) ) require_once ($this->vendors . '/spyc/Spyc.php');
+		if ( ! class_exists( 'Spyc' ) ) require_once ($this->vendorsPath . '/spyc/Spyc.php');
 		$this->stackMeta = Spyc::YAMLLoad(dirname(__FILE__) . '/fields_meta.yaml');
-		$this->enabledStacks = Spyc::YAMLLoad(dirname(__FILE__) . '/enabled.yaml');
+		$this->enabledStacks = Spyc::YAMLLoad(dirname(__FILE__) . '/enabled.yaml')['stacks'];
+//		echo('<pre>');var_dump($this->enabledStacks);echo('</pre>');
 
 //		add_action( 'customize_controls_enqueue_scripts', array( $this, 'customize_pane_scripts' ) );
 //		add_action( 'customize_preview_init', array( $this, 'customize_preview_init' ) );
@@ -56,7 +60,7 @@ class stacks_customizer {
 	}
 
 	public function customize_preview_scripts() {
-		wp_enqueue_script('customize-inline-editing-preview', $this->stacksUrl() . '/js/customize-preview.js', array('jquery', 'customize-preview'));
+		wp_enqueue_script('customize-inline-editing-preview', $this->stacksUrl() . 'js/customize-preview.js', array('jquery', 'customize-preview'));
 		$this->export_script_data('customize-inline-editing-preview', '_CustomizeInlineEditingPreview_exports', array(
 			'settingElementSelectors' => $this->get_theme_support(),
 			'l10n' => array('shiftClickNotice' => __( 'Shift + Click to edit inline.', 'customize-inline-editing' ))
@@ -71,9 +75,9 @@ class stacks_customizer {
 	}
 
 	public function honeyguide_stacks_scripts() {
-		wp_enqueue_script( 'stack-scripts', $this->stacksUrl . '/js/stacks.js', array('jquery', 'customize-preview') );
-//		wp_enqueue_script( 'stack-scripts-xeditable', $this->vendorUrl . '/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.min.js', array('jquery', 'customize-preview') );
-//		wp_enqueue_style( 'stack-styles-xeditable', $this->vendorUrl . '/x-editable/dist/bootstrap3-editable/css/bootstrap-editable.css');
+		wp_enqueue_script( 'stack-scripts', $this->stacksUrl . 'js/stacks.js', array('jquery', 'customize-preview') );
+//		wp_enqueue_script( 'stack-scripts-xeditable', $this->vendorUrl . 'x-editable/dist/bootstrap3-editable/js/bootstrap-editable.min.js', array('jquery', 'customize-preview') );
+//		wp_enqueue_style( 'stack-styles-xeditable', $this->vendorUrl . 'x-editable/dist/bootstrap3-editable/css/bootstrap-editable.css');
 	}
 
 	// grabs the dirs out of fields_meta and distributes them into 2 arrays according to the 1st line of each template file
@@ -81,9 +85,10 @@ class stacks_customizer {
 		$dirs = array();
 		$dirs['GROUP'] = array();
 		$dirs['ITEM'] = array();
-		preg_match_all("/\[DIR\:([\/a-zA-Z0-9]*),FILTER/", file_get_contents(dirname(__FILE__) . '/fields_meta.yaml'), $m);
+		preg_match_all("/\[DIR\:([\/a-zA-Z0-9]*),FILTER/", file_get_contents($this->stacksPath.'fields_meta.yaml'), $m);
 
-		$fn = $this->me . array_unique($m[1])[0];
+		$fn = $this->mePath . array_unique($m[1])[0];
+
 		foreach (scandir($fn) as $file) {
 			if ('.' === $file || '..' === $file || '.DS_Store' === $file) continue;
 			$n = array();
@@ -105,13 +110,13 @@ class stacks_customizer {
 				'description'	=> __("Allows you to edit your theme's stacks.", 'honeyguide')
 		));
 
-//		$arr = $this->theParent->themeBlocks;
-		$dearr = array();
-
 		$dr = $this->distributeTemplates();
+//		echo('<pre>');var_dump($dr);echo('</pre>');
+
 
 		foreach ($this->enabledStacks as $v) {
-			array_push($dearr, $v);
+			$fs = (file_exists($this->stacksPath . 'depot/' . $v . '/fieldset.yaml')) ? 
+				Spyc::YAMLLoad($this->stacksPath . 'depot/' . $v . '/fieldset.yaml') : array();
 
 			$wp_customize->add_section(
 				'stacks_'.$v, array(
@@ -120,27 +125,26 @@ class stacks_customizer {
 					'priority'		=> $this->pri++,
 			));
 
-			if(file_exists(dirname(__FILE__) . '/admin/' . $v . '.php')) {
-				$stackAtr = require_once(dirname(__FILE__) . '/admin/' . $v . '.php');
-				if($stackMeta[$v]){
-					foreach ($stackMeta[$v] as $tmpK => $tmpV) {
+
+			if(count($fs) > 0){
+				foreach ($fs as $fse=>$fsk) {
+					foreach ($fsk['fields'] as $kk=>$ll) {
+
 
 						$wp_customize->add_setting(
-							'stacks_'.$v.'_options['.$tmpK.']', array(
+							'stacks_'.$v.'_options['.$ll['id'].']', array(
 								'capability'	=> 'edit_theme_options',
 								'type'			=> 'option',
-								'default'		=> $tmpV,
 						));
 
-						// if source is available, it is 2-way select-list, use the appr. array otherwise use a blank array anyway
-						$add = (!$stackMeta['template'][$tmpK]['source']) ? array() : ('ITEM' == $filter) ? $dr['ITEM'] : $dr['GROUP'];
+						$add = (!$this->stackMeta['template'][$kk]['source']) ? array() : ('ITEM' == $filter) ? $dr['ITEM'] : $dr['GROUP'];
 
 						$wp_customize->add_control(
-							'stacks_'.$v.'_options_'.$stackMeta['template'][$tmpK]['type'].'_['.$tmpK.']', array_merge($add, array(
-								'label'			=> $tmpK,
-								'settings'		=> 'stacks_'.$v.'_options['.$tmpK.']',
+							'stacks_'.$v.'_options_'.$ll['id'], array_merge(array(), array(
+								'label'			=> $ll['name'],
+								'settings'		=> 'stacks_'.$v.'_options['.$ll['id'].']',
 								'section'		=> 'stacks_'.$v,
-								'type'			=> $stackMeta['template'][$tmpK]['type']
+								'type'			=> $ll['type']
 							))
 						);
 
@@ -148,6 +152,8 @@ class stacks_customizer {
 					}
 				}
 			}
+
+
 		}
 
 

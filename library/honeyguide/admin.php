@@ -19,7 +19,6 @@ class honeyguide_admin {
 		add_action('admin_init', array( $this, 'honeyguide_AdminInit' ) );
 		add_action('admin_init', array( $this, 'honeyguide_AdminStyles' ) );
 		add_action('admin_init', array( $this, 'honeyguide_AdminScripts' ) );
-		add_action('customize_preview_init', array($this, 'honeyguide_StacksScripts') );
 	}
 
     public function saveRef($id) {
@@ -75,10 +74,6 @@ class honeyguide_admin {
 
 	public function honeyguide_AdminScripts() {
 		wp_enqueue_script( $this->theme_name.'-bootstrap-scripts', get_template_directory_uri() . '/bower_components/bootstrap/dist/js/bootstrap.min.js');
-	}
-
-	public function honeyguide_StacksScripts() {
-		wp_enqueue_script( $this->theme_name.'-stack-scripts', dirname(__FILE__) . '/stacks/js/stacks.js', array('jquery', 'customize-preview'));
 	}
 
 	public function do_patches() {
