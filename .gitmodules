@@ -19,3 +19,6 @@
 [submodule "library/honeyguide/vendor/spyc"]
 	path = library/honeyguide/vendor/spyc
 	url = https://github.com/mustangostang/spyc.git
+[submodule "library/honeyguide/vendor/underscore-php"]
+	path = library/honeyguide/vendor/underscore-php
+	url = https://github.com/brianhaveri/Underscore.php
