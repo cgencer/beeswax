@@ -2,24 +2,22 @@ item_services:
   container:
     type: select
     label: Collection View
-    source: [FILTER:COLLECTIONS]
+    source: [TEMPLATES:COLLECTIONS]
   repeater:
     type: select
     label: Item View
-    source: [FILTER:ITEMS]
-  number:
+    source: [TEMPLATES:ITEMS]
+  numberItems:
     type: text
     label: Number of Items
-    default: 
+    default: 3
   arrangement:
     type: text
     label: Arrangement
-    default: 3-2
+    default: 3
   name:
     type: text
     label: Name
-    default: 
   title:
     type: text
     label: Title
-    default: 

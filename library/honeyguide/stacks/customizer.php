@@ -78,6 +78,15 @@ class stacks_customizer {
 		wp_enqueue_script( 'stack-scripts', $this->stacksUrl . 'js/stacks.js', array('jquery', 'customize-preview') );
 //		wp_enqueue_script( 'stack-scripts-xeditable', $this->vendorUrl . 'x-editable/dist/bootstrap3-editable/js/bootstrap-editable.min.js', array('jquery', 'customize-preview') );
 //		wp_enqueue_style( 'stack-styles-xeditable', $this->vendorUrl . 'x-editable/dist/bootstrap3-editable/css/bootstrap-editable.css');
+		foreach (scandir($this->stacksPath . 'depot/') as $names) {
+			if ('.' === $names || '..' === $names || '.DS_Store' === $names) continue;
+			if(is_dir($this->stacksPath . 'depot/' . $names)) {
+				$files = glob($this->stacksPath . 'depot/' . $names . '/*.js');
+				foreach ($files as $file) {
+					wp_enqueue_script( 'stack-scripts-' . $names . '-' . $file, $file, array('jquery', 'customize-preview') );
+				}
+			}
+		}
 	}
 
 	// grabs the dirs out of fields_meta and distributes them into 2 arrays according to the 1st line of each template file
@@ -148,26 +157,25 @@ class stacks_customizer {
 
 
 			if($sp){
-
 				if(array_keys($sp)[0]==$v) {		// first line of yaml matches the template dir name
-					foreach ($sp[$v] as $field => $fieldData) {
+					foreach ($sp[$v] as $fieldKey => $fieldData) {
 
 						$wp_customize->add_setting(
-							'stacks_'.$v.'_options['.$field.']', array(
+							'stacks_'.$v.'_options['.$fieldKey.']', array(
 								'capability'	=> 'edit_theme_options',
 								'type'			=> 'option',
+								'default'		=> $fieldData['default'],
 						));
 
 						$filter = explode(':', $fieldData['source'][1]); $filter = $filter[1];
-
 						$SelectOptions = ('select' != $fieldData['type']) ? 
 							array() : ('ITEM' == $filter) ? 
 								array('choices'=>$this->templates['ITEMS']) : array('choices'=>$this->templates['COLLECTIONS']);
 
 						$wp_customize->add_control(
-							'stacks_'.$v.'_options_fields_'.$field, array_merge(array(
+							'stacks_'.$v.'_options_fields_'.$fieldKey, array_merge(array(
 								'label'			=> $fieldData['label'],
-								'settings'		=> 'stacks_'.$v.'_options['.$field.']',
+								'settings'		=> 'stacks_'.$v.'_options['.$fieldKey.']',
 								'section'		=> 'stacks_'.$v,
 								'type'			=> $fieldData['type']
 							), $SelectOptions)

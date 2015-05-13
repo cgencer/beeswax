@@ -25,6 +25,7 @@ function honeyguide_register_required_plugins() {
 			'force_deactivation' 	=> false,
 			'image_url'				=> dirname( __FILE__ ) . '/assets/img/layer_slider.png',
 		),
+/*
 		array(
             'name'               	=> 'Meta Box',
             'slug'               	=> 'meta-box',
@@ -41,6 +42,7 @@ function honeyguide_register_required_plugins() {
             'force_activation'   	=> true,
             'force_deactivation' 	=> false,
         ),
+*/
 	);
 
 	$theme_text_domain = 'beeswax';
