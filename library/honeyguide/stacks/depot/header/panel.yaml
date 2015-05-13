@@ -1,0 +1,9 @@
+header:
+  number:
+    type: text
+    label: Number of Items
+    default: 
+  arrangement:
+    type: text
+    label: Arrangement
+    default: 1

@@ -6,6 +6,7 @@ class stacks_customizer {
 	protected $theParent;
 	public $themeBlocks;
 	private $pri = 45;
+	private $templates;
 	private $mePath;
 	private $stacksPath;
 	private $stacksUrl;
@@ -28,7 +29,6 @@ class stacks_customizer {
 		$this->stacksUrl = get_template_directory_uri() . '/library/honeyguide/stacks/';
 
 		if ( ! class_exists( 'Spyc' ) ) require_once ($this->vendorsPath . '/spyc/Spyc.php');
-		$this->stackMeta = Spyc::YAMLLoad(dirname(__FILE__) . '/fields_meta.yaml');
 		$this->enabledStacks = Spyc::YAMLLoad(dirname(__FILE__) . '/enabled.yaml')['stacks'];
 //		echo('<pre>');var_dump($this->enabledStacks);echo('</pre>');
 
@@ -83,19 +83,37 @@ class stacks_customizer {
 	// grabs the dirs out of fields_meta and distributes them into 2 arrays according to the 1st line of each template file
 	public function distributeTemplates() {
 		$dirs = array();
-		$dirs['GROUP'] = array();
-		$dirs['ITEM'] = array();
-		preg_match_all("/\[DIR\:([\/a-zA-Z0-9]*),FILTER/", file_get_contents($this->stacksPath.'fields_meta.yaml'), $m);
+		$dirs['COLLECTIONS'] = array();
+		$dirs['ITEMS'] = array();
+		$dirs['PANELS'] = array();
+		$tra = array();
+		$flat = array();
 
-		$fn = $this->mePath . array_unique($m[1])[0];
+		foreach (scandir($this->stacksPath . 'depot/') as $names) {
+			if ('.' === $names || '..' === $names || '.DS_Store' === $names) continue;
+			if(is_dir($this->stacksPath . 'depot/' . $names)) {
 
-		foreach (scandir($fn) as $file) {
-			if ('.' === $file || '..' === $file || '.DS_Store' === $file) continue;
-			$n = array();
-			preg_match('/\{{2}\![isa]+:([GROUP|ITEM]+)\}{2}/', file($fn . '/' . $file)[0], $n);
-			if( is_string($n[1]) )
-				if('GROUP' == $n[1] || 'ITEM' == $n[1])
-					array_push($dirs[$n[1]], pathinfo($file, PATHINFO_FILENAME));												
+				//load the template file... if it has ISA command dristribute its name into COLLECTIONS or ITEMS
+				$files = glob($this->stacksPath . 'depot/' . $names . '/*.tpl');
+				foreach ($files as $file) {
+					$n = array();
+					preg_match('/\{{2}\!isa+:([COLLECTION|ITEM]+)\}{2}/', file($file)[0], $n);
+					if( is_string($n[1]) )
+						if('COLLECTION' == $n[1] || 'ITEM' == $n[1])
+//							array_push($dirs[$n[1].'S'], $names . '/' . pathinfo($file, PATHINFO_FILENAME));
+							$dirs[$n[1].'S'][$names . '/' . pathinfo($file, PATHINFO_FILENAME)] = $names . '/' . pathinfo($file, PATHINFO_FILENAME);
+				}
+
+				if(file_exists($this->stacksPath . 'depot/' . $names . '/panel.yaml'))
+				$dirs['PANELS'][$names] = (file_exists($this->stacksPath . 'depot/' . $names . '/panel.yaml')) ?
+					Spyc::YAMLLoad($this->stacksPath . 'depot/' . $names . '/panel.yaml') : array();
+
+				if(is_array($dirs['PANELS'][$names]))
+					array_walk_recursive($dirs['PANELS'][$names], function($val, $key) use (&$flat) {
+						$flat[] = $key;
+						$flat[] = $val;
+					});
+			}
 		}
 		return($dirs);
 	}
@@ -110,13 +128,16 @@ class stacks_customizer {
 				'description'	=> __("Allows you to edit your theme's stacks.", 'honeyguide')
 		));
 
-		$dr = $this->distributeTemplates();
+		$this->templates = $this->distributeTemplates();
 //		echo('<pre>');var_dump($dr);echo('</pre>');
 
-
 		foreach ($this->enabledStacks as $v) {
+
 			$fs = (file_exists($this->stacksPath . 'depot/' . $v . '/fieldset.yaml')) ? 
-				Spyc::YAMLLoad($this->stacksPath . 'depot/' . $v . '/fieldset.yaml') : array();
+				Spyc::YAMLLoad($this->stacksPath . 'depot/' . $v . '/fieldset.yaml') : null;
+
+			$sp = (file_exists($this->stacksPath . 'depot/' . $v . '/panel.yaml')) ?
+				Spyc::YAMLLoad($this->stacksPath . 'depot/' . $v . '/panel.yaml') : null;
 
 			$wp_customize->add_section(
 				'stacks_'.$v, array(
@@ -126,36 +147,34 @@ class stacks_customizer {
 			));
 
 
-			if(count($fs) > 0){
-				foreach ($fs as $fse=>$fsk) {
-					foreach ($fsk['fields'] as $kk=>$ll) {
+			if($sp){
 
+				if(array_keys($sp)[0]==$v) {		// first line of yaml matches the template dir name
+					foreach ($sp[$v] as $field => $fieldData) {
 
 						$wp_customize->add_setting(
-							'stacks_'.$v.'_options['.$ll['id'].']', array(
+							'stacks_'.$v.'_options['.$field.']', array(
 								'capability'	=> 'edit_theme_options',
 								'type'			=> 'option',
 						));
 
-						$add = (!$this->stackMeta['template'][$kk]['source']) ? array() : ('ITEM' == $filter) ? $dr['ITEM'] : $dr['GROUP'];
+						$filter = explode(':', $fieldData['source'][1]); $filter = $filter[1];
+
+						$SelectOptions = ('select' != $fieldData['type']) ? 
+							array() : ('ITEM' == $filter) ? 
+								array('choices'=>$this->templates['ITEMS']) : array('choices'=>$this->templates['COLLECTIONS']);
 
 						$wp_customize->add_control(
-							'stacks_'.$v.'_options_'.$ll['id'], array_merge(array(), array(
-								'label'			=> $ll['name'],
-								'settings'		=> 'stacks_'.$v.'_options['.$ll['id'].']',
+							'stacks_'.$v.'_options_fields_'.$field, array_merge(array(
+								'label'			=> $fieldData['label'],
+								'settings'		=> 'stacks_'.$v.'_options['.$field.']',
 								'section'		=> 'stacks_'.$v,
-								'type'			=> $ll['type']
-							))
+								'type'			=> $fieldData['type']
+							), $SelectOptions)
 						);
-
-
 					}
 				}
 			}
-
-
 		}
-
-
 	}
 }

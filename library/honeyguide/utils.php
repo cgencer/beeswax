@@ -44,5 +44,4 @@ class honeyguide_utils
 	    }
 	    return $merge;
 	}
-
 }

@@ -1,32 +1,25 @@
-item_services:
+teammembers:
   container:
     type: select
+    label: Collection View
     source: [DIR:/library/honeyguide/stacks/front,FILTER:GROUP]
   repeater:
     type: select
+    label: Item View
     source: [DIR:/library/honeyguide/stacks/front,FILTER:ITEM]
   number:
     type: text
+    label: Number of Items
     default: 
   arrangement:
     type: text
-    default: 
+    label: Arrangement
+    default: 3-2
   name:
     type: text
+    label: Name
     default: 
   title:
     type: text
-    default: 
-header:
-  number:
-    type: text
-    default: 
-  arrangement:
-    type: text
-    default: 
-  name:
-    type: text
-    default: 
-  title:
-    type: text
+    label: Title
     default: 

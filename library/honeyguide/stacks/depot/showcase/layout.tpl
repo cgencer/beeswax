@@ -1,4 +1,4 @@
-{{!isa:GROUP}}
+{{!isa:COLLECTION}}
       <section class="container mt-xxxlg">
         <div class="row">
           <div class="col-md-12">

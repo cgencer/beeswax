@@ -1,4 +1,4 @@
-{{!isa:GROUP}}
+{{!isa:COLLECTION}}
       <section class="container mt-xxxlg">
         {{> content_imgr}}
         {{> seperator}}
