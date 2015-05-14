@@ -22,3 +22,9 @@
 [submodule "library/honeyguide/vendor/underscore-php"]
 	path = library/honeyguide/vendor/underscore-php
 	url = https://github.com/brianhaveri/Underscore.php
+[submodule "library/honeyguide/vendor/wp-google-font-picker-control"]
+	path = library/honeyguide/vendor/wp-google-font-picker-control
+	url = https://github.com/BFTrick/wp-google-font-picker-control.git
+[submodule "library/honeyguide/vendor/wpthemecustomizer-custom-controls"]
+	path = library/honeyguide/vendor/wpthemecustomizer-custom-controls
+	url = https://github.com/paulund/wordpress-theme-customizer-custom-controls.git

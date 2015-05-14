@@ -20,22 +20,28 @@ class stacks_customizer {
 	}
 
 	public function __construct() {
-		add_action('customize_preview_init', array($this, 'honeyguide_stacks_scripts') );
-		add_action('customize_register', array($this, 'honeyguide_customize_register'));
 		$this->mePath = dirname(dirname(dirname(dirname(__FILE__))));
 		$this->vendorsPath = dirname(dirname(__FILE__)) . '/vendor/';
 		$this->vendorsUrl = get_template_directory_uri() . '/library/honeyguide/stacks/js/vendor/';
 		$this->stacksPath = dirname(dirname(dirname(dirname(__FILE__)))) . '/library/honeyguide/stacks/';
 		$this->stacksUrl = get_template_directory_uri() . '/library/honeyguide/stacks/';
 
+		require_once(dirname($this->stacksPath) . '/customizer_customcontrols.php');
+		$files = glob($this->vendorsPath . 'customizer-custom-controls/*.php');
+		foreach ($files as $file) {
+			require_once($file);
+		}
+		require_once($this->vendorsPath . '/wpthemecustomizer-custom-controls/select/google-font-dropdown-custom-control.php');
+
+		add_action('customize_preview_init', array(&$this, 'honeyguide_stacks_scripts') );
+		add_action('customize_register', array(&$this, 'honeyguide_customize_register'));
+
 		if ( ! class_exists( 'Spyc' ) ) require_once ($this->vendorsPath . '/spyc/Spyc.php');
 		$this->enabledStacks = Spyc::YAMLLoad(dirname(__FILE__) . '/enabled.yaml')['stacks'];
-//		echo('<pre>');var_dump($this->enabledStacks);echo('</pre>');
 
 //		add_action( 'customize_controls_enqueue_scripts', array( $this, 'customize_pane_scripts' ) );
 //		add_action( 'customize_preview_init', array( $this, 'customize_preview_init' ) );
 	}
-
 	public function getStacks() {
 		return $this->theParent->themeBlocks;
 	}
@@ -155,31 +161,37 @@ class stacks_customizer {
 					'priority'		=> $this->pri++,
 			));
 
-
 			if($sp){
 				if(array_keys($sp)[0]==$v) {		// first line of yaml matches the template dir name
+
+					$custTypes = array('layout', 'tags', 'taxonomy', 'posts', 'posttypes', 'googlefonts', 'datepicker');
+					ccc($wp_customize, $sp, $v, $custTypes);
+
 					foreach ($sp[$v] as $fieldKey => $fieldData) {
 
-						$wp_customize->add_setting(
-							'stacks_'.$v.'_options['.$fieldKey.']', array(
-								'capability'	=> 'edit_theme_options',
-								'type'			=> 'option',
-								'default'		=> $fieldData['default'],
-						));
+						if(!in_array($fieldKey, $custTypes)) {
 
-						$filter = explode(':', $fieldData['source'][1]); $filter = $filter[1];
-						$SelectOptions = ('select' != $fieldData['type']) ? 
-							array() : ('ITEM' == $filter) ? 
-								array('choices'=>$this->templates['ITEMS']) : array('choices'=>$this->templates['COLLECTIONS']);
+							$wp_customize->add_setting(
+								'stacks_'.$v.'_options['.$fieldKey.']', array(
+									'capability'	=> 'edit_theme_options',
+									'type'			=> 'option',
+									'default'		=> $fieldData['default'],
+							));
 
-						$wp_customize->add_control(
-							'stacks_'.$v.'_options_fields_'.$fieldKey, array_merge(array(
-								'label'			=> $fieldData['label'],
-								'settings'		=> 'stacks_'.$v.'_options['.$fieldKey.']',
-								'section'		=> 'stacks_'.$v,
-								'type'			=> $fieldData['type']
-							), $SelectOptions)
-						);
+							$filter = explode(':', $fieldData['source'][1]); $filter = $filter[1];
+							$SelectOptions = ('select' != $fieldData['type']) ? 
+								array() : ('ITEM' == $filter) ? 
+									array('choices'=>$this->templates['ITEMS']) : array('choices'=>$this->templates['COLLECTIONS']);
+
+							$wp_customize->add_control(
+								'stacks_'.$v.'_options_fields_'.$fieldKey, array_merge(array(
+									'label'			=> $fieldData['label'],
+									'settings'		=> 'stacks_'.$v.'_options['.$fieldKey.']',
+									'section'		=> 'stacks_'.$v,
+									'type'			=> $fieldData['type']
+								), $SelectOptions)
+							);
+						}
 					}
 				}
 			}

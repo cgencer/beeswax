@@ -1,4 +1,16 @@
 header:
+  layout:
+    enabled: true
+  tags:
+    enabled: false
+  taxonomy:
+    enabled: false
+  posttypes:
+    enabled: false
+  posts:
+    enabled: false
+  googlefonts:
+    enabled: true
   number:
     type: text
     label: Number of Items

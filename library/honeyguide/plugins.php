@@ -25,6 +25,15 @@ function honeyguide_register_required_plugins() {
 			'force_deactivation' 	=> false,
 			'image_url'				=> dirname( __FILE__ ) . '/assets/img/layer_slider.png',
 		),
+		array(
+			'name'	 				=> 'Colorscheme Every Theme',
+			'slug'	 				=> 'colorschemer',
+			'source'   				=> dirname( __FILE__ ) . '/plugins/color-scheme-every-theme.zip',
+			'required' 				=> true,
+			'force_activation' 		=> true,
+			'force_deactivation' 	=> false,
+			'image_url'				=> dirname( __FILE__ ) . '/assets/img/layer_slider.png',
+		),
 /*
 		array(
             'name'               	=> 'Meta Box',
