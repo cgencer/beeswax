@@ -83,7 +83,7 @@ class stacks_customizer {
 			if(is_dir($this->stacksPath . 'depot/' . $names)) {
 				$files = glob($this->stacksPath . 'depot/' . $names . '/*.js');
 				foreach ($files as $file) {
-					wp_enqueue_script( 'stack-scripts-' . $names . '-' . $file, $file, array('jquery', 'customize-preview') );
+					wp_enqueue_script( 'stack-scripts-' . $names . '-' . pathinfo($file, PATHINFO_FILENAME), $this->stacksUrl . 'depot/' . $names . '/' . pathinfo($file, PATHINFO_FILENAME) . '.' . pathinfo($file, PATHINFO_EXTENSION), array('jquery', 'customize-preview') );
 				}
 			}
 		}
