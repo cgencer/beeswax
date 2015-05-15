@@ -9,7 +9,10 @@
           	'number' 		=> 3,
           	'arrangement' 	=> '3',
           	'name' 			=> 'services',
-          	'title' 		=> 'Our Services'
+          	'title' 		=> 'Our Services',
+          	'fields'		=> array(
+          		'post_title'	=> post.post_title,
+          	)
 		),
 		'attributes'	=> array()
 	);

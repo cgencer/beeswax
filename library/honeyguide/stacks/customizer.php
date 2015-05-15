@@ -102,6 +102,7 @@ class stacks_customizer {
 		$dirs['COLLECTIONS'] = array();
 		$dirs['ITEMS'] = array();
 		$dirs['PANELS'] = array();
+		$dirs['STACKS'] = array();
 		$tra = array();
 		$flat = array();
 
@@ -118,6 +119,7 @@ class stacks_customizer {
 						if('COLLECTION' == $n[1] || 'ITEM' == $n[1])
 //							array_push($dirs[$n[1].'S'], $names . '/' . pathinfo($file, PATHINFO_FILENAME));
 							$dirs[$n[1].'S'][$names . '/' . pathinfo($file, PATHINFO_FILENAME)] = $names . '/' . pathinfo($file, PATHINFO_FILENAME);
+							$dirs['STACKS'][$names] = ucwords($names);
 				}
 
 				if(file_exists($this->stacksPath . 'depot/' . $names . '/panel.yaml'))
@@ -136,15 +138,61 @@ class stacks_customizer {
 
 	public function honeyguide_customize_register($wp_customize){
 
+		$this->templates = $this->distributeTemplates();
+
 		$wp_customize->add_section(
-			'stacks-section', array(
-				'title'			=> __("Stacks", 'honeyguide'),
+			'stacks', array(
+				'title'			=> "Stacks",
 				'capability'	=> 'edit_theme_options',
 				'priority'		=> $this->pri++,
 				'description'	=> __("Allows you to edit your theme's stacks.", 'honeyguide')
 		));
 
-		$this->templates = $this->distributeTemplates();
+		$wp_customize->add_setting(
+			'stacks-options-page', array(
+			'capability'	=> 'edit_theme_options',
+			'type'			=> 'option',
+		));
+
+		$wp_customize->add_control(
+			'stacks_options_addToPage', array_merge( array(
+				'label'			=> "Select a page to add stacks to",
+				'settings'		=> 'stacks-options-page',
+				'section'		=> 'stacks',
+				'type'			=> 'select'
+			), array('choices' => array('front' => 'Front Page')))
+		);
+
+		$wp_customize->add_setting(
+			'stacks-options-settings', array(
+			'capability'	=> 'edit_theme_options',
+			'type'			=> 'option',
+		));
+
+		$wp_customize->add_control(
+			'stacks_options_addStack', array_merge( array(
+				'label'			=> "Select a stack to be added",
+				'settings'		=> 'stacks-options-settings',
+				'section'		=> 'stacks',
+				'type'			=> 'select'
+			), array('choices' => $this->templates['STACKS']))
+		);
+
+		$wp_customize->add_setting(
+			'stacks-enabled', array(
+			'capability'	=> 'edit_theme_options',
+			'type'			=> 'option',
+		));
+
+		$wp_customize->add_control(
+			'stacks_options_enabledStacks', array_merge( array(
+				'label'			=> "Enabled stacks",
+				'settings'		=> 'stacks-enabled',
+				'section'		=> 'stacks',
+				'type'			=> 'multiselect'
+			), array('choices' => array()))
+		);
+
 //		echo('<pre>');var_dump($dr);echo('</pre>');
 
 		foreach ($this->enabledStacks as $v) {
