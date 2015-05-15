@@ -27,6 +27,7 @@ class stacks_customizer {
 		$this->stacksUrl = get_template_directory_uri() . '/library/honeyguide/stacks/';
 
 		require_once(dirname($this->stacksPath) . '/customizer_customcontrols.php');
+		require_once($this->stacksPath . 'custom-controls/customizer_layoutpicker.php');
 		$files = glob($this->vendorsPath . 'customizer-custom-controls/*.php');
 		foreach ($files as $file) {
 			require_once($file);

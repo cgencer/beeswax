@@ -26,7 +26,7 @@ function ccc($wp_customize, $sp, $section, $custTypes) {
 			switch ($fieldKey) {
 				case 'layout':
 					$wp_customize->add_setting( 'stacks_'. $section . '_layout_picker_setting', array('default' => '',));
-					$wp_customize->add_control( new Layout_Picker_Custom_Control( $wp_customize, 'stacks_'. $section . '_layout_picker_setting', array(
+					$wp_customize->add_control( new LayoutPicker_Custom_Control( $wp_customize, 'stacks_'. $section . '_layout_picker_setting', array(
 						'label'   => 'Layout Picker Setting',
 						'section' => 'stacks_'. $section,
 						'settings'   => 'stacks_'. $section . '_layout_picker_setting',
