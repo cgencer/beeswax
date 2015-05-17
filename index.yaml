@@ -1,0 +1,48 @@
+---
+  - 
+    isDynamic: true
+    template: 
+      name: "header"
+      container: "header"
+  - 
+    isDynamic: true
+    template: 
+      container: "group_container"
+      repeater: "item_services"
+      number: 3
+      arrangement: "3"
+      name: "services"
+      title: "Our Services"
+    query: 
+      post_type: "services"
+  - 
+    isDynamic: false
+    template: 
+      name: "banners"
+  - 
+    isDynamic: true
+    template: 
+      container: "group_container"
+      repeater: "item_teamMembers"
+      number: 5
+      arrangement: "2-3"
+      name: "teammembers"
+      title: "Our Team"
+    query: 
+      post_type: "teammembers"
+  - 
+    isDynamic: false
+    template: 
+      name: "counter"
+  - 
+    isDynamic: true
+    template: 
+      container: "group_container"
+      repeater: "item_content"
+      number: 2
+      arrangement: "1-1"
+      name: "posts"
+      title: false
+    query: 
+      post_type: "posts"
+      category_name: "detail"
