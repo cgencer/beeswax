@@ -32,7 +32,7 @@ class stacks_customizer {
 		foreach ($files as $file) {
 			require_once($file);
 		}
-		require_once($this->vendorsPath . '/wpthemecustomizer-custom-controls/select/google-font-dropdown-custom-control.php');
+		require_once($this->vendorsPath . 'wpthemecustomizer-custom-controls/select/google-font-dropdown-custom-control.php');
 
 		add_action('customize_preview_init', array(&$this, 'honeyguide_stacks_scripts') );
 		add_action('customize_register', array(&$this, 'honeyguide_customize_register'));

@@ -1,12 +1,7 @@
 <?php 
-
-get_header();
+if($theTheme) $theTheme->loadPage();
 /*
-$frontPageOrder = explode(':', $settings_api->get_option('beeswax_blox_order', 'admin_settings_frontpage_builder'));
-foreach ($frontPageOrder as $fpBlock) {
-  echo templateRender($fpBlock);
-}
-*/
+get_header();
 echo $theTheme->templateRender(true, array('name' => 'header', 'container'=> 'header'));
 
 echo $theTheme->templateRender(true, 
@@ -43,4 +38,5 @@ echo $theTheme->templateRender(true,
     array('post_type' => 'posts', 'category_name' => 'detail')
 );
 get_footer();
+*/
 ?>
