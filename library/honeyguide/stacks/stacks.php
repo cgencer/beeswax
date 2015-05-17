@@ -4,6 +4,7 @@ class stacks {
 	protected $theParent;
 	public $settingsApi;
 	public $vendorPath;
+	public $templates;
 
 	public $mustacheEngine;
 	public $mustacheLoader;
@@ -19,9 +20,22 @@ class stacks {
 		if(!class_exists('WeDevs_Settings_API')) require_once( $this->vendorPath.'settings-api.php' );
 		$this->settingsApi = new Settings_API;
 		$this->settingsApi->saveRef($this);
-
-
 		$this->initRenderer();
+	}
+
+	public function loadTemplatesIntoArray() {
+		if(count($this->templates)>1) 
+			return $this->templates;
+
+		$this->templates = array();
+		foreach (glob(dirname(__FILE__).'/depot/*.tpl') as $filename) {
+			$this->templates[pathinfo(basename($filename),PATHINFO_FILENAME)] = $filename; 
+		}
+		foreach (glob(dirname(__FILE__).'/depot/*/*.tpl') as $filename) {
+			$this->templates[basename(dirname($filename)).'/'.pathinfo(basename($filename),PATHINFO_FILENAME)] = $filename; 
+		}
+//echo('<pre>');var_dump($this->templates);echo('</pre>');
+		return $this->templates;
 	}
 
 	public function initRenderer() {
@@ -35,7 +49,7 @@ class stacks {
 		}
 	}
 
-	public function loadPage() {
+	public function loadPage($pageName) {
 
 		if(get_option('stackedPages', null)) {
 			if(add_option('stackedPages', '')) {
@@ -46,22 +60,29 @@ class stacks {
 				$stackedPages = Spyc::YAMLLoad(dirname(__FILE__) . '/index.yaml');
 
 				get_header();
-				foreach ($stackedPages as $val) {
-					foreach ($val as $k => $v) {
-					echo('<pre><b>'.$k.'</b><br>');var_dump($v);echo('</pre>');
+
+				if(array_key_exists($pageName, $stackedPages)) {
+					foreach ($stackedPages[$pageName] as $val) {
+						echo($this->render($val).'<br>');	
 					}
 				}
-				get_footer();
 
+				get_footer();
 		}
-		echo $this->templateRender(true, array('name' => 'header', 'container'=> 'header'));
 
 	}
 
-	public function templateRender($isDynamic, $template, $attributes=array(), $query=null) 
+	private function render($obj) 
 	{
 		global $settingsApi, $mustache, $mustacheEngine, $mustacheLoader, $loader;
 		if(!$mustacheEngine) $this->initRenderer();
+
+		if($obj) {
+			$isDynamic = $obj['isDynamic'];
+			$template = $obj['template'];
+			$attributes = $obj['attributes'] ? $obj['attributes'] : array();
+			$query = $obj['query'];
+		}
 
 		if($query != null)
 		{
@@ -72,16 +93,22 @@ class stacks {
 		}
 
 		$s = "";
-		if($isDynamic)
+		if(!$isDynamic)
 		{
+
+			if($template['container'])
+				$s = $this->mustacheEngine->render($this->mustacheLoader->load( $template['container'] ));			
+
+		}else{
+
 			$attrU = array();
 			if(2 > (int) $template['number']) {
-
-					// its only one item
-					$attrU['vars'] = require(dirname(__FILE__) . '/admin/' . $template['name'] . '.php');
+					// its only one item (number isnt declared or number is 1)
+					$attrU['vars'] = require(dirname(__FILE__) . '/depot/' . $template['name'] . '/' . $template['name'] . '.php');
 
 			}else{
 				$arr = explode('-', $template['arrangement']);
+
 				if(count($arr) >= 1) {
 				// it is multi-rows
 					$offset = 0;
@@ -109,7 +136,7 @@ class stacks {
 									'numberposts' => -1,
 									'post_status' => null,
 									'post_parent' => $posts->posts[$colNo]->ID
-									) );
+								) );
 								$attributes['columns'] = "col-md-" . (string) (12 / $colsInThisRow);
 								$attributes['post'] = $posts->posts[$colNo];
 								$attributes['attachments'] = $attachments;
@@ -121,7 +148,7 @@ class stacks {
 										$attributes['cfield'][$key] = $value[0];
 									}
 								}
-								$attributes['vars'] = require(dirname(__FILE__) . '/admin/' . $template['repeater'] . '.php');
+								$attributes['vars'] = require(dirname(__FILE__) . '/depot/' . $template['repeater'] . '.php');
 
 								$s .= $this->mustacheEngine->render( $this->mustacheLoader->load( $template['repeater'] ), $attributes );
 								$attributes = array();
@@ -136,9 +163,8 @@ class stacks {
 				$attrU['title'] = $template['title'];
 				$attrU['content'] = $s;
 			}
-			$s = $this->mustacheEngine->render($this->mustacheLoader->load( $template['container'] ), $attrU);
-		}else{
-			$s = $this->mustacheEngine->render($this->mustacheLoader->load( $template['name'] ));			
+			if($template['container'])
+				$s = $this->mustacheEngine->render($this->mustacheLoader->load( $template['container'] ), $attrU);
 		}
 		return $s;
 	}

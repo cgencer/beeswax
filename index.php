@@ -1,5 +1,5 @@
 <?php 
-if($theTheme) $theTheme->loadPage();
+if($theTheme) $theTheme->loadPage('index');
 /*
 get_header();
 echo $theTheme->templateRender(true, array('name' => 'header', 'container'=> 'header'));

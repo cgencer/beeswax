@@ -8,6 +8,7 @@ class honeyguide_theme {
 	public $mustacheEngine;
 	public $mustacheLoader;
 	public $stacks;
+	public $templates;
 	private $themeFiles = array('theme_setup', 'cleanerwp', 'customizer', 'plugins', 'utils', 'sidebars', 'shortcodes', 'pagetypes', 'admin');
 	public $themeBlocks = array('header', 'services', 'banners', 'team', 'counter');
 
@@ -56,9 +57,10 @@ class honeyguide_theme {
 		'logger' 						=> new Mustache_Logger_StreamLogger('php://stderr'),
 		'strict_callables' 				=> true,
 		'pragmas' 						=> [Mustache_Engine::PRAGMA_FILTERS],
-		'partials_loader'				=> new Mustache_Loader_FilesystemLoader( dirname(__FILE__).'/stacks/front', array('extension' => 'tpl') )
+		'partials_loader'				=> new Mustache_Loader_ArrayLoader( $this->stacks->loadTemplatesIntoArray() )
 		));
-		$this->mustacheLoader = new Mustache_Loader_FilesystemLoader( dirname(__FILE__).'/stacks/front', array('extension' => 'tpl') );
+//		$this->mustacheLoader = new Mustache_Loader_FilesystemLoader( dirname(__FILE__).'/stacks/front', array('extension' => 'tpl') );
+		$this->mustacheLoader = new Mustache_Loader_ArrayLoader( $this->stacks->loadTemplatesIntoArray() );
 
 		add_theme_support( 'customize-inline-editing', array(
 			'blogname' => '.site-title',
@@ -68,9 +70,9 @@ class honeyguide_theme {
 
 //	if( /* !method_exists('honeyguide_theme', 'templateRender') && */ class_exists('WeDevs_Settings_API') && class_exists('Mustache_Engine') ) {
 
-	public function loadPage() {
+	public function loadPage($page) {
 
-		$this->stacks->loadPage();
+		$this->stacks->loadPage($page);
 
 	}
 

@@ -36,21 +36,12 @@ query:
   author_name: [0-9a-zA-Z]{3-}+
   author__in: array[0-9,\s]*
   author__not_in: array[0-9,\s]*
+  cat: [0-9,]*
+  category_name: [0-9a-zA-Z+,\s]{3-}+
+  category__and: array[0-9,\s]*
+  category__in: array[0-9,\s]*
+  category__not_in: array[0-9,\s]*
 
-    'author' => '1,2,3,'                      //(int) - use author id [use minus (-) to exclude authors by ID ex. 'author' => '-1,-2,-3,']
-    'author_name' => 'luetkemj',              //(string) - use 'user_nicename' (NOT name)
-    'author__in' => array( 2, 6 ),            //(array) - use author id (available with Version 3.7).
-    'author__not_in' => array( 2, 6 ),        //(array)' - use author id (available with Version 3.7).
-
-    'cat' => 5,//(int) - use category id.
-    'category_name' => 'staff, news',          //(string) - Display posts that have these categories, using category slug.
-    'category_name' => 'staff+news',           //(string) - Display posts that have "all" of these categories, using category slug.
-    'category__and' => array( 2, 6 ),         //(array) - use category id.
-    'category__in' => array( 2, 6 ),          //(array) - use category id.
-    'category__not_in' => array( 2, 6 ),      //(array) - use category id.
-     
-//////Tag Parameters - Show posts associated with certain tags.
-    //http://codex.wordpress.org/Class_Reference/WP_Query#Tag_Parameters
     'tag' => 'cooking',                       //(string) - use tag slug.
     'tag_id' => 5,                            //(int) - use tag id.
     'tag__and' => array( 2, 6),               //(array) - use tag ids.
