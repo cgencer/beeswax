@@ -11,8 +11,15 @@ include_once get_template_directory() . '/library/honeyguide/plugins/multiple_si
 require_once get_template_directory() . '/library/honeyguide/plugins/post-link-plus.php';
 require_once get_template_directory() . '/library/honeyguide/plugins/multiple-featured-images/multiple-featured-images.php';
 
-if(!class_exists('Mustache_Engine')) {
-	require_once( dirname(__FILE__).'/vendor/mustache-php/mustache.php' );
+//if(!class_exists('Mustache_Engine')) {
+//	require_once( dirname(__FILE__).'/vendor/mustache.php' );
+
+//	require_once(dirname(__FILE__).'/vendor/mustache-php/src/Mustache/Autoloader.php');
+//	Mustache_Autoloader::register();
+
+if(!class_exists('Phly\Mustache\Mustache')) {
+	include '/path/to/library/Phly/Mustache/_autoload.php';
+	use Phly\Mustache\Mustache;
 }
 if(!class_exists('Khromov\Mustache_Cache\Mustache_Cache_WordPressCache')) {
 	require_once( dirname(__FILE__).'/vendor/mustache-cache/src/Mustache_Cache_WordPressCache.php' );	

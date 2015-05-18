@@ -41,7 +41,10 @@ class stacks {
 	public function initRenderer() {
 
 		if(!$this->theParent) {
-			if(!class_exists('Mustache_Engine')) require_once( $this->vendorPath.'mustache-php/mustache.php' );
+			if(!class_exists('Mustache_Engine')) {
+				require_once($this->vendorPath.'vendor/mustache-php/src/Mustache/Autoloader.php');
+				Mustache_Autoloader::register();
+			}
 			if(!class_exists('Khromov\Mustache_Cache\Mustache_Cache_WordPressCache')) require_once( $this->vendorPath.'mustache-cache/src/Mustache_Cache_WordPressCache.php' );	
 		}else{
 			$this->mustacheEngine = $this->theParent->mustacheEngine;
@@ -93,11 +96,15 @@ class stacks {
 		}
 
 		$s = "";
+		$m = new Mustache_Engine;
 		if(!$isDynamic)
 		{
 
-			if($template['container'])
-				$s = $this->mustacheEngine->render($this->mustacheLoader->load( $template['container'] ));			
+			if($template['container']) {
+//				$s = $this->mustacheEngine->render($this->mustacheLoader->load( $this->templates[ $template['container'] ] ));			
+				$tpl = $m->loadTemplate( $this->templates[ $template['container'] ] );
+				$s = $tpl->render($attrU);
+			}
 
 		}else{
 
@@ -148,9 +155,15 @@ class stacks {
 										$attributes['cfield'][$key] = $value[0];
 									}
 								}
+// *     $m = new Mustache;
+// *     $tpl = $m->loadTemplate('{{ foo }}');
+// *     echo $tpl->render(array('foo' => 'bar')); // "bar"
 								$attributes['vars'] = require(dirname(__FILE__) . '/depot/' . $template['repeater'] . '.php');
 
-								$s .= $this->mustacheEngine->render( $this->mustacheLoader->load( $template['repeater'] ), $attributes );
+//								$s .= $this->mustacheEngine->render( $this->mustacheLoader->load( $this->templates[ $template['repeater'] ] ), $attributes );
+								$tpl = $m->loadTemplate( $this->templates[ $template['repeater'] ] );
+								$s .= $tpl->render($attrU);
+
 								$attributes = array();
 								$colNo++;
 							}
@@ -163,8 +176,11 @@ class stacks {
 				$attrU['title'] = $template['title'];
 				$attrU['content'] = $s;
 			}
-			if($template['container'])
-				$s = $this->mustacheEngine->render($this->mustacheLoader->load( $template['container'] ), $attrU);
+			if($template['container']) {
+//				$s = $this->mustacheEngine->render($this->mustacheLoader->load( $this->templates[ $template['container'] ] ), $attrU);
+				$tpl = $m->loadTemplate( $this->templates[ $template['container'] ] );
+				$s = $tpl->render($attrU);
+			}
 		}
 		return $s;
 	}

@@ -41,7 +41,7 @@ class honeyguide_theme {
 				include_once($filename);
 			}
 		}
-
+/*
 		$this->mustacheEngine = new Mustache_Engine(array(
 			'template_class_prefix' 		=> '__MyTemplates_',
 			'cache' 						=> dirname(dirname(dirname(__FILE__))).'/tmp/cache/mustache',
@@ -61,6 +61,10 @@ class honeyguide_theme {
 		));
 //		$this->mustacheLoader = new Mustache_Loader_FilesystemLoader( dirname(__FILE__).'/stacks/front', array('extension' => 'tpl') );
 		$this->mustacheLoader = new Mustache_Loader_ArrayLoader( $this->stacks->loadTemplatesIntoArray() );
+*/
+		$this->mustacheEngine = new Mustache();
+		$this->mustacheEngine->setSuffix('tpl');
+
 
 		add_theme_support( 'customize-inline-editing', array(
 			'blogname' => '.site-title',
