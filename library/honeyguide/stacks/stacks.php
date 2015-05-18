@@ -32,7 +32,7 @@ class stacks {
 			$this->templates[pathinfo(basename($filename),PATHINFO_FILENAME)] = $filename; 
 		}
 		foreach (glob(dirname(__FILE__).'/depot/*/*.tpl') as $filename) {
-			$this->templates[basename(dirname($filename)).'/'.pathinfo(basename($filename),PATHINFO_FILENAME)] = $filename; 
+			$this->templates[basename(dirname($filename)).'/'.pathinfo(basename($filename),PATHINFO_FILENAME)] = readfile($filename); 
 		}
 //echo('<pre>');var_dump($this->templates);echo('</pre>');
 		return $this->templates;
@@ -63,7 +63,7 @@ class stacks {
 
 				if(array_key_exists($pageName, $stackedPages)) {
 					foreach ($stackedPages[$pageName] as $val) {
-						echo($this->render($val).'<br>');	
+						($this->render($val).'<br>');
 					}
 				}
 
