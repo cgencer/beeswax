@@ -1,25 +1,13 @@
 <?php
-require(dirname(__FILE__).'/wpthemecustomizer-custom-controls/select/google-font-dropdown-custom-control.php');
-class GoogleFont_Dropdown_CustomControl extends Google_Font_Dropdown_Custom_Control {
+if ( ! class_exists( 'WP_Customize_Control' ) )
+    return NULL;
+
+require_once( dirname(__FILE__) . '/wpthemecustomizer-custom-controls/select/google-font-dropdown-custom-control.php' );
+
+class GoogleFont_Dropdown extends Google_Font_Dropdown_Custom_Control {
+
     public function get_fonts( $amount = 30 )
     {
-        $selectDirectory = get_stylesheet_directory().'/wordpress-theme-customizer-custom-controls/select/';
-        $selectDirectoryInc = get_stylesheet_directory().'/inc/wordpress-theme-customizer-custom-controls/select/';
-
-        $finalselectDirectory = '';
-
-        if(is_dir($selectDirectory))
-        {
-            $finalselectDirectory = $selectDirectory;
-        }
-
-        if(is_dir($selectDirectoryInc))
-        {
-            $finalselectDirectory = $selectDirectoryInc;
-        }
-
-        $fontFile = $finalselectDirectory . '/cache/google-web-fonts.txt';
-
         $fontFile = dirname(__FILE__) . '/wpthemecustomizer-custom-controls/select/cache/google-web-fonts.txt';
 
         //Total time the file will be cached in seconds, set to a week

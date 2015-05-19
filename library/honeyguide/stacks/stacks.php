@@ -5,6 +5,8 @@ class stacks {
 	public $settingsApi;
 	public $vendorPath;
 	public $templates;
+	public $dasModel;
+	private $stackedPages;
 
 	public $mustacheEngine;
 	public $mustacheLoader;
@@ -13,7 +15,13 @@ class stacks {
 		$this->theParent = $id;
     }
 
-	public function __construct( ) {
+	public function __construct() {
+
+		$this->dasModel = require_once(dirname(__FILE__) . '/model.php');
+		$obj = require_once(dirname(__FILE__) . '/customizer.php');
+		if( method_exists( $obj, 'saveRef') ) {
+			$obj->saveRef($this);
+		}
 
 		$this->vendorPath = dirname(dirname(__FILE__)) . '/vendor/';
 
@@ -23,20 +31,7 @@ class stacks {
 		$this->initRenderer();
 	}
 
-	public function loadTemplatesIntoArray() {
-		if(count($this->templates)>1) 
-			return $this->templates;
 
-		$this->templates = array();
-		foreach (glob(dirname(__FILE__).'/depot/*.tpl') as $filename) {
-			$this->templates[pathinfo(basename($filename),PATHINFO_FILENAME)] = $filename; 
-		}
-		foreach (glob(dirname(__FILE__).'/depot/*/*.tpl') as $filename) {
-			$this->templates[basename(dirname($filename)).'/'.pathinfo(basename($filename),PATHINFO_FILENAME)] = readfile($filename); 
-		}
-//echo('<pre>');var_dump($this->templates);echo('</pre>');
-		return $this->templates;
-	}
 
 	public function initRenderer() {
 
@@ -52,13 +47,11 @@ class stacks {
 				$stackedPages = get_option('stackedPages', '');
 			}
 		}else{
-				if ( ! class_exists( 'Spyc' ) ) require_once ($this->vendorsPath . '/spyc/Spyc.php');
-				$stackedPages = Spyc::YAMLLoad(dirname(__FILE__) . '/index.yaml');
 
 				get_header();
 
-				if(array_key_exists($pageName, $stackedPages)) {
-					foreach ($stackedPages[$pageName] as $val) {
+				if(array_key_exists($pageName, $this->dasModel->stackedPages)) {
+					foreach ($this->dasModel->stackedPages[$pageName] as $val) {
 						($this->render($val).'<br>');
 					}
 				}

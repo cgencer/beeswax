@@ -10,20 +10,25 @@ class honeyguide_theme {
 	public $mustacheLoader;
 	public $stacks;
 	public $templates;
-	private $themeFiles = array('theme_setup', 'cleanerwp', 'customizer', 'plugins', 'utils', 'sidebars', 'shortcodes', 'pagetypes', 'admin');
+	private $themeFiles = array('model', 'theme_setup', 'cleanerwp', 'plugins', 'utils', 'sidebars', 'shortcodes', 'pagetypes', 'admin');
 	public $themeBlocks = array('header', 'services', 'banners', 'team', 'counter');
+	public $plugins = array('stacks');
+	private $plugRef = array();
 
-	public function __construct( $theme_name, $version ) {
+	public function __construct( $theme_name, $version, $mustache ) {
 		$this->theme_name = $theme_name;
 		$this->version = $version;
 
 		$this->settingsApi = new Settings_API;
 		$this->settingsApi->saveRef($this);
 
-		require_once('stacks/stacks.php');
-		$this->stacks = new Stacks;
-		$this->stacks->saveRef($this);
+		foreach ($this->plugins as $file) {
+			require_once($file.'/'.$file.'.php');
+			$this->plugRef[$file] = new Stacks;
+			$this->plugRef[$file]->saveRef($this);
+		}
 
+		$this->mustacheEngine = $mustache;
 
 		// Add Translation Option
 		load_theme_textdomain( 'wpbootstrap', TEMPLATEPATH.'/languages' );
@@ -75,7 +80,8 @@ class honeyguide_theme {
 
 	public function loadPage($page) {
 
-		$this->stacks->loadPage($page);
+		if($this->plugRef['stacks'])
+			$this->plugRef['stacks']->loadPage($page);
 
 	}
 

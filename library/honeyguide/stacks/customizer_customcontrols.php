@@ -77,7 +77,7 @@ function ccc($wp_customize, $sp, $section, $custTypes) {
 					)));
 				case 'googlefonts':
 					$wp_customize->add_setting( 'stacks_'. $section . '_google_font_setting', array('default' => ''));
-					$wp_customize->add_control( new GoogleFont_Dropdown_CustomControl( $wp_customize, 'stacks_'. $section . '_google_font_setting', array(
+					$wp_customize->add_control( new GoogleFont_Dropdown( $wp_customize, 'stacks_'. $section . '_google_font_setting', array(
 						'label'   => 'Google Font Setting',
 						'section' => 'stacks_'. $section,
 						'settings'   => 'stacks_'. $section . '_google_font_setting',
