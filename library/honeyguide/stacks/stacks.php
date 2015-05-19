@@ -2,7 +2,6 @@
 class stacks {
 
 	protected $theParent;
-	public $settingsApi;
 	public $vendorPath;
 	public $templates;
 	public $dasModel;
@@ -11,13 +10,11 @@ class stacks {
 	public $mustacheEngine;
 	public $mustacheLoader;
 
-    public function saveRef($id) {
-		$this->theParent = $id;
-    }
-
 	public function __construct() {
 
 		$this->dasModel = require_once(dirname(__FILE__) . '/model.php');
+		$this->dasModel->saveRef($this);
+
 		$obj = require_once(dirname(__FILE__) . '/customizer.php');
 		if( method_exists( $obj, 'saveRef') ) {
 			$obj->saveRef($this);
@@ -31,7 +28,9 @@ class stacks {
 		$this->initRenderer();
 	}
 
-
+    public function saveRef($id) {
+		$this->theParent = $id;
+    }
 
 	public function initRenderer() {
 
@@ -52,7 +51,7 @@ class stacks {
 
 				if(array_key_exists($pageName, $this->dasModel->stackedPages)) {
 					foreach ($this->dasModel->stackedPages[$pageName] as $val) {
-						($this->render($val).'<br>');
+						echo($this->render($val).'<br>');
 					}
 				}
 

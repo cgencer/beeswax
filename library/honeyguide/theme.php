@@ -10,7 +10,7 @@ class honeyguide_theme {
 	public $mustacheLoader;
 	public $stacks;
 	public $templates;
-	private $themeFiles = array('model', 'theme_setup', 'cleanerwp', 'plugins', 'utils', 'sidebars', 'shortcodes', 'pagetypes', 'admin');
+	private $themeFiles = array('model', 'setup', 'cleanerwp', 'plugins', 'utils', 'sidebars', 'shortcodes', 'pagetypes', 'admin');
 	public $themeBlocks = array('header', 'services', 'banners', 'team', 'counter');
 	public $plugins = array('stacks');
 	private $plugRef = array();
@@ -19,8 +19,8 @@ class honeyguide_theme {
 		$this->theme_name = $theme_name;
 		$this->version = $version;
 
-		$this->settingsApi = new Settings_API;
-		$this->settingsApi->saveRef($this);
+		$this->dasModel = require_once(dirname(__FILE__) . '/model.php');
+		$this->dasModel->saveRef($this);
 
 		foreach ($this->plugins as $file) {
 			require_once($file.'/'.$file.'.php');
@@ -48,27 +48,6 @@ class honeyguide_theme {
 				include_once($filename);
 			}
 		}
-/*
-		$this->mustacheEngine = new Mustache_Engine(array(
-			'template_class_prefix' 		=> '__MyTemplates_',
-			'cache' 						=> dirname(dirname(dirname(__FILE__))).'/tmp/cache/mustache',
-			'cache_file_mode' 				=> 0666, // Please, configure your umask instead of doing this :)
-		'cache_lambda_templates' 		=> true,
-		'helpers' 						=> array('i18n' => function($text) {
-				// do something translatey here...
-		}),
-		'escape' 						=> function($value) {
-			return htmlspecialchars($value, ENT_COMPAT, 'UTF-8');
-		},
-		'charset' 						=> 'UTF-8',
-		'logger' 						=> new Mustache_Logger_StreamLogger('php://stderr'),
-		'strict_callables' 				=> true,
-		'pragmas' 						=> [Mustache_Engine::PRAGMA_FILTERS],
-		'partials_loader'				=> new Mustache_Loader_ArrayLoader( $this->stacks->loadTemplatesIntoArray() )
-		));
-//		$this->mustacheLoader = new Mustache_Loader_FilesystemLoader( dirname(__FILE__).'/stacks/front', array('extension' => 'tpl') );
-		$this->mustacheLoader = new Mustache_Loader_ArrayLoader( $this->stacks->loadTemplatesIntoArray() );
-*/
 
 		add_theme_support( 'customize-inline-editing', array(
 			'blogname' => '.site-title',

@@ -36,8 +36,8 @@ class honeyguide_admin {
 ?>
 		<div class="wrap">
 			<form name="honeyguide_options_form_settings_api" method="post" action="options.php">
-<?php	$this->theParent->settingsApi->show_navigation();
-		$this->theParent->settingsApi->show_forms();
+<?php	$this->theParent->dasModel->settingsApi->show_navigation();
+		$this->theParent->dasModel->settingsApi->show_forms();
 
 		settings_fields('honeyguide_Settings');
 		do_settings_sections( 'honeyguide_settings_section' );
@@ -62,9 +62,9 @@ class honeyguide_admin {
 			$partial = json_decode(file_get_contents(dirname(dirname(dirname(__FILE__))).'/views/admin/' . $section['id'] . '.json'), true);
 			$fields[ $section['id'] ] = $partial;
 		}
-		$this->theParent->settingsApi->set_sections( $sections );
-		$this->theParent->settingsApi->set_fields( $fields );
-		$this->theParent->settingsApi->admin_init();
+		$this->theParent->dasModel->settingsApi->set_sections( $sections );
+		$this->theParent->dasModel->settingsApi->set_fields( $fields );
+		$this->theParent->dasModel->settingsApi->admin_init();
 	}
 
 	public function honeyguide_AdminStyles() {

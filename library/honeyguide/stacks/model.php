@@ -3,6 +3,7 @@ return new stacks_model();
 
 class stacks_model {
 
+	protected $theParent;
 	public $mePath;
 	public $stacksPath;
 	public $stacksUrl;
@@ -28,6 +29,10 @@ class stacks_model {
 		$this->stackedPages = Spyc::YAMLLoad(dirname(__FILE__) . '/index.yaml');
 
 		$this->panelSet = array();
+	}
+
+	public function saveRef($id) {
+		$this->theParent = $id;
 	}
 
 	public function loadStackPanel($v) {

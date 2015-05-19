@@ -22,9 +22,8 @@ require_once get_template_directory() . '/library/honeyguide/plugins/multiple-fe
 //if(!class_exists('Khromov\Mustache_Cache\Mustache_Cache_WordPressCache')) {
 //	require_once( dirname(__FILE__).'/vendor/mustache-cache/src/Mustache_Cache_WordPressCache.php' );	
 //}
-if(!class_exists('Settings_API')) {
-	require_once( dirname(__FILE__).'/vendor/settings-api.php' );
-}
+
+require_once( dirname(__FILE__).'/vendor/settings-api.php' );
 require_once( dirname(__FILE__) . '/theme.php' );
 
 require_once(dirname(__FILE__).'/vendor/phyl-mustache/library/Phly/Mustache/_autoload.php');
