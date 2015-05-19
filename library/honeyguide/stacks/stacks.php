@@ -40,15 +40,8 @@ class stacks {
 
 	public function initRenderer() {
 
-		if(!$this->theParent) {
-			if(!class_exists('Mustache_Engine')) {
-				require_once($this->vendorPath.'vendor/mustache-php/src/Mustache/Autoloader.php');
-				Mustache_Autoloader::register();
-			}
-			if(!class_exists('Khromov\Mustache_Cache\Mustache_Cache_WordPressCache')) require_once( $this->vendorPath.'mustache-cache/src/Mustache_Cache_WordPressCache.php' );	
-		}else{
+		if($this->theParent->mustacheEngine) {
 			$this->mustacheEngine = $this->theParent->mustacheEngine;
-			$this->mustacheLoader = $this->theParent->mustacheLoader;
 		}
 	}
 

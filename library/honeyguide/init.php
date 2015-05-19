@@ -17,15 +17,19 @@ require_once get_template_directory() . '/library/honeyguide/plugins/multiple-fe
 //	require_once(dirname(__FILE__).'/vendor/mustache-php/src/Mustache/Autoloader.php');
 //	Mustache_Autoloader::register();
 
-if(!class_exists('Phly\Mustache\Mustache')) {
-	include '/path/to/library/Phly/Mustache/_autoload.php';
-	use Phly\Mustache\Mustache;
-}
-if(!class_exists('Khromov\Mustache_Cache\Mustache_Cache_WordPressCache')) {
-	require_once( dirname(__FILE__).'/vendor/mustache-cache/src/Mustache_Cache_WordPressCache.php' );	
-}
+//Users/obsesif/worx/honeyguide/bsbeeswax/library/honeyguide/vendor/phly-mustache/library/Phyl/Mustache/_autoload.php
+
+//if(!class_exists('Khromov\Mustache_Cache\Mustache_Cache_WordPressCache')) {
+//	require_once( dirname(__FILE__).'/vendor/mustache-cache/src/Mustache_Cache_WordPressCache.php' );	
+//}
 if(!class_exists('Settings_API')) {
 	require_once( dirname(__FILE__).'/vendor/settings-api.php' );
 }
 require_once( dirname(__FILE__) . '/theme.php' );
-$theTheme = new honeyguide_theme(THEME_NAME, THEME_VERSION);
+
+require_once(dirname(__FILE__).'/vendor/phyl-mustache/library/Phly/Mustache/_autoload.php');
+use Phly\Mustache\Mustache;
+$m = new Mustache();
+$m->setSuffix('tpl');
+
+$theTheme = new honeyguide_theme(THEME_NAME, THEME_VERSION, $m);

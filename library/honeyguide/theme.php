@@ -1,4 +1,5 @@
 <?php
+
 class honeyguide_theme {
 
 	public $theme_name;
@@ -22,6 +23,7 @@ class honeyguide_theme {
 		require_once('stacks/stacks.php');
 		$this->stacks = new Stacks;
 		$this->stacks->saveRef($this);
+
 
 		// Add Translation Option
 		load_theme_textdomain( 'wpbootstrap', TEMPLATEPATH.'/languages' );
@@ -62,9 +64,6 @@ class honeyguide_theme {
 //		$this->mustacheLoader = new Mustache_Loader_FilesystemLoader( dirname(__FILE__).'/stacks/front', array('extension' => 'tpl') );
 		$this->mustacheLoader = new Mustache_Loader_ArrayLoader( $this->stacks->loadTemplatesIntoArray() );
 */
-		$this->mustacheEngine = new Mustache();
-		$this->mustacheEngine->setSuffix('tpl');
-
 
 		add_theme_support( 'customize-inline-editing', array(
 			'blogname' => '.site-title',
