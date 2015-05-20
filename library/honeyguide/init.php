@@ -32,3 +32,5 @@ $m = new Mustache();
 $m->setSuffix('tpl');
 
 $theTheme = new honeyguide_theme(THEME_NAME, THEME_VERSION, $m);
+
+include_once( dirname( __FILE__ ) . '/plugins/kirki/kirki.php' );

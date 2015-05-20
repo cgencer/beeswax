@@ -31,3 +31,6 @@
 [submodule "library/honeyguide/vendor/phyl-mustache"]
 	path = library/honeyguide/vendor/phyl-mustache
 	url = https://github.com/phly/phly_mustache.git
+[submodule "library/honeyguide/plugins/kirki"]
+	path = library/honeyguide/plugins/kirki
+	url = https://github.com/reduxframework/kirki.git

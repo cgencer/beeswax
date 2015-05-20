@@ -1,8 +1,9 @@
 <?php
-return new stacks_model();
+return stacks_model::get_instance();
 
 class stacks_model {
 
+	private static $instance;
 	protected $theParent;
 	public $mePath;
 	public $stacksPath;
@@ -15,7 +16,18 @@ class stacks_model {
 
 	public $panelSet;
 
-	public function __construct() {
+    public static function get_instance() {
+        if ( ! self::$instance ) {
+            self::$instance = new self();
+            self::$instance->init();
+        }
+        return self::$instance;
+    }
+
+	public function __construct() {}
+
+	public function init() {
+		global $wp_customize;
 
 		$this->mePath = dirname(dirname(dirname(dirname(__FILE__))));
 		$this->vendorsPath = dirname(dirname(__FILE__)) . '/vendor/';
