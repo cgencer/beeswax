@@ -59,8 +59,8 @@ function kirki_demo_configuration_sample() {
         'logo_image'   => get_template_directory_uri() . '/images/hg.png',
         'description'  => __( 'The theme description.', 'kirki' ),
         'url_path'     => $url,
-        'color_accent' => '#455a64',
-        'color_back'   => '#ffffff',
+        'color_accent' => '#A7DAFD',  // '#74BDF7',
+        'color_back'   => '#FFFFFF',   // '#A7DAFD',
         'textdomain'   => 'kirki',
         'i18n'         => $strings,
     );

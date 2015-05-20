@@ -9,7 +9,6 @@ class honeyguide_theme {
 	public $mustacheEngine;
 	public $mustacheLoader;
 	public $stacks;
-	public $templates;
 	private $themeFiles = array('model', 'setup', 'cleanerwp', 'plugins', 'utils', 'sidebars', 'shortcodes', 'pagetypes', 'admin');
 	public $themeBlocks = array('header', 'services', 'banners', 'team', 'counter');
 	public $plugins = array('stacks');
@@ -21,6 +20,7 @@ class honeyguide_theme {
 
 		$this->dasModel = require_once(dirname(__FILE__) . '/model.php');
 		$this->dasModel->saveRef($this);
+
 
 		foreach ($this->plugins as $file) {
 			require_once($file.'/'.$file.'.php');

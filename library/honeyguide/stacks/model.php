@@ -15,6 +15,7 @@ class stacks_model {
 	public $stackedPages;
 
 	public $panelSet;
+	public $templates;
 
     public static function get_instance() {
         if ( ! self::$instance ) {
@@ -41,6 +42,8 @@ class stacks_model {
 		$this->stackedPages = Spyc::YAMLLoad(dirname(__FILE__) . '/index.yaml');
 
 		$this->panelSet = array();
+
+		$this->loadTemplatesIntoArray();
 	}
 
 	public function saveRef($id) {
@@ -100,13 +103,12 @@ class stacks_model {
 			return $this->templates;
 
 		$this->templates = array();
-		foreach (glob(dirname(__FILE__).'/depot/*.tpl') as $filename) {
+		foreach (glob($this->stacksPath . '/depot/*.tpl') as $filename) {
 			$this->templates[pathinfo(basename($filename),PATHINFO_FILENAME)] = $filename; 
 		}
-		foreach (glob(dirname(__FILE__).'/depot/*/*.tpl') as $filename) {
+		foreach (glob($this->stacksPath . '/depot/*/*.tpl') as $filename) {
 			$this->templates[basename(dirname($filename)).'/'.pathinfo(basename($filename),PATHINFO_FILENAME)] = readfile($filename); 
 		}
 //echo('<pre>');var_dump($this->templates);echo('</pre>');
-		return $this->templates;
 	}
 }

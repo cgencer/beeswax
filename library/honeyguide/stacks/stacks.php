@@ -86,9 +86,7 @@ class stacks {
 		{
 
 			if($template['container']) {
-//				$s = $this->mustacheEngine->render($this->mustacheLoader->load( $this->templates[ $template['container'] ] ));			
-				$tpl = $m->loadTemplate( $this->templates[ $template['container'] ] );
-				$s = $tpl->render($attrU);
+				$s = $this->theParent->mustacheEngine->render($this->templates[ $template['container'] ], $attrU);
 			}
 
 		}else{
@@ -140,14 +138,9 @@ class stacks {
 										$attributes['cfield'][$key] = $value[0];
 									}
 								}
-// *     $m = new Mustache;
-// *     $tpl = $m->loadTemplate('{{ foo }}');
-// *     echo $tpl->render(array('foo' => 'bar')); // "bar"
 								$attributes['vars'] = require(dirname(__FILE__) . '/depot/' . $template['repeater'] . '.php');
 
-//								$s .= $this->mustacheEngine->render( $this->mustacheLoader->load( $this->templates[ $template['repeater'] ] ), $attributes );
-								$tpl = $m->loadTemplate( $this->templates[ $template['repeater'] ] );
-								$s .= $tpl->render($attrU);
+								$s .= $this->theParent->mustacheEngine->render($this->templates[ $template['repeater'] ], $attributes);
 
 								$attributes = array();
 								$colNo++;
@@ -162,9 +155,7 @@ class stacks {
 				$attrU['content'] = $s;
 			}
 			if($template['container']) {
-//				$s = $this->mustacheEngine->render($this->mustacheLoader->load( $this->templates[ $template['container'] ] ), $attrU);
-				$tpl = $m->loadTemplate( $this->templates[ $template['container'] ] );
-				$s = $tpl->render($attrU);
+				$s = $this->theParent->mustacheEngine->render($this->templates[ $template['container'] ], $attrU);
 			}
 		}
 		return $s;

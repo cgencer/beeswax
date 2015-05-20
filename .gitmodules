@@ -34,3 +34,6 @@
 [submodule "library/honeyguide/plugins/kirki"]
 	path = library/honeyguide/plugins/kirki
 	url = https://github.com/reduxframework/kirki.git
+[submodule "library/honeyguide/plugins/menu-customizer"]
+	path = library/honeyguide/plugins/menu-customizer
+	url = https://github.com/voldemortensen/menu-customizer.git
