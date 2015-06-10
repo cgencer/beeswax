@@ -7,7 +7,6 @@ class honeyguide_theme {
 	public $settingsApi;
 	public $admin;
 	public $mustacheEngine;
-	public $mustacheLoader;
 	public $stacks;
 	private $themeFiles = array('model', 'setup', 'cleanerwp', 'plugins', 'utils', 'sidebars', 'shortcodes', 'pagetypes', 'admin');
 	public $themeBlocks = array('header', 'services', 'banners', 'team', 'counter');
@@ -29,11 +28,12 @@ class honeyguide_theme {
 		}
 
 		$this->mustacheEngine = $mustache;
+		$this->mustacheEngine->setSuffix('tpl');
 
 		// Add Translation Option
 		load_theme_textdomain( 'wpbootstrap', TEMPLATEPATH.'/languages' );
 		$locale = get_locale();
-		$locale_file = TEMPLATEPATH . "/languages/$locale.php";
+		$locale_file = TEMPLATEPATH . '/languages/$locale.php';
 		if ( is_readable( $locale_file ) ) require_once( $locale_file );
 		foreach ($this->themeFiles as $file) {
 			if ( is_readable( dirname(__FILE__) . '/' . $file . '.php' ) ) {
@@ -59,8 +59,7 @@ class honeyguide_theme {
 
 	public function loadPage($page) {
 
-		if($this->plugRef['stacks'])
-			$this->plugRef['stacks']->loadPage($page);
+		if($this->plugRef['stacks']) $this->plugRef['stacks']->loadPage($page);
 
 	}
 

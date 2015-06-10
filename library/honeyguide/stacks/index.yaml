@@ -2,30 +2,52 @@
   index: 
     - 
       isDynamic: true
+      stack: "header"
+      object: "header.php"
+      parameters:
       template: 
         name: "header"
-        container: "header/header"
+        container: "header"
     - 
       isDynamic: true
+      stack: "services"
+      object: "item.php"
+      parameters:
+        title: "Our Services"
       template: 
         container: "group"
-        repeater: "services/item"
+        repeater: "item"
         number: 3
         arrangement: "3"
         name: "services"
-        title: "Our Services"
       query: 
         post_type: "services"
     - 
       isDynamic: false
+      parameters:
+        type: "full"
+      stack: banners
+      object: ""
       template: 
         name: "banners"
-        container: "banners/banners"
+        container: "conditional"
+    - 
+      isDynamic: false
+      parameters:
+        type: "half"
+      stack: banners
+      object: ""
+      template: 
+        name: "banners"
+        container: "conditional"
     - 
       isDynamic: true
+      stack: "teammembers"
+      object: "item.php"
+      parameters:
       template: 
         container: "group"
-        repeater: "teammembers/item"
+        repeater: "item"
         number: 5
         arrangement: "2-3"
         name: "teammembers"
@@ -34,13 +56,19 @@
         post_type: "teammembers"
     - 
       isDynamic: false
+      stack: counter
+      object: ""
+      parameters:
       template: 
         name: "counter"
     - 
       isDynamic: true
+      stack: "content"
+      object: "item.php"
+      parameters:
       template: 
         container: "group"
-        repeater: "content/item"
+        repeater: "item"
         number: 2
         arrangement: "1-1"
         name: "posts"
@@ -51,6 +79,9 @@
   otherpage: 
     - 
       isDynamic: true
+      stack: "header"
+      object: "header.php"
+      parameters:
       template: 
         name: "header"
-        container: "header/header"
+        container: "header"

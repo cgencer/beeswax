@@ -5,13 +5,13 @@
             <h2 class="lead text-center text-primary mb-none">What do we do?</h2>
           </div>
         </div>
-        {{> showcase_imgr}}
+        {{> item-r}}
         <div class="row">
           <div class="col-xs-12">
             <hr />
           </div>
         </div>
-        {{> showcase_imgl}}
+        {{> item-l}}
         <div class="row">
           <div class="col-xs-12">
             <hr />

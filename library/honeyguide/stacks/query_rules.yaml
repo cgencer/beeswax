@@ -1,3 +1,4 @@
+//http://www.billerickson.net/code/wp_query-arguments/
 query:
   post_type: [post, page, any]+
   post_status: [publish, pending, private, future, trash, any]+

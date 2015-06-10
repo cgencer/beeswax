@@ -76,7 +76,7 @@ class stacks_model {
 				$files = glob($this->stacksPath . 'depot/' . $names . '/*.tpl');
 				foreach ($files as $file) {
 					$n = array();
-					preg_match('/\{{2}\!isa+:([COLLECTION|ITEM]+)\}{2}/', file($file)[0], $n);
+					preg_match('/\{{2}\!isa+:([CONDITIONAL|COLLECTION|ITEM]+)\}{2}/', file($file)[0], $n);
 					if( is_string($n[1]) )
 						if('COLLECTION' == $n[1] || 'ITEM' == $n[1])
 //							array_push($dirs[$n[1].'S'], $names . '/' . pathinfo($file, PATHINFO_FILENAME));
@@ -103,12 +103,14 @@ class stacks_model {
 			return $this->templates;
 
 		$this->templates = array();
-		foreach (glob($this->stacksPath . '/depot/*.tpl') as $filename) {
-			$this->templates[pathinfo(basename($filename),PATHINFO_FILENAME)] = $filename; 
+		foreach (glob($this->stacksPath . 'depot/*.tpl') as $filename) {
+//			echo($filename.'<br>');
+			$this->templates[ pathinfo(basename($filename),PATHINFO_FILENAME) ] = file_get_contents($filename); 
 		}
-		foreach (glob($this->stacksPath . '/depot/*/*.tpl') as $filename) {
-			$this->templates[basename(dirname($filename)).'/'.pathinfo(basename($filename),PATHINFO_FILENAME)] = readfile($filename); 
+		foreach (glob($this->stacksPath . 'depot/*/*.tpl') as $filename) {
+//			echo($filename.'<br>');
+			$this->templates[ basename(dirname($filename)) . '/' . pathinfo(basename($filename),PATHINFO_FILENAME) ] = file_get_contents($filename); 
 		}
-//echo('<pre>');var_dump($this->templates);echo('</pre>');
+echo('<pre>');print_r(array_keys($this->templates));echo('</pre>');
 	}
 }

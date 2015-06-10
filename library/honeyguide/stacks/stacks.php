@@ -3,6 +3,7 @@ class stacks {
 
 	protected $theParent;
 	public $vendorPath;
+	private $depotPath;
 	public $templates;
 	public $dasModel;
 	private $stackedPages;
@@ -19,6 +20,7 @@ class stacks {
 		if( method_exists( $obj, 'saveRef') ) {
 			$obj->saveRef($this);
 		}
+		$this->depotPath = dirname(__FILE__) . '/depot/';
 
 		$this->vendorPath = dirname(dirname(__FILE__)) . '/vendor/';
 
@@ -50,8 +52,8 @@ class stacks {
 				get_header();
 
 				if(array_key_exists($pageName, $this->dasModel->stackedPages)) {
-					foreach ($this->dasModel->stackedPages[$pageName] as $val) {
-						echo($this->render($val).'<br>');
+					foreach ($this->dasModel->stackedPages[$pageName] as $stack) {
+						echo($this->render($stack).'<br>');
 					}
 				}
 
@@ -68,6 +70,7 @@ class stacks {
 		if($obj) {
 			$isDynamic = $obj['isDynamic'];
 			$template = $obj['template'];
+			$parameters = $obj['parameters'];
 			$attributes = $obj['attributes'] ? $obj['attributes'] : array();
 			$query = $obj['query'];
 		}
@@ -81,22 +84,23 @@ class stacks {
 		}
 
 		$s = "";
-		$m = new Mustache_Engine;
+//echo('<pre>');print_r($this->dasModel->templates);echo('</pre>');
+
 		if(!$isDynamic)
 		{
-
 			if($template['container']) {
-				$s = $this->theParent->mustacheEngine->render($this->templates[ $template['container'] ], $attrU);
+				$s = $this->theParent->mustacheEngine->render( $this->dasModel->templates[ $obj['stack'] . '/' . $template['container'] ], null );
 			}
 
 		}else{
 
 			$attrU = array();
-			if(2 > (int) $template['number']) {
-					// its only one item (number isnt declared or number is 1)
-					$attrU['vars'] = require(dirname(__FILE__) . '/depot/' . $template['name'] . '/' . $template['name'] . '.php');
+			if( 1 < (int) $template['number'] ) {				// its only one item (number isnt declared or number is 1)
+
+				$view = require($this->depotPath . $template['object']);
 
 			}else{
+
 				$arr = explode('-', $template['arrangement']);
 
 				if(count($arr) >= 1) {
@@ -105,7 +109,7 @@ class stacks {
 					$colsInThisRow = 0;
 					$s = "";
 
-				// loop trough rows
+					// loop trough rows
 					for ($rowNo = 0; $rowNo < count($arr); $rowNo++) { 
 
 					// loop trough cols
@@ -138,10 +142,26 @@ class stacks {
 										$attributes['cfield'][$key] = $value[0];
 									}
 								}
-								$attributes['vars'] = require(dirname(__FILE__) . '/depot/' . $template['repeater'] . '.php');
 
-								$s .= $this->theParent->mustacheEngine->render($this->templates[ $template['repeater'] ], $attributes);
+								// TODO: the view for each repeater has to be declared (maybe a child object?)
 
+								$view = require($this->depotPath . $template['object']);
+
+								// parameters
+								switch ($parameters['type']) {
+									case 'half':
+										$view->isFull = false;
+										$view->isHalf = true;
+										break;
+									case 'full':
+									default:
+										$view->isFull = true;
+										$view->isHalf = false;
+										break;
+								}
+
+  								$s .= $this->theParent->mustacheEngine->render( $this->dasModel->templates[ $obj['stack'] . '/' . $template['repeater'] ], $view );
+  
 								$attributes = array();
 								$colNo++;
 							}
@@ -154,8 +174,11 @@ class stacks {
 				$attrU['title'] = $template['title'];
 				$attrU['content'] = $s;
 			}
+
+			// TODO: the view is missing here somehow
+
 			if($template['container']) {
-				$s = $this->theParent->mustacheEngine->render($this->templates[ $template['container'] ], $attrU);
+				$s = $this->theParent->mustacheEngine->render( $this->dasModel->templates[ $obj['stack'] . '/' . $template['container'] ], $view );
 			}
 		}
 		return $s;
