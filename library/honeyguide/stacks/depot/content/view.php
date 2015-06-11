@@ -19,8 +19,7 @@ class contentView
 		'global'		=> array(						// parameters specific to all items, this array contains only one item
 			array(
 				'param'		=> array(
-					'number' 		=> 3,
-					'arrangement' 	=> array(1,1,1)
+					'arrangement' 	=> array(1, 1, 1)
 				),
 				'strings' 	=> array(					// strings specific to all items (e.g. the container)
 				),
@@ -33,6 +32,8 @@ class contentView
 
 
 		'query'			=> array(
+			'post_type' 		=> 'posts',
+			'category_name'		=> 'detail'
 		)
 	);
 }

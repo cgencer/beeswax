@@ -4,60 +4,48 @@
 # 
   index: 
     - 
-      isDynamic: true
+      isDynamic: false
       hasSubs: false
-      stack: "header"
-      template: 
+      stackName: "header"
+      templateFiles: 
         container: "header"
     - 
       isDynamic: true
       hasSubs: true
-      stack: "services"
-      template: 
-        container: "header"
+      stackName: "services"
+      templateFiles: 
+        container: "layout"
         repeater: "item"
     - 
       isDynamic: false
       hasSubs: false
-      stack: "banner_full"
-      template: 
+      stackName: "banner_full"
+      templateFiles: 
         container: "layout"
     - 
       isDynamic: false
       hasSubs: false
-      stack: "banner_half"
-      template: 
-        container: "layout"
-    - 
-      isDynamic: true
-      hasSubs: true
-      stack: "teammembers"
-      template: 
-        container: "group"
-        repeater: "item"
-        title: "Our Team"
-    - 
-      isDynamic: false
-      hasSubs: false
-      stack: "counter"
-      template:   
+      stackName: "banner_half"
+      templateFiles: 
         container: "layout"
     - 
       isDynamic: true
       hasSubs: true
-      stack: "content"
-      template: 
+      stackName: "teammembers"
+      templateFiles: 
         container: "group"
         repeater: "item"
-        title: false
-      query: 
-        post_type: "posts"
-        category_name: "detail"
+    - 
+      isDynamic: false
+      hasSubs: false
+      stackName: "counter"
+      templateFiles:   
+        container: "layout"
   otherpage: 
     - 
-      isDynamic: true
+      isDynamic: false
       hasSubs: false
-      stack: "header"
-      template: 
+      stackName: "header"
+      templateFiles: 
         container: "header"
 ...

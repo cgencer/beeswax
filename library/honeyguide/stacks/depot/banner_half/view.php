@@ -20,7 +20,6 @@ class bannerhalfView
 			array(
 				'param'		=> array(
 					'type' 			=> 'half',
-					'number' 		=> 1,
 					'arrangement' 	=> array(1)
 				),
 				'strings' 	=> array(					// strings specific to all items (e.g. the container)

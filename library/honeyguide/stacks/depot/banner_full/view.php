@@ -19,9 +19,7 @@ class bannerfullView
 		'global'		=> array(						// parameters specific to all items, this array contains only one item
 			array(
 				'param'		=> array(
-					'type' 			=> 'full',
-					'number' 		=> 1,
-					'arrangement' 	=> array(1)
+					'type' 			=> 'full'
 				),
 				'strings' 	=> array(					// strings specific to all items (e.g. the container)
 				),

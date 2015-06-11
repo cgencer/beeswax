@@ -20,8 +20,6 @@ class servicesView
 			array(
 				'param'		=> array(
 					'type' 			=> 'full',
-					'number' 		=> 1,
-					'arrangement' 	=> array(1)
 				),
 				'strings' 	=> array(					// strings specific to all items (e.g. the container)
 					'title' 		=> "Our Services",

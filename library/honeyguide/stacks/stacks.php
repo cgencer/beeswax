@@ -53,7 +53,7 @@ class stacks {
 
 				if(array_key_exists($pageName, $this->dasModel->stackedPages)) {
 					foreach ($this->dasModel->stackedPages[$pageName] as $stack) {
-						echo($this->render($stack).'<br>');
+						echo($stack['stackName'].'<br><pre>'.$this->render($stack).'</pre><br>');
 					}
 				}
 
@@ -68,7 +68,7 @@ class stacks {
 		if(!$mustacheEngine) $this->initRenderer();
 
 		if($obj) {
-			$template = $obj['template'];
+			$tempFiles = $obj['templateFiles'];
 			$attributes = $obj['attributes'] ? $obj['attributes'] : array();
 			$query = $obj['query'];
 		}
@@ -84,26 +84,30 @@ class stacks {
 		$s = "";
 //echo('<pre>');print_r($this->dasModel->templates);echo('</pre>');
 
-		$view = $obj['view'] ? require($this->depotPath . $obj['stack'] . '/' . $obj['view']) : new stdClass();
+		$view = $obj['view'] ? require($this->depotPath . $obj['stackName'] . '/view.php') : new stdClass();
 
 
-
-echo('::::::::: stack:'.$obj['stack'].'<br>'.
-	'isDynamic:'.$isDynamic.'<br>'.
-	'template:<pre>');print_r($template);echo('</pre>');
-
+/*
+echo('::::::::: stackName:'.$obj['stackName'].'<br>'.
+	'isDynamic:'.$obj['isDynamic'].'<br>'.
+	'hasSubs:'.$obj['hasSubs'].'<br>'.
+	'templates:<pre>');print_r($tempFiles);echo('</pre>');
+*/
 		if(!$obj['isDynamic'])
 		{
-			if($template['container']) {
-
-				$s = $this->theParent->mustacheEngine->render( $this->dasModel->templates[ $obj['stack'] . '/' . $template['container'] ], $view );
+			if($tempFiles['container']) {
+echo('Xrendering '.$obj['stackName'] . '/' . $tempFiles['container'].'<br>');
+				$s = $this->theParent->mustacheEngine->render( $this->dasModel->templates[ $obj['stackName'] . '/' . $tempFiles['container'] ], $view );
 			}
 
 		}else{
 
-			if( (int) $view->items[0]->param > 1 && $template['repeater'] ) {				// its more than one item and uses a repeater
+			if( $obj['hasSubs'] && $tempFiles['repeater'] ) {				// its more than one item and uses a repeater
 
-				$arr = $template['arrangement'] ? explode('-', $template['arrangement']) : array('1');
+echo($obj['hasSubs'] . ' <---> ' . $tempFiles['repeater'] . '<br>');
+
+				$arr = $view->global[0]->param->arrangement ? $view->global[0]->param->arrangement : array(1);			// ensure that arrangement attribute is set
+				$tot = array_sum($arr);
 
 				if(count($arr) > 0) {
 				// it is multi-rows
@@ -145,9 +149,11 @@ echo('::::::::: stack:'.$obj['stack'].'<br>'.
 									}
 								}
 
-//								$subView = new SubView( $this->dasModel->templates[ $obj['stack'] . '/' . $template['repeater'] ], $view);
+//								$subView = new SubView( $this->dasModel->templates[ $obj['stackName'] . '/' . $template['repeater'] ], $view);
+//die($obj['stackName'] . '/' . $tempFiles['repeater']);
+echo('buffering '.$obj['stackName'] . '/' . $tempFiles['repeater'].'<br>');
 
-  								$s .= $this->theParent->mustacheEngine->render( $this->dasModel->templates[ $obj['stack'] . '/' . $template['repeater'] ], $view );
+  								$s .= $this->theParent->mustacheEngine->render( $this->dasModel->templates[ $obj['stackName'] . '/' . $tempFiles['repeater'] ], $view );
   
 								$attributes = array();
 								$colNo++;
@@ -157,34 +163,17 @@ echo('::::::::: stack:'.$obj['stack'].'<br>'.
 						$offset += $colsInThisRow;
 						wp_reset_query();
 					}
-				} else {
-					if($template['title']) $view->title = $template['title'];
-				}
+				} 
 
+			} else {
+				echo('no subs<br>');
+				if($templates['title']) $view->title = $templates['title'];
+				$view->content = $s;
 			}
 
-			//    BANNERS stack'i hem coupled (conditional) hem de elle index.yaml'de 2 kere tanımlanıyor. çifte tanımlama!
-
-
-			// proccess parameters
-/*
-			if($parameters['type']) {
-				switch ($parameters['type']) {
-					case 'half':
-						$view->isFull = false;
-						$view->isHalf = true;
-						break;
-					case 'full':
-					default:
-						$view->isFull = true;
-						$view->isHalf = false;
-						break;
-				}
-			}
-*/
-
-			if($template['container']) {
-				$s = $this->theParent->mustacheEngine->render( $this->dasModel->templates[ $obj['stack'] . '/' . $template['container'] ], $view );
+			if($tempFiles['container']) {
+echo('Yrendering '.$obj['stackName'] . '/' . $tempFiles['container'].'<br>');
+				$s = $this->theParent->mustacheEngine->render( $this->dasModel->templates[ $obj['stackName'] . '/' . $tempFiles['container'] ], $view );
 			}
 		}
 		return $s;

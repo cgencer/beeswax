@@ -19,8 +19,6 @@ class counterView
 		'global'		=> array(						// parameters specific to all items, this array contains only one item
 			array(
 				'param'		=> array(
-					'number' 		=> 1,
-					'arrangement' 	=> array(1)
 				),
 				'strings' 	=> array(					// strings specific to all items (e.g. the container)
 					'title' 		=> "Our Team",

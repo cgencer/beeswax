@@ -19,8 +19,6 @@ class teammembersView
 		'global'		=> array(						// parameters specific to all items, this array contains only one item
 			array(
 				'param'		=> array(
-					'type' 			=> 'full',
-					'number' 		=> 5,
 					'arrangement' 	=> array(2, 3)
 				),
 				'strings' 	=> array(					// strings specific to all items (e.g. the container)
