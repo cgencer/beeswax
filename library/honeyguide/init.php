@@ -27,9 +27,12 @@ require_once( dirname(__FILE__).'/vendor/settings-api.php' );
 require_once( dirname(__FILE__) . '/theme.php' );
 
 require_once(dirname(__FILE__).'/vendor/phyl-mustache/library/Phly/Mustache/_autoload.php');
-use Phly\Mustache\Mustache;
+use Phly\Mustache\Mustache,
+    Phly\Mustache\Pragma\SubViews;
+$mustache = new Mustache();
+$mustacheSubviews = new SubViews($mustache);
+
 $m = new Mustache();
-$m->setSuffix('tpl');
 
 $theTheme = new honeyguide_theme(THEME_NAME, THEME_VERSION, $m);
 

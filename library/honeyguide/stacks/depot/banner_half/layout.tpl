@@ -1,4 +1,5 @@
 {{!isa:ITEM}}
+{{#set.items}}
       <section class="section-half-height" style="background-image: url(../images/{{image}});">
         <div class="section-full-height col-xs-10 col-md-7 bg-primary">
           <div class="middle">
@@ -13,3 +14,4 @@
           </div>
         </div>
       </section>
+{{/set.items}}

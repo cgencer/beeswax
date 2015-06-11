@@ -1,77 +1,54 @@
 ---
+# 
+# this file should ONLY contain path and file naming stuff
+# 
   index: 
     - 
       isDynamic: true
+      hasSubs: false
       stack: "header"
-      object: "header.php"
-      parameters:
       template: 
-        name: "header"
         container: "header"
     - 
       isDynamic: true
+      hasSubs: true
       stack: "services"
-      object: "item.php"
-      parameters:
-        title: "Our Services"
       template: 
-        container: "group"
+        container: "header"
         repeater: "item"
-        number: 3
-        arrangement: "3"
-        name: "services"
-      query: 
-        post_type: "services"
     - 
       isDynamic: false
-      parameters:
-        type: "full"
-      stack: banners
-      object: ""
+      hasSubs: false
+      stack: "banner_full"
       template: 
-        name: "banners"
-        container: "conditional"
+        container: "layout"
     - 
       isDynamic: false
-      parameters:
-        type: "half"
-      stack: banners
-      object: ""
+      hasSubs: false
+      stack: "banner_half"
       template: 
-        name: "banners"
-        container: "conditional"
+        container: "layout"
     - 
       isDynamic: true
+      hasSubs: true
       stack: "teammembers"
-      object: "item.php"
-      parameters:
       template: 
         container: "group"
         repeater: "item"
-        number: 5
-        arrangement: "2-3"
-        name: "teammembers"
         title: "Our Team"
-      query: 
-        post_type: "teammembers"
     - 
       isDynamic: false
-      stack: counter
-      object: ""
-      parameters:
-      template: 
-        name: "counter"
+      hasSubs: false
+      stack: "counter"
+      template:   
+        container: "layout"
     - 
       isDynamic: true
+      hasSubs: true
       stack: "content"
-      object: "item.php"
-      parameters:
       template: 
         container: "group"
         repeater: "item"
-        number: 2
-        arrangement: "1-1"
-        name: "posts"
         title: false
       query: 
         post_type: "posts"
@@ -79,9 +56,8 @@
   otherpage: 
     - 
       isDynamic: true
+      hasSubs: false
       stack: "header"
-      object: "header.php"
-      parameters:
       template: 
-        name: "header"
         container: "header"
+...

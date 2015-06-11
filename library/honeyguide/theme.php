@@ -20,7 +20,6 @@ class honeyguide_theme {
 		$this->dasModel = require_once(dirname(__FILE__) . '/model.php');
 		$this->dasModel->saveRef($this);
 
-
 		foreach ($this->plugins as $file) {
 			require_once($file.'/'.$file.'.php');
 			$this->plugRef[$file] = new Stacks;
@@ -28,6 +27,7 @@ class honeyguide_theme {
 		}
 
 		$this->mustacheEngine = $mustache;
+		$this->mustacheSViews = $mustacheSubviews;
 		$this->mustacheEngine->setSuffix('tpl');
 
 		// Add Translation Option

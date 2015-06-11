@@ -68,9 +68,7 @@ class stacks {
 		if(!$mustacheEngine) $this->initRenderer();
 
 		if($obj) {
-			$isDynamic = $obj['isDynamic'];
 			$template = $obj['template'];
-			$parameters = $obj['parameters'];
 			$attributes = $obj['attributes'] ? $obj['attributes'] : array();
 			$query = $obj['query'];
 		}
@@ -86,24 +84,28 @@ class stacks {
 		$s = "";
 //echo('<pre>');print_r($this->dasModel->templates);echo('</pre>');
 
-		if(!$isDynamic)
+		$view = $obj['view'] ? require($this->depotPath . $obj['stack'] . '/' . $obj['view']) : new stdClass();
+
+
+
+echo('::::::::: stack:'.$obj['stack'].'<br>'.
+	'isDynamic:'.$isDynamic.'<br>'.
+	'template:<pre>');print_r($template);echo('</pre>');
+
+		if(!$obj['isDynamic'])
 		{
 			if($template['container']) {
-				$s = $this->theParent->mustacheEngine->render( $this->dasModel->templates[ $obj['stack'] . '/' . $template['container'] ], null );
+
+				$s = $this->theParent->mustacheEngine->render( $this->dasModel->templates[ $obj['stack'] . '/' . $template['container'] ], $view );
 			}
 
 		}else{
 
-			$attrU = array();
-			if( 1 < (int) $template['number'] ) {				// its only one item (number isnt declared or number is 1)
+			if( (int) $view->items[0]->param > 1 && $template['repeater'] ) {				// its more than one item and uses a repeater
 
-				$view = require($this->depotPath . $template['object']);
+				$arr = $template['arrangement'] ? explode('-', $template['arrangement']) : array('1');
 
-			}else{
-
-				$arr = explode('-', $template['arrangement']);
-
-				if(count($arr) >= 1) {
+				if(count($arr) > 0) {
 				// it is multi-rows
 					$offset = 0;
 					$colsInThisRow = 0;
@@ -143,22 +145,7 @@ class stacks {
 									}
 								}
 
-								// TODO: the view for each repeater has to be declared (maybe a child object?)
-
-								$view = require($this->depotPath . $template['object']);
-
-								// parameters
-								switch ($parameters['type']) {
-									case 'half':
-										$view->isFull = false;
-										$view->isHalf = true;
-										break;
-									case 'full':
-									default:
-										$view->isFull = true;
-										$view->isHalf = false;
-										break;
-								}
+//								$subView = new SubView( $this->dasModel->templates[ $obj['stack'] . '/' . $template['repeater'] ], $view);
 
   								$s .= $this->theParent->mustacheEngine->render( $this->dasModel->templates[ $obj['stack'] . '/' . $template['repeater'] ], $view );
   
@@ -170,12 +157,31 @@ class stacks {
 						$offset += $colsInThisRow;
 						wp_reset_query();
 					}
+				} else {
+					if($template['title']) $view->title = $template['title'];
 				}
-				$attrU['title'] = $template['title'];
-				$attrU['content'] = $s;
+
 			}
 
-			// TODO: the view is missing here somehow
+			//    BANNERS stack'i hem coupled (conditional) hem de elle index.yaml'de 2 kere tanımlanıyor. çifte tanımlama!
+
+
+			// proccess parameters
+/*
+			if($parameters['type']) {
+				switch ($parameters['type']) {
+					case 'half':
+						$view->isFull = false;
+						$view->isHalf = true;
+						break;
+					case 'full':
+					default:
+						$view->isFull = true;
+						$view->isHalf = false;
+						break;
+				}
+			}
+*/
 
 			if($template['container']) {
 				$s = $this->theParent->mustacheEngine->render( $this->dasModel->templates[ $obj['stack'] . '/' . $template['container'] ], $view );

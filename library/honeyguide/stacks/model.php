@@ -111,6 +111,5 @@ class stacks_model {
 //			echo($filename.'<br>');
 			$this->templates[ basename(dirname($filename)) . '/' . pathinfo(basename($filename),PATHINFO_FILENAME) ] = file_get_contents($filename); 
 		}
-echo('<pre>');print_r(array_keys($this->templates));echo('</pre>');
 	}
 }
