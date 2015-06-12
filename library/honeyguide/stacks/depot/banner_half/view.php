@@ -41,7 +41,7 @@ class bannerhalfView
 					'title' 		=> 'Full height section to be used',
 				),
 				'images' 	=> array(
-					'image' 		=> 'photo.png',
+					'background' 	=> 'photo.png',
 				),
 				'links' 	=> array(
 					'dl' 			=> '#'

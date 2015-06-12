@@ -41,7 +41,7 @@ class bannerfullView
 					'subtitle' 		=> 'make it clear and stylish!',
 				),
 				'images' 	=> array(
-					'image' 		=> 'photo-2.png',
+					'background' 	=> 'photo-2.png',
 				),
 				'links' 	=> array(
 					'dl' 			=> '#'

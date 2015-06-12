@@ -1,5 +1,5 @@
 {{!isa:ITEM}}
-          <div class="col-xs-12 {{columns}}">
+          <div class="col-xs-12 {{attributes.columns}}">
             <div class="mt-lg">
               <figure class="team-member">
               {{#attributes.attachments}}

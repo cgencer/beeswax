@@ -87,6 +87,7 @@ class stacks {
 //echo('<pre>');print_r($this->dasModel->templates);echo('</pre>');
 
 		$view = require($this->depotPath . $obj['stackName'] . '/view.php');
+		$attributes['global'] = $view->set['global'][0];
 
 /*
 echo('::::::::: stackName:'.$obj['stackName'].'<br>'.
@@ -108,14 +109,15 @@ echo('::::::::: stackName:'.$obj['stackName'].'<br>'.
 
 				$arr = $view->set['global'][0]['param']['arrangement'] ? $view->set['global'][0]['param']['arrangement'] : array(1);			// ensure that arrangement attribute is set
 				$tot = array_sum($arr);
-//echo('>:'.$view->set['global'][0]['param']['arrangement'].'<br><pre>');var_dump($view->set['global']['param']['arrangement']);echo('</pre>');
+
 				if($tot > 0) {
 				// it is multi-rows
 					$offset = 0;
 					$colsInThisRow = 0;
+					$whichRow = 0;
 
 					// loop trough rows
-					for ($rowNo = 0; $rowNo < $tot; $rowNo++) { 
+					for ($rowNo = 0; $rowNo < count($arr); $rowNo++) { 
 
 					// loop trough cols
 						$colsInThisRow = (int) $arr[$rowNo];
@@ -124,11 +126,14 @@ echo('::::::::: stackName:'.$obj['stackName'].'<br>'.
 					// get the cols as seperate queries
 						$query['posts_per_page'] = $colsInThisRow;
 						$query['offset'] = $offset;
+						$query = array_merge($query, $view->set['query']);
+
 						$posts = new WP_Query($query);
 						$colNo = 0;
 						if( $posts->have_posts() ) {
 							while ($posts->have_posts()) {
 								$posts->the_post();
+								$view->post = $posts->posts[$colNo];
 
 								$attachments = get_posts( array(
 									'post_type' => 'attachment',
@@ -136,13 +141,11 @@ echo('::::::::: stackName:'.$obj['stackName'].'<br>'.
 									'post_status' => null,
 									'post_parent' => $posts->posts[$colNo]->ID
 								) );
-								$view->post = $posts->posts[$colNo];
 
 								$attributes['columns'] = "col-md-" . (string) (12 / $colsInThisRow);
-								$attributes['global'] = $view->set['global'][0];
-
 								$attributes['attachments'] = $attachments;
 								$attributes['tags'] = get_the_tags();
+//echo('<pre>');var_dump($view->post);echo('</pre>');
 
 								$cfk = get_post_custom();
 								foreach ( $cfk as $key => $value ) {
