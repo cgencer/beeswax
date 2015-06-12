@@ -23,8 +23,9 @@ class stacks {
 			$obj->saveRef($this);
 		}
 		$this->depotPath = dirname(__FILE__) . '/depot/';
-
 		$this->vendorPath = dirname(dirname(__FILE__)) . '/vendor/';
+
+		$this->dasModel->saveUtil(require_once( dirname(dirname(__FILE__)) . '/utils.php' ) );
 
 		if(!class_exists('WeDevs_Settings_API')) require_once( $this->vendorPath.'settings-api.php' );
 		$this->settingsApi = new Settings_API;

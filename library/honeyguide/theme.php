@@ -46,8 +46,6 @@ class honeyguide_theme {
 				}
 			}
 		}
-//		var_dump($this->themeRef['utils']);
-		$this->dasModel->saveUtil[ $this->themeRef['utils'] ];
 
 		foreach (glob(dirname(__FILE__).'/vendor/*.php') as $filename) {
 			if(is_readable($filename)) {

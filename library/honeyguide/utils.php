@@ -1,5 +1,4 @@
 <?php
-require_once(dirname(__FILE__).'/vendor/json-serializer/src/Zumba/Util/JsonSerializer.php');
 return new honeyguide_utils();
 
 class honeyguide_utils
@@ -10,6 +9,7 @@ class honeyguide_utils
 
     public function __construct()
     {
+		require_once(dirname(__FILE__).'/vendor/json-serializer/src/Zumba/Util/JsonSerializer.php');
 		$this->serializer = new Zumba\Util\JsonSerializer();
     }
 
