@@ -37,3 +37,6 @@
 [submodule "library/honeyguide/plugins/menu-customizer"]
 	path = library/honeyguide/plugins/menu-customizer
 	url = https://github.com/voldemortensen/menu-customizer.git
+[submodule "library/honeyguide/vendor/json-serializer"]
+	path = library/honeyguide/vendor/json-serializer
+	url = https://github.com/zumba/json-serializer.git

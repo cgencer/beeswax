@@ -1,12 +1,28 @@
 <?php
+require_once(dirname(__FILE__).'/vendor/json-serializer/src/Zumba/Util/JsonSerializer.php');
 return new honeyguide_utils();
 
 class honeyguide_utils
 {
     private $values;
+	public $serializer;
+	protected $theParent;
 
     public function __construct()
     {
+		$this->serializer = new Zumba\Util\JsonSerializer();
+    }
+
+    public function saveRef($id) {
+		$this->theParent = $id;
+    }
+
+    public function dump($obj) {
+		return $this->serializer->serialize($obj);
+    }
+
+    public function restore($dump) {
+		return $this->serializer->unserialize($dump);
     }
 
 	public static function merge_lvl2(){

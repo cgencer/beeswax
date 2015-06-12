@@ -33,6 +33,7 @@ $mustache = new Mustache();
 $mustacheSubviews = new SubViews($mustache);
 
 $m = new Mustache();
+require_once(dirname(__FILE__).'/vendor/json-serializer/src/Zumba/Util/JsonSerializer.php');
 
 $theTheme = new honeyguide_theme(THEME_NAME, THEME_VERSION, $m);
 

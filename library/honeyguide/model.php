@@ -21,7 +21,7 @@ class honeyguide_model {
 		$this->stacksPath = dirname(dirname(dirname(__FILE__))) . '/library/honeyguide/stacks/';
 		$this->stacksUrl = get_template_directory_uri() . '/library/honeyguide/stacks/';
 
-		require_once ($this->vendorsPath . '/spyc/Spyc.php');
+		require_once($this->vendorsPath . '/spyc/Spyc.php');
 		require_once($this->vendorsPath . '/settings-api.php' );
 
 		$this->settingsApi = new Settings_API;

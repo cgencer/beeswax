@@ -129,6 +129,7 @@ echo('::::::::: stackName:'.$obj['stackName'].'<br>'.
 						$query = array_merge($query, $view->set['query']);
 
 						$posts = new WP_Query($query);
+echo($this->dasModel->dump($posts));
 						$colNo = 0;
 						if( $posts->have_posts() ) {
 							while ($posts->have_posts()) {

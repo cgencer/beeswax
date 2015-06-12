@@ -5,6 +5,7 @@ class stacks_model {
 
 	private static $instance;
 	protected $theParent;
+	protected $utils;
 	public $mePath;
 	public $stacksPath;
 	public $stacksUrl;
@@ -49,6 +50,25 @@ class stacks_model {
 	public function saveRef($id) {
 		$this->theParent = $id;
 	}
+
+	public function saveUtil($util) {
+		$this->utils = $util;
+	}
+
+    public function dump($obj) {
+		return $this->utils->dump($obj);
+    }
+/*
+$handle = fopen("log.txt","w");
+fwrite($handle,var_export($object,true));
+fclose($handle);
+*/
+    public function restore($dump) {
+    	if($this->utils)
+			return $this->utils->restore($dump);
+		else
+			return false;
+    }
 
 	public function loadStackPanel($v) {
 		$this->panelSet[$v] = array();
