@@ -25,6 +25,7 @@ class headerView
 					'subtitle' 		=> "the subtitle",
 				),
 				'images' 	=> array(					// images ''
+					'background'	=> 'photo.png'
 				),
 				'links' 	=> array(					// links ''
 				)
