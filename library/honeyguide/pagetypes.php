@@ -74,9 +74,35 @@ class honeyguide_pagetypes {
 			'has_archive'        => false,
 			'hierarchical'       => false,
 			'menu_position'      => 20,
-			'supports'           => array( 'title', 'editor', 'thumbnail' )
+			'supports'           => array( 'title', 'editor', 'thumbnail')
 			);
 		register_post_type( 'teammembers', $args );
+
+		register_taxonomy('skills', 'teammembers', array(
+			'hierarchical'          => false,
+			'labels'                => array(
+				'name'							=> _x( 'Skills', 'taxonomy general name' ),
+				'singular_name'					=> _x( 'Skill', 'taxonomy singular name' ),
+				'search_items'					=> __( 'Search Skills' ),
+				'all_items'						=> __( 'All Skills' ),
+				'parent_item'					=> null,
+				'parent_item_colon'				=> null,
+				'edit_item'						=> __( 'Edit Skill' ),
+				'update_item'					=> __( 'Update Skill' ),
+				'add_new_item'					=> __( 'Add New Skill' ),
+				'new_item_name'					=> __( 'New Skill Name' ),
+				'separate_items_with_commas'	=> __( 'Separate skills with commas' ),
+				'add_or_remove_items'			=> __( 'Add or remove skills' ),
+				'choose_from_most_used'			=> __( 'Choose from the most used skills' ),
+				'not_found'						=> __( 'No skills found.' ),
+				'menu_name'         			=> __( 'Skill' )
+			),
+			'show_ui'               => true,
+			'show_admin_column'     => true,
+			'update_count_callback' => '_update_post_term_count',
+			'query_var'             => true,
+			'rewrite'               => array( 'slug' => 'skill' ),
+		));
 
 		$labels = array(
 			'name'               => _x( 'Services', 'post type general name', 'beeswax' ),

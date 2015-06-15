@@ -65,9 +65,13 @@ class stacks {
 
 	}
 
+// 1. read from index.yaml for building customizer/multiselect
+// 2. add selected items from multiselect into live stacks with renaming thus and copying their datapacks into instances (saving exported var_exports)
+// 3. build page from instances folder
+
 	private function render($obj) 
 	{
-		global $settingsApi, $mustache, $mustacheEngine, $mustacheLoader, $loader;
+		global $settingsApi, $mustache, $mustacheEngine, $mustacheLoader, $loader, $wp_query;
 		if(!$mustacheEngine) $this->initRenderer();
 
 		if($obj) {
@@ -130,37 +134,43 @@ echo('::::::::: stackName:'.$obj['stackName'].'<br>'.
 						$query = array_merge($query, $view->set['query']);
 
 						$posts = new WP_Query($query);
-echo($this->dasModel->dump($posts));
+
+						$export = new stdClass();
+						$export->query = $query;
+
+//echo($this->dasModel->dump($posts));
 						$colNo = 0;
 						if( $posts->have_posts() ) {
 							while ($posts->have_posts()) {
 								$posts->the_post();
 								$view->post = $posts->posts[$colNo];
+//echo($colNo.'::: '.$posts->posts[$colNo]->ID);
 
-								$attachments = get_posts( array(
+								$view->columns = 'col-md-' . (string) (12 / $colsInThisRow);
+								$view->tags = get_tags( $posts->posts[$colNo]->ID );
+								$view->attachments = get_posts( array(
 									'post_type' => 'attachment',
 									'numberposts' => -1,
 									'post_status' => null,
 									'post_parent' => $posts->posts[$colNo]->ID
-								) );
+								));
 
-								$attributes['columns'] = "col-md-" . (string) (12 / $colsInThisRow);
-								$attributes['attachments'] = $attachments;
-								$attributes['tags'] = get_the_tags();
-//echo('<pre>');var_dump($view->post);echo('</pre>');
+								$view->tags = ($view->set['global'][0]['param']['taxonomy']) ? get_the_terms( $posts->posts[$colNo]->ID, $view->set['global'][0]['param']['taxonomy'] ) :array();
 
 								$cfk = get_post_custom();
 								foreach ( $cfk as $key => $value ) {
 									if( '_' != substr($key, 0, 1) ) {
-										$attributes['cfield'][$key] = $value[0];
+										$view->customfields[$key] = $value[0];
 									}
 								}
-								$view->attributes = $attributes;
+								$export->view = $view;
 
 								if($this->debug){echo('buffering '.$obj['stackName'] . '/' . $tempFiles['repeater'].'<br>');}
   								$s .= $this->theParent->mustacheEngine->render( $this->dasModel->templates[ $obj['stackName'] . '/' . $tempFiles['repeater'] ], $view );
 
-								$attributes = array();
+								$view->tags = array();
+								$view->attachments = array();
+								$view->columns = 'col-md-12';
 								$colNo++;
 							}
 						}

@@ -19,6 +19,7 @@ class teammembersView
 		'global'		=> array(						// parameters specific to all items, this array contains only one item
 			array(
 				'param'		=> array(
+					'taxonomy'		=> 'skills',
 					'arrangement' 	=> array(2, 3)
 				),
 				'strings' 	=> array(					// strings specific to all items (e.g. the container)
