@@ -1,0 +1,6 @@
+---
+  stackName: "banner_half"
+  isDynamic: false
+  hasSubs: false
+  templateFiles: 
+    container: "layout"

@@ -45,13 +45,13 @@ class stacks {
 	}
 
 	public function loadPage($pageName) {
-
+/*
 		if(get_option('stackedPages', null)) {
 			if(add_option('stackedPages', '')) {
 				$stackedPages = get_option('stackedPages', '');
 			}
 		}else{
-
+*/
 				get_header();
 
 				if(array_key_exists($pageName, $this->dasModel->stackedPages)) {
@@ -61,56 +61,50 @@ class stacks {
 				}
 
 				get_footer();
-		}
+//		}
 
 	}
 
 // 1. read from index.yaml for building customizer/multiselect
-// 2. add selected items from multiselect into live stacks with renaming thus and copying their datapacks into instances (saving exported var_exports)
-// 3. build page from instances folder
+// 2. patch to grab the template names from $templates['PARAM'][$names]
+// 3. add selected items from multiselect into live stacks with renaming thus and copying their datapacks into instances (saving exported var_exports)
+// 4. build page from instances folder
 
-	private function render($obj) 
+	private function render($stack) 
 	{
+		if(!$stack) return false;
+
 		global $settingsApi, $mustache, $mustacheEngine, $mustacheLoader, $loader, $wp_query;
 		if(!$mustacheEngine) $this->initRenderer();
+//echo('<pre>');var_dump(array_keys($this->dasModel->templates));echo('</pre>');
+		$dirs = $this->dasModel->distributeTemplates();
+		$param = $dirs['PARAM'][$stack];
 
-		if($obj) {
-			$tempFiles = $obj['templateFiles'];
-			$attributes = $obj['attributes'] ? $obj['attributes'] : array();
-			$query = $obj['query'];
-		}
-
-		if($query != null)
-		{
-			if(!array_key_exists('post_status', $query)){         $query['post_status'] = 'publish';}
-			if(!array_key_exists('posts_per_page', $query)){      $query['posts_per_page'] = $template['number'];}
-			if(!array_key_exists('orderby', $query)){             $query['orderby'] = 'menu_order name';}
-			if(!array_key_exists('order', $query)){               $query['order'] = 'ASC';}
-		}
+		$theFiles = $param['templateFiles'];
 
 		$s = "";
-//echo('<pre>');print_r($this->dasModel->templates);echo('</pre>');
 
-		$view = require($this->depotPath . $obj['stackName'] . '/view.php');
-		$attributes['global'] = $view->set['global'][0];
+		$view = require($this->depotPath . $stack . '/view.php');
+		$view->global = $view->set['global'][0];
 
-/*
-echo('::::::::: stackName:'.$obj['stackName'].'<br>'.
-	'isDynamic:'.$obj['isDynamic'].'<br>'.
-	'hasSubs:'.$obj['hasSubs'].'<br>'.
-	'templates:<pre>');print_r($tempFiles);echo('</pre>');
-*/
-		if(!$obj['isDynamic'])
+		if($view->set['query'])
 		{
-			if($tempFiles['container']) {
-				if($this->debug){echo('X.rendering '.$obj['stackName'] . '/' . $tempFiles['container'].'<br>');}
-				$s = $this->theParent->mustacheEngine->render( $this->dasModel->templates[ $obj['stackName'] . '/' . $tempFiles['container'] ], $view );
-			}
+			if(!array_key_exists('post_status', $view->set['query'])){         $query['post_status'] = 'publish';}
+			if(!array_key_exists('posts_per_page', $view->set['query'])){      $query['posts_per_page'] = $template['number'];}
+			if(!array_key_exists('orderby', $view->set['query'])){             $query['orderby'] = 'menu_order name';}
+			if(!array_key_exists('order', $view->set['query'])){               $query['order'] = 'ASC';}
+		}
+
+//echo('<pre>');var_dump($stack);echo('</pre>');
+//echo('<pre>');var_dump($this->dasModel->dirs['PARAM']);echo('</pre>');
+		if(!$param['isDynamic'] && $theFiles['container'])
+		{
+			$s = ($this->dasModel->templates[$stack . '/' . $theFiles['container']]) ? $this->theParent->mustacheEngine->render( $this->dasModel->templates[$stack . '/' . $theFiles['container']], $view ) : '';
 
 		}else{
 
 			$s = "";
-			if( $obj['hasSubs'] && $tempFiles['repeater'] ) {				// its more than one item and uses a repeater
+			if( $param['hasSubs'] && $theFiles['repeater'] ) {				// its more than one item and uses a repeater
 
 				$arr = $view->set['global'][0]['param']['arrangement'] ? $view->set['global'][0]['param']['arrangement'] : array(1);			// ensure that arrangement attribute is set
 				$tot = array_sum($arr);
@@ -155,7 +149,7 @@ echo('::::::::: stackName:'.$obj['stackName'].'<br>'.
 									'post_parent' => $posts->posts[$colNo]->ID
 								));
 
-								$view->tags = ($view->set['global'][0]['param']['taxonomy']) ? get_the_terms( $posts->posts[$colNo]->ID, $view->set['global'][0]['param']['taxonomy'] ) :array();
+								$view->tags = ($view->set['global'][0]['param']['taxonomy']) ? get_the_terms( $posts->posts[$colNo]->ID, $view->set['global'][0]['param']['taxonomy'] ) : array();
 
 								$cfk = get_post_custom();
 								foreach ( $cfk as $key => $value ) {
@@ -164,9 +158,7 @@ echo('::::::::: stackName:'.$obj['stackName'].'<br>'.
 									}
 								}
 								$export->view = $view;
-
-								if($this->debug){echo('buffering '.$obj['stackName'] . '/' . $tempFiles['repeater'].'<br>');}
-  								$s .= $this->theParent->mustacheEngine->render( $this->dasModel->templates[ $obj['stackName'] . '/' . $tempFiles['repeater'] ], $view );
+								$s .= ($this->dasModel->templates[$stack . '/' . $theFiles['repeater']]) ? $this->theParent->mustacheEngine->render( $this->dasModel->templates[$stack . '/' . $theFiles['repeater']], $view ) : '';
 
 								$view->tags = array();
 								$view->attachments = array();
@@ -185,9 +177,8 @@ echo('::::::::: stackName:'.$obj['stackName'].'<br>'.
 			}
 			$view->content = $s;
 
-			if($tempFiles['container']) {
-				if($this->debug){echo('Y.rendering '.$obj['stackName'] . '/' . $tempFiles['container'].'<br>');}
-				$s = $this->theParent->mustacheEngine->render( $this->dasModel->templates[ $obj['stackName'] . '/' . $tempFiles['container'] ], $view );
+			if($theFiles['container']) {
+				$s = ($this->dasModel->templates[$stack . '/' . $theFiles['container']]) ? $this->theParent->mustacheEngine->render( $this->dasModel->templates[$stack . '/' . $theFiles['container']], $view ) : '';
 			}
 		}
 		return $s;

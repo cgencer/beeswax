@@ -136,7 +136,7 @@ class stacks_customizer {
 				'settings'		=> 'stacks-options-settings',
 				'section'		=> 'stacks',
 				'type'			=> 'select'
-			), array('choices' => $this->templates['STACKS']))
+			), array('choices' => array_keys($this->templates['PARAM'])))
 		);
 
 		$wp_customize->add_setting(

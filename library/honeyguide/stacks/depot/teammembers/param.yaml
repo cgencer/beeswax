@@ -1,0 +1,7 @@
+---
+  stackName: "teammembers"
+  isDynamic: true
+  hasSubs: true
+  templateFiles: 
+    container: "group"
+    repeater: "item"

@@ -14,6 +14,7 @@ class stacks_model {
 
 	public $enabledStacks;
 	public $stackedPages;
+	public $dirs;
 
 	public $panelSet;
 	public $templates;
@@ -45,6 +46,7 @@ class stacks_model {
 		$this->panelSet = array();
 
 		$this->loadTemplatesIntoArray();
+		$this->dirs = $this->distributeTemplates();
 	}
 
 	public function saveRef($id) {
@@ -85,6 +87,7 @@ fclose($handle);
 		$dirs['ITEMS'] = array();
 		$dirs['PANELS'] = array();
 		$dirs['STACKS'] = array();
+		$dirs['PARAM'] = array();
 		$tra = array();
 		$flat = array();
 
@@ -104,7 +107,11 @@ fclose($handle);
 							$dirs['STACKS'][$names] = ucwords($names);
 				}
 
-				if(file_exists($this->stacksPath . 'depot/' . $names . '/panel.yaml'))
+				if(file_exists($this->stacksPath . 'depot/' . $names . '/param.yaml'))
+					$dirs['PARAM'][$names] = (file_exists($this->stacksPath . 'depot/' . $names . '/param.yaml')) ?
+						Spyc::YAMLLoad($this->stacksPath . 'depot/' . $names . '/param.yaml') : array();
+
+
 				$dirs['PANELS'][$names] = (file_exists($this->stacksPath . 'depot/' . $names . '/panel.yaml')) ?
 					Spyc::YAMLLoad($this->stacksPath . 'depot/' . $names . '/panel.yaml') : array();
 

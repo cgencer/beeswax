@@ -1,0 +1,7 @@
+---
+  stackName: "services"
+  isDynamic: true
+  hasSubs: true
+  templateFiles: 
+    container: "layout"
+    repeater: "item"

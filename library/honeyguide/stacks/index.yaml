@@ -2,50 +2,5 @@
 # 
 # this file should ONLY contain path and file naming stuff
 # 
-  index: 
-    - 
-      isDynamic: false
-      hasSubs: false
-      stackName: "header"
-      templateFiles: 
-        container: "header"
-    - 
-      isDynamic: true
-      hasSubs: true
-      stackName: "services"
-      templateFiles: 
-        container: "layout"
-        repeater: "item"
-    - 
-      isDynamic: false
-      hasSubs: false
-      stackName: "banner_full"
-      templateFiles: 
-        container: "layout"
-    - 
-      isDynamic: false
-      hasSubs: false
-      stackName: "banner_half"
-      templateFiles: 
-        container: "layout"
-    - 
-      isDynamic: true
-      hasSubs: true
-      stackName: "teammembers"
-      templateFiles: 
-        container: "group"
-        repeater: "item"
-    - 
-      isDynamic: false
-      hasSubs: false
-      stackName: "counter"
-      templateFiles:   
-        container: "layout"
-  otherpage: 
-    - 
-      isDynamic: false
-      hasSubs: false
-      stackName: "header"
-      templateFiles: 
-        container: "header"
-...
+  index: ["header", "banner_full", "banner_half", "services", "teammembers"]
+  otherpage: ["header"]

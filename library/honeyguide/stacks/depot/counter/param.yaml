@@ -1,0 +1,6 @@
+---
+  stackName: "counter"
+  isDynamic: false
+  hasSubs: false
+  templateFiles:   
+    container: "layout"

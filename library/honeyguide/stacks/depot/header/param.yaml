@@ -1,0 +1,6 @@
+---
+  stackName: "header"
+  isDynamic: false
+  hasSubs: false
+  templateFiles: 
+    container: "header"

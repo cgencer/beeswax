@@ -1,0 +1,6 @@
+---
+  stackName: "banner_full"
+  isDynamic: false
+  hasSubs: false
+  templateFiles: 
+    container: "layout"
