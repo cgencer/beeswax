@@ -20,6 +20,7 @@ class stacks_customizer {
 	public function loadStuff() {
 		require_once($this->dasModel->stacksPath . 'customizer_customcontrols.php');
 		require_once($this->dasModel->stacksPath . 'custom-controls/customizer_layoutpicker.php');
+		require_once($this->dasModel->vendorsPath . 'customizeControl_addfromAtoB/class_A2B.php');
 		$files = glob($this->dasModel->vendorsPath . 'customizer-custom-controls/*.php');
 		foreach ($files as $file) {
 			require_once($file);
@@ -95,6 +96,11 @@ class stacks_customizer {
 	// grabs the dirs out of fields_meta and distributes them into 2 arrays according to the 1st line of each template file
 	public function honeyguide_customize_register($wp_customize){
 
+      // We can also change built-in settings by modifying properties. For instance, let's make some stuff use live preview JS...
+      // $wp_customize->get_setting( 'blogname' )->transport = 'postMessage';
+      // $wp_customize->get_setting( 'blogdescription' )->transport = 'postMessage';
+
+
 		$this->templates = $this->dasModel->distributeTemplates();
 
 		$wp_customize->add_section(
@@ -125,36 +131,30 @@ class stacks_customizer {
 		);
 
 		$wp_customize->add_setting(
-			'stacks-options-settings', array(
+			'stacks-options-addedStacks', array(
 			'capability'	=> 'edit_theme_options',
 			'type'			=> 'option',
+			'transport' 	=> 'refresh',
+			'default'		=> array()
 		));
 
-		$wp_customize->add_control(
-			'stacks_options_addStack', array_merge( array(
-				'label'			=> "Select a stack to be added",
-				'settings'		=> 'stacks-options-settings',
-				'section'		=> 'stacks',
-				'type'			=> 'select'
-			), array('choices' => array_keys($this->templates['PARAM'])))
-		);
+		$vv = array();
+		foreach (array_keys($this->templates['PARAM']) as $vvv) $vv[$vvv] = $vvv;
 
-		$wp_customize->add_setting(
-			'stacks-enabled', array(
-			'capability'	=> 'edit_theme_options',
-			'type'			=> 'option',
-		));
 
 		$wp_customize->add_control(
-			'stacks_options_enabledStacks', array_merge( array(
-				'label'			=> "Enabled stacks",
-				'settings'		=> 'stacks-enabled',
-				'section'		=> 'stacks',
-				'type'			=> 'multiselect'
-			), array('choices' => array()))
+			new CustomizeControl_addfromAtoB($wp_customize, 'stacks_options_addStack', array(
+				'label'    => "Select a stack to be added",
+				'settings' => 'stacks-options-addedStacks',
+				'section'  => 'stacks',
+				'type'     => 'addfromAtoB',
+				'size'		=> 6,
+				'choices' 	=> $vv,
+				'enabled'	=> array()
+			))
 		);
 
-//		echo('<pre>');var_dump($dr);echo('</pre>');
+
 		$t = $this->dasModel->enabledStacks;
 		foreach ($t as $v) {
 

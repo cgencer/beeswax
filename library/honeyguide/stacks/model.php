@@ -37,6 +37,7 @@ class stacks_model {
 		$this->vendorsUrl = get_template_directory_uri() . '/library/honeyguide/stacks/js/vendor/';
 		$this->stacksPath = dirname(dirname(dirname(dirname(__FILE__)))) . '/library/honeyguide/stacks/';
 		$this->stacksUrl = get_template_directory_uri() . '/library/honeyguide/stacks/';
+		$this->instancesPath = dirname(dirname(dirname(dirname(__FILE__)))) . '/library/honeyguide/stacks/instances/';
 
 		if ( ! class_exists( 'Spyc' ) ) require_once ($this->vendorsPath . '/spyc/Spyc.php');
 
@@ -57,14 +58,12 @@ class stacks_model {
 		$this->utils = $util;
 	}
 
-    public function dump($obj) {
-		return $this->utils->dump($obj);
+    public function dump($obj, $name) {
+		$handle = fopen('', 'w');
+		fwrite($handle, $this->utils->dump($obj));
+		fclose($handle);
     }
-/*
-$handle = fopen("log.txt","w");
-fwrite($handle,var_export($object,true));
-fclose($handle);
-*/
+
     public function restore($dump) {
     	if($this->utils)
 			return $this->utils->restore($dump);

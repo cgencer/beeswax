@@ -45,28 +45,26 @@ class stacks {
 	}
 
 	public function loadPage($pageName) {
-/*
+
 		if(get_option('stackedPages', null)) {
 			if(add_option('stackedPages', '')) {
 				$stackedPages = get_option('stackedPages', '');
 			}
 		}else{
-*/
-				get_header();
 
-				if(array_key_exists($pageName, $this->dasModel->stackedPages)) {
-					foreach ($this->dasModel->stackedPages[$pageName] as $stack) {
-						echo($this->render($stack));
-					}
+			get_header();
+			if(array_key_exists($pageName, $this->dasModel->stackedPages)) {
+				foreach ($this->dasModel->stackedPages[$pageName] as $stack) {	
+					echo($this->render($stack));
 				}
-
-				get_footer();
-//		}
+			}
+			get_footer();
+ 		}
 
 	}
 
-// 1. read from index.yaml for building customizer/multiselect
-// 2. patch to grab the template names from $templates['PARAM'][$names]
+// OK 1. read from index.yaml for building customizer/multiselect
+// OK 2. patch to grab the template names from $templates['PARAM'][$names]
 // 3. add selected items from multiselect into live stacks with renaming thus and copying their datapacks into instances (saving exported var_exports)
 // 4. build page from instances folder
 
@@ -79,11 +77,11 @@ class stacks {
 //echo('<pre>');var_dump(array_keys($this->dasModel->templates));echo('</pre>');
 		$dirs = $this->dasModel->distributeTemplates();
 		$param = $dirs['PARAM'][$stack];
-
 		$theFiles = $param['templateFiles'];
 
 		$s = "";
 
+		$export = new stdClass();
 		$view = require($this->depotPath . $stack . '/view.php');
 		$view->global = $view->set['global'][0];
 
@@ -99,6 +97,7 @@ class stacks {
 //echo('<pre>');var_dump($this->dasModel->dirs['PARAM']);echo('</pre>');
 		if(!$param['isDynamic'] && $theFiles['container'])
 		{
+
 			$s = ($this->dasModel->templates[$stack . '/' . $theFiles['container']]) ? $this->theParent->mustacheEngine->render( $this->dasModel->templates[$stack . '/' . $theFiles['container']], $view ) : '';
 
 		}else{
@@ -108,6 +107,8 @@ class stacks {
 
 				$arr = $view->set['global'][0]['param']['arrangement'] ? $view->set['global'][0]['param']['arrangement'] : array(1);			// ensure that arrangement attribute is set
 				$tot = array_sum($arr);
+
+				$export->subviews = ($tot>1) ? array() : $view;
 
 				if($tot > 0) {
 				// it is multi-rows
@@ -129,7 +130,7 @@ class stacks {
 
 						$posts = new WP_Query($query);
 
-						$export = new stdClass();
+						$export->param = $param;
 						$export->query = $query;
 
 //echo($this->dasModel->dump($posts));
@@ -157,7 +158,8 @@ class stacks {
 										$view->customfields[$key] = $value[0];
 									}
 								}
-								$export->view = $view;
+								$export->subviews[] = $view;
+
 								$s .= ($this->dasModel->templates[$stack . '/' . $theFiles['repeater']]) ? $this->theParent->mustacheEngine->render( $this->dasModel->templates[$stack . '/' . $theFiles['repeater']], $view ) : '';
 
 								$view->tags = array();
@@ -179,10 +181,10 @@ class stacks {
 
 			if($theFiles['container']) {
 				$s = ($this->dasModel->templates[$stack . '/' . $theFiles['container']]) ? $this->theParent->mustacheEngine->render( $this->dasModel->templates[$stack . '/' . $theFiles['container']], $view ) : '';
+				$export->view = $view;
 			}
 		}
+//		$this->dasModel->dump($export, $stack.'_'.'');
 		return $s;
 	}
-
-
 }
