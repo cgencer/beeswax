@@ -18,9 +18,9 @@ class stacks_customizer {
 	}
 
 	public function loadStuff() {
+		require_once($this->dasModel->vendorsPath . 'Honeyguide_WPCustomControls/loader.php');
 		require_once($this->dasModel->stacksPath . 'customizer_customcontrols.php');
 		require_once($this->dasModel->stacksPath . 'custom-controls/customizer_layoutpicker.php');
-		require_once($this->dasModel->vendorsPath . 'customizeControl_addfromAtoB/class_A2B.php');
 		$files = glob($this->dasModel->vendorsPath . 'customizer-custom-controls/*.php');
 		foreach ($files as $file) {
 			require_once($file);
@@ -33,6 +33,7 @@ class stacks_customizer {
 
 		add_action('customize_preview_init', array(&$this, 'honeyguide_stacks_scripts') );
 		add_action('customize_register', array(&$this, 'honeyguide_customize_register'));
+		add_action('customize_controls_enqueue_scripts', array('CustomizeControl_stackList', 'live_preview') ); 
 
 //		add_action( 'customize_controls_enqueue_scripts', array( $this, 'customize_pane_scripts' ) );
 //		add_action( 'customize_preview_init', array( $this, 'customize_preview_init' ) );
@@ -134,22 +135,29 @@ class stacks_customizer {
 			'stacks-options-addedStacks', array(
 			'capability'	=> 'edit_theme_options',
 			'type'			=> 'option',
-			'transport' 	=> 'refresh',
+//			'transport' 	=> 'postMessage',
 			'default'		=> array()
 		));
 
 		$vv = array();
 		foreach (array_keys($this->templates['PARAM']) as $vvv) $vv[$vvv] = $vvv;
 
-
 		$wp_customize->add_control(
-			new CustomizeControl_addfromAtoB($wp_customize, 'stacks_options_addStack', array(
+			new customizeControl_stackList($wp_customize, 'stacks_options_addStack', array(
 				'label'    => "Select a stack to be added",
 				'settings' => 'stacks-options-addedStacks',
 				'section'  => 'stacks',
 				'type'     => 'addfromAtoB',
 				'size'		=> 6,
 				'choices' 	=> $vv,
+				'icons'		=> array(
+					'banner_full'	=>	'fa-caret-square-o-right',
+					'banner_half'	=>	'fa-caret-square-o-right',
+					'counter'		=>	'fa-caret-square-o-right',
+					'header'		=>	'fa-caret-square-o-right',
+					'services'		=>	'fa-caret-square-o-right',
+					'teammembers'	=>	'fa-caret-square-o-right'
+				),
 				'enabled'	=> array()
 			))
 		);

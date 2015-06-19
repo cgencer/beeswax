@@ -1,4 +1,5 @@
 <?php
+if ( ! class_exists( 'WP_Customize_Control' ) ) return NULL;
 /**
  * Multiple select customize control class.
  */
