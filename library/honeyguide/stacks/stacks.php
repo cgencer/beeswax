@@ -24,6 +24,7 @@ class stacks {
 		}
 		$this->depotPath = dirname(__FILE__) . '/depot/';
 		$this->vendorPath = dirname(dirname(__FILE__)) . '/vendor/';
+		$this->jsPath = dirname(dirname(dirname(dirname(__FILE__)))) . '/bower_components';
 
 		$this->dasModel->saveUtil(require_once( dirname(dirname(__FILE__)) . '/utils.php' ) );
 
@@ -42,6 +43,22 @@ class stacks {
 		if($this->theParent->mustacheEngine) {
 			$this->mustacheEngine = $this->theParent->mustacheEngine;
 		}
+
+        wp_register_style( 'font-awesome', $this->jsPath . '/font-awesome/css/font-awesome.css', array(), '4.2.0');
+        wp_enqueue_style( 'font-awesome' );
+
+        wp_register_style( 'sass-bootstrap-glyphicons', $this->jsPath . '/sass-bootstrap-glyphicons/css/bootstrap-glyphicons.css');
+        wp_enqueue_style( 'sass-bootstrap-glyphicons' );
+
+//        wp_register_style( 'jquery-sortable', $this->jsPath . '/jquery-sortable/source/css/font-awesome.min.css');
+//        wp_enqueue_style( 'jquery-sortable' );
+
+        wp_register_script( 'jquery-sortable', $this->jsPath . '/jquery-sortable/source/js/jquery-sortable-min.js');
+        wp_enqueue_script( 'jquery-sortable' );
+
+        wp_register_script( 'font-awesome', $this->jsPath . '/script.js');
+        wp_enqueue_script( 'font-awesome' );
+
 	}
 
 	public function loadPage($pageName) {

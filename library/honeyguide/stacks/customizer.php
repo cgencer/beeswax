@@ -14,27 +14,38 @@ class stacks_customizer {
 	public function saveRef($id) {
 		$this->theParent = $id;
 		$this->dasModel = $this->theParent->dasModel;
+
 		$this->loadStuff();
-	}
-
-	public function loadStuff() {
-		require_once($this->dasModel->vendorsPath . 'Honeyguide_WPCustomControls/loader.php');
-		require_once($this->dasModel->stacksPath . 'customizer_customcontrols.php');
-		require_once($this->dasModel->stacksPath . 'custom-controls/customizer_layoutpicker.php');
-		$files = glob($this->dasModel->vendorsPath . 'customizer-custom-controls/*.php');
-		foreach ($files as $file) {
-			require_once($file);
-		}
-//		require_once($this->vendorsPath . 'wpthemecustomizer-custom-controls/select/google-font-dropdown-custom-control.php');
-	}
-
-	public function __construct() {
-
 
 		add_action('customize_preview_init', array(&$this, 'honeyguide_stacks_scripts') );
 		add_action('customize_register', array(&$this, 'honeyguide_customize_register'));
-		add_action('customize_controls_enqueue_scripts', array('CustomizeControl_stackList', 'live_preview') ); 
+//		add_action('customize_controls_enqueue_scripts', array('CustomizeControl_stackList', 'live_preview') ); 
+	}
 
+	public function loadStuff() {
+		require_once($this->dasModel->stacksPath . 'customizer_customcontrols.php');
+		require_once($this->dasModel->stacksPath . 'custom-controls/customizer_layoutpicker.php');
+		foreach (glob($this->dasModel->vendorsPath . 'customizer-custom-controls/*.php') as $file) {
+			require_once($file);
+		}
+
+		foreach(glob($this->dasModel->vendorsPath . 'Honeyguide_WPCustomControls/*', GLOB_ONLYDIR) as $f) {
+			if('vendor' != substr($f, -6)) {
+				foreach (glob($f . '/class_*.php') as $file) {
+					require_once($file);
+/*
+					$r = require_once($file);
+					if(method_exists($r, 'live_preview'))
+						add_action('customize_controls_enqueue_scripts', array($r->className, 'live_preview') );
+					if(method_exists($r, 'admin_panels'))
+						add_action('customize_controls_enqueue_scripts', array($r->className, 'admin_panels') );
+*/
+				}
+			}
+		}
+	}
+
+	public function __construct() {
 //		add_action( 'customize_controls_enqueue_scripts', array( $this, 'customize_pane_scripts' ) );
 //		add_action( 'customize_preview_init', array( $this, 'customize_preview_init' ) );
 	}
@@ -142,25 +153,30 @@ class stacks_customizer {
 		$vv = array();
 		foreach (array_keys($this->templates['PARAM']) as $vvv) $vv[$vvv] = $vvv;
 
-		$wp_customize->add_control(
-			new customizeControl_stackList($wp_customize, 'stacks_options_addStack', array(
-				'label'    => "Select a stack to be added",
-				'settings' => 'stacks-options-addedStacks',
-				'section'  => 'stacks',
-				'type'     => 'addfromAtoB',
-				'size'		=> 6,
-				'choices' 	=> $vv,
-				'icons'		=> array(
-					'banner_full'	=>	'fa-caret-square-o-right',
-					'banner_half'	=>	'fa-caret-square-o-right',
-					'counter'		=>	'fa-caret-square-o-right',
-					'header'		=>	'fa-caret-square-o-right',
-					'services'		=>	'fa-caret-square-o-right',
-					'teammembers'	=>	'fa-caret-square-o-right'
-				),
-				'enabled'	=> array()
-			))
+		$stackIcons = array(
+			'banner_full'	=>	'fa-caret-square-o-right',
+			'banner_half'	=>	'fa-caret-square-o-right',
+			'counter'		=>	'fa-caret-square-o-right',
+			'header'		=>	'fa-caret-square-o-right',
+			'services'		=>	'fa-caret-square-o-right',
+			'teammembers'	=>	'fa-caret-square-o-right'
 		);
+
+		if(!class_exists('Honeyguide_WPCustomControls_StackList'))
+			echo('StackList Class does NOT exist');
+		if(class_exists('Honeyguide_WPCustomControls_StackList'))
+			$wp_customize->add_control(
+				new Honeyguide_WPCustomControls_StackList($wp_customize, 'stacks', array(
+					'label'    => "Select a stack to be added",
+					'settings' => 'stacks-options-addedStacks',
+					'section'  => 'stacks',
+					'type'     => 'addfromAtoB',
+					'size'		=> 6,
+					'choices' 	=> $vv,
+					'icons'		=> $stackIcons,
+					'enabled'	=> array()
+				))
+			);
 
 
 		$t = $this->dasModel->enabledStacks;

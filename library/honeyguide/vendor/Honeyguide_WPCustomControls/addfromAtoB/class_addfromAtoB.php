@@ -1,16 +1,11 @@
 <?php
-if ( ! class_exists( 'WP_Customize_Control' ) ) return NULL;
-require_once(dirname(dirname(__FILE__)) . '/baseClass.php');
+if( class_exists( 'WP_Customize_Control' ) ):
 
-class Honeyguide_WPCustomControls_addfromAtoB extends Honeyguide_WPCustomControls {
+class Honeyguide_WPCustomControls_addfromAtoB extends WP_Customize_Control {
 
 	public $type = 'addfromAtoB';
-    public $script = dirname(__FILE__) . '/scripts.js';
-
-    public function __construct() {
-        parent::addToEnqueuedScripts($this->type, $this->script);
-    }
-
+    public $className = __CLASS__;
+//    public $script = dirname(__FILE__) . '/scripts.js';
 
 	/**
 	* This outputs the javascript needed to automate the live settings preview.
@@ -23,9 +18,17 @@ class Honeyguide_WPCustomControls_addfromAtoB extends Honeyguide_WPCustomControl
 	* @see add_action('customize_preview_init', $func)
 	* @since MyTheme 1.0
 	*/
+/*
 	public static function live_preview() {
 		wp_enqueue_script('addfromAtoB_scripts', dirname(__FILE__) . '/scripts.js', array( 'jquery', 'customize-preview' ), '', true);
 	}
+*/
+
+/*
+	public static function admin_panels() {
+		wp_enqueue_script('addfromAtoB_scripts', dirname(__FILE__) . '/scripts.js', array( 'jquery', 'customize-preview' ), '', true);
+	}
+*/
 
 	/**
 	 * Displays the multiple select on the customize screen.
@@ -71,6 +74,9 @@ echo('###'.$this->label.'###');
 	<?php }
 }
 // Enqueue live preview javascript in Theme Customizer admin screen
-add_action( 'customize_preview_init' , array( 'CustomizeControl_addfromAtoB' , 'live_preview' ) );
+//add_action( 'customize_preview_init' , array( 'CustomizeControl_addfromAtoB' , 'live_preview' ) );
 // Output custom CSS to live site
 //add_action( 'wp_head' , array( 'CustomizeControl_addfromAtoB' , 'header_output' ) );
+
+
+endif;

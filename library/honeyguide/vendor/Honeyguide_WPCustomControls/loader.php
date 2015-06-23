@@ -1,5 +1,5 @@
 <?php
-if ( ! class_exists( 'WP_Customize_Control' ) ) return NULL;
+if( class_exists( 'WP_Customize_Control' ) ):
 /**
  * Customize for taxonomy with dropdown, extend the WP customizer
  *
@@ -16,11 +16,14 @@ abstract class Honeyguide_WPCustomControls extends WP_Customize_Control {
     public $groupName = 'Honeyguide_WPCustomControls';
     public $scripts = array();
     public $required = array('font-awesome', 'jquery', 'customize-preview');
+    public $content = '';
 
     public function __construct() {
-		foreach (glob('*/class_*.php') as $filename) {
-			require_once($filename);
-		}
+    	// do not use, since its connected trough saveRef()
+    }
+
+    public function init() {
+		echo('CC:init called.<br>');
     }
 
 // calls trough add_action:
@@ -35,6 +38,7 @@ abstract class Honeyguide_WPCustomControls extends WP_Customize_Control {
 	* 
 	* Used by hook: 'wp_head'
 	*/
+/*
 	public static function header_output() {
 		?>
 		<!--Customizer CSS--> 
@@ -46,7 +50,7 @@ abstract class Honeyguide_WPCustomControls extends WP_Customize_Control {
 		<!--/Customizer CSS-->
 		<?php
 	}
-
+*/
 	public function addToEnqueuedScripts($module, $script) {
 		$this->scripts[$module] = $script;
 		foreach ($this->scripts as $key => $val) {
@@ -66,6 +70,7 @@ abstract class Honeyguide_WPCustomControls extends WP_Customize_Control {
 	}
 
     public function render_content() {
-
+    	echo("HO! I'm your daddy<br>");
     }
 }
+endif;
