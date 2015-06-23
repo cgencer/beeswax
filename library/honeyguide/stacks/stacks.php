@@ -53,12 +53,6 @@ class stacks {
 //        wp_register_style( 'jquery-sortable', $this->jsPath . '/jquery-sortable/source/css/font-awesome.min.css');
 //        wp_enqueue_style( 'jquery-sortable' );
 
-        wp_register_script( 'jquery-sortable', $this->jsPath . '/jquery-sortable/source/js/jquery-sortable-min.js');
-        wp_enqueue_script( 'jquery-sortable' );
-
-        wp_register_script( 'font-awesome', $this->jsPath . '/script.js');
-        wp_enqueue_script( 'font-awesome' );
-
 	}
 
 	public function loadPage($pageName) {

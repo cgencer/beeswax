@@ -22,6 +22,16 @@ class stacks_customizer {
 //		add_action('customize_controls_enqueue_scripts', array('CustomizeControl_stackList', 'live_preview') ); 
 	}
 
+	public function cCommCtrlInit() {
+        wp_register_script('honeyguide-cCommCtrl', $this->dasModel->stacksUrl . 'js/cCommController.js', array('customize-controls'));
+        wp_enqueue_script('honeyguide-cCommCtrl');
+	}
+
+	public function cCommPrvwInit() {
+        wp_register_script('honeyguide-cCommPrvw', $this->dasModel->stacksUrl . 'js/cCommPreviewer.js', array('customize-preview-widgets'));
+        wp_enqueue_script('honeyguide-cCommPrvw');
+	}
+
 	public function loadStuff() {
 		require_once($this->dasModel->stacksPath . 'customizer_customcontrols.php');
 		require_once($this->dasModel->stacksPath . 'custom-controls/customizer_layoutpicker.php');
@@ -29,10 +39,17 @@ class stacks_customizer {
 			require_once($file);
 		}
 
+		add_action('customize_controls_enqueue_scripts', array($this, 'cCommCtrlInit'));
+		add_action('wp_enqueue_scripts', array($this, 'cCommPrvwInit'));
+
 		foreach(glob($this->dasModel->vendorsPath . 'Honeyguide_WPCustomControls/*', GLOB_ONLYDIR) as $f) {
 			if('vendor' != substr($f, -6)) {
 				foreach (glob($f . '/class_*.php') as $file) {
 					require_once($file);
+//					if(method_exists(__CLASS__, 'do_enqueue'))
+//						add_action('customize_controls_enqueue_scripts', array(__CLASS__, 'do_enqueue'));
+
+
 /*
 					$r = require_once($file);
 					if(method_exists($r, 'live_preview'))
@@ -111,7 +128,6 @@ class stacks_customizer {
       // We can also change built-in settings by modifying properties. For instance, let's make some stuff use live preview JS...
       // $wp_customize->get_setting( 'blogname' )->transport = 'postMessage';
       // $wp_customize->get_setting( 'blogdescription' )->transport = 'postMessage';
-
 
 		$this->templates = $this->dasModel->distributeTemplates();
 
