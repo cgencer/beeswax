@@ -16,6 +16,13 @@
             this.preview.bind('active', function() {
                 self.preview.send('honeypot', window.myCustomData);
             });
+            $('.container section').hover(function() {
+                $(this).fadeTo('fast', 0.3);
+                $(this).css('border', '1px dotted #c00');
+            }, function() {
+                $(this).fadeTo('fast', 1);
+                $(this).css('border', 'none');
+            });
 
         }
     };

@@ -37,4 +37,6 @@ require_once(dirname(__FILE__).'/vendor/json-serializer/src/Zumba/Util/JsonSeria
 
 $theTheme = new honeyguide_theme(THEME_NAME, THEME_VERSION, $m);
 
+define('KIRKI_PATH', dirname( __FILE__ ) . '/plugins/kirki/' );
+define('KIRKI_URL', get_template_directory_uri() . '/plugins/kirki/');
 include_once( dirname( __FILE__ ) . '/plugins/kirki/kirki.php' );

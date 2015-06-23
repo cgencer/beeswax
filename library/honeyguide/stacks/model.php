@@ -9,6 +9,7 @@ class stacks_model {
 	public $mePath;
 	public $stacksPath;
 	public $stacksUrl;
+	public $themeUrl;
 	public $vendorsPath;
 	public $vendorsUrl;
 
@@ -37,6 +38,7 @@ class stacks_model {
 		$this->vendorsUrl = get_template_directory_uri() . '/library/honeyguide/stacks/js/vendor/';
 		$this->stacksPath = dirname(dirname(dirname(dirname(__FILE__)))) . '/library/honeyguide/stacks/';
 		$this->stacksUrl = get_template_directory_uri() . '/library/honeyguide/stacks/';
+		$this->themeUrl = get_template_directory_uri();
 		$this->instancesPath = dirname(dirname(dirname(dirname(__FILE__)))) . '/library/honeyguide/stacks/instances/';
 
 		if ( ! class_exists( 'Spyc' ) ) require_once ($this->vendorsPath . '/spyc/Spyc.php');
