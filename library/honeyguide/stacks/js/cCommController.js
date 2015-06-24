@@ -13,7 +13,7 @@
         init: function() {
             var self = this; // Store a reference to "this" in case callback functions need to reference it
             this.preview.bind('honeypot', function(data) {
-                alert('"honeypot" has been received from the Previewer. Check the console for the data.');
+                //   alert('"honeypot" has been received from the Previewer. Check the console for the data.');
                 console.log(data);
             });
         }

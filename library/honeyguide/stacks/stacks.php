@@ -7,6 +7,7 @@ class stacks {
 	public $templates;
 	public $dasModel;
 	private $stackedPages;
+	public $stackMenu;
 
 	public $mustacheEngine;
 	public $mustacheLoader;
@@ -14,14 +15,14 @@ class stacks {
 	public $debug = false;
 
 	public function __construct() {
+	}
+
+    public function saveRef($id) {
+		$this->theParent = $id;
 
 		$this->dasModel = require_once(dirname(__FILE__) . '/model.php');
 		$this->dasModel->saveRef($this);
 
-		$obj = require_once(dirname(__FILE__) . '/customizer.php');
-		if( method_exists( $obj, 'saveRef') ) {
-			$obj->saveRef($this);
-		}
 		$this->depotPath = dirname(__FILE__) . '/depot/';
 		$this->vendorPath = dirname(dirname(__FILE__)) . '/vendor/';
 		$this->jsUrl = get_template_directory_uri() . '/bower_components/';
@@ -32,18 +33,19 @@ class stacks {
 		$this->settingsApi = new Settings_API;
 		$this->settingsApi->saveRef($this);
 		$this->initRenderer();
-	}
 
-    public function saveRef($id) {
-		$this->theParent = $id;
+		$obj = require_once(dirname(__FILE__) . '/customizer.php');
+		if( method_exists( $obj, 'saveRef') ) {
+			$obj->saveRef($this);
+			if($this->theParent->mustacheEngine) {
+				$this->mustacheEngine = $this->theParent->mustacheEngine;
+				$this->stackMenu = $this->mustacheEngine->render(file_get_contents(dirname(__FILE__).'/stackMenu.tpl'), null);
+				echo('###'.strlen($this->stackMenu).'###');
+			}
+		}
     }
 
 	public function initRenderer() {
-
-		if($this->theParent->mustacheEngine) {
-			$this->mustacheEngine = $this->theParent->mustacheEngine;
-		}
-
         wp_register_style( 'font-awesome', $this->jsUrl . 'font-awesome/css/font-awesome.css', array(), '4.2.0');
         wp_enqueue_style( 'font-awesome' );
 
@@ -70,6 +72,9 @@ class stacks {
 				}
 			}
 			get_footer();
+			echo('<div id="stackEditingContainer" style="display:none;">' . 
+				$this->mustacheEngine->render(file_get_contents(dirname(__FILE__).'/stackMenu.tpl'), null) .
+				'</div>');
  		}
 
 	}
@@ -196,6 +201,6 @@ class stacks {
 			}
 		}
 //		$this->dasModel->dump($export, $stack.'_'.'');
-		return $s;
+		return ($s);
 	}
 }

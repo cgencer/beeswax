@@ -16,12 +16,29 @@
             this.preview.bind('active', function() {
                 self.preview.send('honeypot', window.myCustomData);
             });
-            $('.container section').hover(function() {
-                $(this).fadeTo('fast', 0.3);
-                $(this).css('border', '1px dotted #c00');
+            $('.container section').hover(function(e) {
+                //                alert($(this).position().top + ' x ' + $(this).position().left);
+
+                e.preventDefault();
+                $('<div id="stackUpPoop" />').appendTo($('body'));
+
+                $('#stackUpPoop').
+                    css('z-index', 999).
+                    width($(this).width()).
+                    height($(this).height()).
+                    css('top', Math.floor($(this).offset().top)).
+                    css('left', Math.floor($(this).offset().left)).
+                    css('padding', $(this).css('padding')).
+                    css('margin', $(this).css('margin')).
+                    css('position', 'absolute').
+                    css('background', '#ccc').
+                    css('border', '1px dotted #c00').
+                    css('opacity', '0.7');
+
+                $('#stackEditingContainer').clone().appendTo('#stackUpPoop');
+
             }, function() {
-                $(this).fadeTo('fast', 1);
-                $(this).css('border', 'none');
+                $('#stackUpPoop').remove();
             });
 
         }

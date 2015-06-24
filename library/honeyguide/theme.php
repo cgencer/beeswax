@@ -14,23 +14,31 @@ class honeyguide_theme {
 	private $plugRef = array();
 	private $themeRef = array();
 
-	public function __construct( $theme_name, $version, $mustache ) {
+	public function __construct( $theme_name, $version ) {
 		$this->theme_name = $theme_name;
 		$this->version = $version;
 
+		add_theme_support( 'customize-inline-editing', array(
+			'blogname' => '.site-title',
+			'blogdescription' => '.site-description',
+			));
+	}
+
+//	if( /* !method_exists('honeyguide_theme', 'templateRender') && */ class_exists('WeDevs_Settings_API') && class_exists('Mustache_Engine') ) {
+
+	public function init($themeEng) {
 		$this->dasModel = require_once(dirname(__FILE__) . '/model.php');
 		$this->dasModel->saveRef($this);
+
+		$this->mustacheEngine = $themeEng;
+//		$this->mustacheSViews = $mustacheSubviews;
+		$this->mustacheEngine->setSuffix('tpl');
 
 		foreach ($this->plugins as $file) {
 			require_once($file.'/'.$file.'.php');
 			$this->plugRef[$file] = new Stacks;
 			$this->plugRef[$file]->saveRef($this);
 		}
-
-		$this->mustacheEngine = $mustache;
-		$this->mustacheSViews = $mustacheSubviews;
-		$this->mustacheEngine->setSuffix('tpl');
-
 		// Add Translation Option
 		load_theme_textdomain( 'wpbootstrap', TEMPLATEPATH.'/languages' );
 		$locale = get_locale();
@@ -52,17 +60,9 @@ class honeyguide_theme {
 				include_once($filename);
 			}
 		}
-
-		add_theme_support( 'customize-inline-editing', array(
-			'blogname' => '.site-title',
-			'blogdescription' => '.site-description',
-			));
 	}
 
-//	if( /* !method_exists('honeyguide_theme', 'templateRender') && */ class_exists('WeDevs_Settings_API') && class_exists('Mustache_Engine') ) {
-
 	public function loadPage($page) {
-
 		if($this->plugRef['stacks']) $this->plugRef['stacks']->loadPage($page);
 
 	}

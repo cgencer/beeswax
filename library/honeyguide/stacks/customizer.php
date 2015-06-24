@@ -8,6 +8,7 @@ class stacks_customizer {
 	private $pri = 45;
 	private $templates;
 	private $dasModel;
+	public $stackMenu;
 
 	private $stackMeta;
 
