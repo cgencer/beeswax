@@ -20,9 +20,8 @@
                 //                alert($(this).position().top + ' x ' + $(this).position().left);
 
                 e.preventDefault();
-                $('<div id="stackUpPoop" />').appendTo($('body'));
 
-                $('#stackUpPoop').
+                $('#stackEditingContainer').clone().attr('id', 'editingThisSack').appendTo('body').
                     css('z-index', 999).
                     width($(this).width()).
                     height($(this).height()).
@@ -33,12 +32,11 @@
                     css('position', 'absolute').
                     css('background', '#ccc').
                     css('border', '1px dotted #c00').
+                    css('display', 'block').
                     css('opacity', '0.7');
 
-                $('#stackEditingContainer').clone().appendTo('#stackUpPoop');
-
             }, function() {
-                $('#stackUpPoop').remove();
+                $('#editingThisSack').remove();
             });
 
         }
