@@ -7,13 +7,11 @@
     var api = wp.customize;
     var OldPreviewer;
 
-    // Custom Customizer Previewer class (attached to the Customize API)
     api.myCustomizerPreviewer = {
-        // Init
         init: function() {
-            var self = this; // Store a reference to "this" in case callback functions need to reference it
+            var self = this;
             this.preview.bind('honeypot', function(data) {
-                //   alert('"honeypot" has been received from the Previewer. Check the console for the data.');
+                $('#customize-theme-controls ul li h3:hasContent(' + data + ')').css('text-decoration', 'underline').css('text-indent', '16px');
                 console.log(data);
             });
         }

@@ -67,7 +67,7 @@ class stacks {
 
 			get_header();
 			if(array_key_exists($pageName, $this->dasModel->stackedPages)) {
-				foreach ($this->dasModel->stackedPages[$pageName] as $stack) {	
+				foreach ($this->dasModel->stackedPages[$pageName] as $stack) {
 					echo($this->render($stack));
 				}
 			}
@@ -201,6 +201,8 @@ class stacks {
 			}
 		}
 //		$this->dasModel->dump($export, $stack.'_'.'');
-		return ($s);
+
+		return (preg_replace('/<section /', '<section alt="' . $stack . '" ', $s));
+//		return $s;
 	}
 }
