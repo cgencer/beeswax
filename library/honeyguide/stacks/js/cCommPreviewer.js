@@ -16,28 +16,33 @@
             this.preview.bind('active', function() {
                 self.preview.send('honeypot', window.myCustomData);
             });
+
             $('.container section').hover(function(e) {
                 //                alert($(this).position().top + ' x ' + $(this).position().left);
 
                 e.preventDefault();
+                self.createMenu($(this));
 
-                $('#stackEditingContainer').clone().attr('id', 'editingThisSack').appendTo('body').
-                    css('z-index', 999).
-                    width($(this).width()).
-                    height($(this).height()).
-                    css('top', Math.floor($(this).offset().top)).
-                    css('left', Math.floor($(this).offset().left)).
-                    css('padding', $(this).css('padding')).
-                    css('margin', $(this).css('margin')).
-                    css('position', 'absolute').
-                    css('background', '#ccc').
-                    css('border', '1px dotted #c00').
-                    css('display', 'block').
-                    css('opacity', '0.7');
-
-            }, function() {
-                $('#editingThisSack').remove();
             });
+        },
+        createMenu: function(stack) {
+
+            $('#stackEditingContainer').clone().attr('id', 'editingThisSack').appendTo('body').
+                css('z-index', 999).
+                on('mouseleave', function() {
+                    $(this).remove();
+                }).
+                width($(stack).width()).
+                height($(stack).height()).
+                css('top', Math.floor($(stack).offset().top)).
+                css('left', Math.floor($(stack).offset().left)).
+                css('padding', $(stack).css('padding')).
+                css('margin', $(stack).css('margin')).
+                css('position', 'absolute').
+                css('background', '#ccc').
+                css('border', '1px dotted #c00').
+                css('display', 'block').
+                css('opacity', '0.7');
 
         }
     };
