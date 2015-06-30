@@ -11,6 +11,13 @@ class stacks_customizer {
 
 	private $stackMeta;
 	private $scripts;
+	private $hooks = array(
+		'preview' => 'wp_enqueue_scripts',					// to appear on the front end
+		'xxxxxxx' => 'customize_controls_init', 			// Fires when Customizer controls are initialized, before scripts are enqueued
+		'control' => 'customize_controls_enqueue_scripts',	//  action hook triggered after the WP Theme Customizer after customize_controls_init was called
+		'stacks' => 'customize_preview_init',				// to enqueue assets (such as javascript files) directly in the Theme Customizer only
+		'register' => 'customize_register'					// to customize and manipulate the Theme Customization admin screen (adding custom controls, etc)
+	);
 
 	public function saveRef($id) {
 		$this->theParent = $id;
@@ -29,17 +36,40 @@ class stacks_customizer {
 				'honeypot-editor' => array(
 					'path' => $this->dasModel->stacksUrl . 'js/honeyPot/editor.js',
 					'required' => array('jquery', 'honeypot-util', 'customize-preview-widgets')
+				),
+				'customize-inline-editing-preview' => array(
+					'path' => $this->dasModel->stacksUrl . 'js/customize-preview.js',
+					'required' => array('jquery', 'customize-preview')
 				)
 			),
 			'control' => array(
 				'honeyguide-cCommCtrl' => array(
 					'path' => $this->dasModel->stacksUrl . 'js/cCommController.js',
 					'required' => array('customize-controls')
+				),
+				'customize-inline-editing-pane' => array(
+					'path' => $this->dasModel->stacksUrl . 'js/customize-pane.js',
+					'required' => array('jquery', 'customize-preview')
 				)
 			),
 			'stacks' => array(
+				'stack-scripts-xeditable' => array(
+					'path' => $this->dasModel->stacksUrl . 'js/vendor/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.min.js',
+					'required' => array('jquery', 'customize-preview')
+				),
+				'stack-styles-xeditable' => array(
+					'path' => $this->dasModel->stacksUrl . 'js/vendor/x-editable/dist/bootstrap3-editable/css/bootstrap-editable.css',
+					'required' => array()
+				)
 			)
 		);
+
+
+		$this->export_script_data('customize-inline-editing-preview', '_CustomizeInlineEditingPreview_exports', array(
+			'settingElementSelectors' => $this->get_theme_support(),
+			'l10n' => array('shiftClickNotice' => __( 'Shift + Click to edit inline.', 'customize-inline-editing' ))
+		));
+
 
 		foreach (scandir($this->dasModel->stacksPath . 'depot/') as $names) {
 			if ('.' === $names || '..' === $names || '.DS_Store' === $names) continue;
@@ -88,14 +118,10 @@ class stacks_customizer {
 			require_once($file);
 		}
 
-		// action hook triggered after the WP Theme Customizer after customize_controls_init was called
 		add_action('customize_controls_enqueue_scripts', 	array($this, 'cCommCtrlInit'));
-		// to appear on the front end
 		add_action('wp_enqueue_scripts', 					array($this, 'cCommPrvwInit'));
-		// to enqueue assets (such as javascript files) directly in the Theme Customizer only
-		add_action('customize_preview_init', 				array($this, 'cStcksScrInit') );
-		// to customize and manipulate the Theme Customization admin screen (adding custom controls, etc)
-		add_action('customize_register', 					array($this, 'honeyguide_customize_register'));
+		add_action('customize_preview_init', 				array($this, 'cStcksScrInit'));
+		add_action('customize_register', 					array($this, 'cCommCompInit'));
 
 		foreach(glob($this->dasModel->vendorsPath . 'Honeyguide_WPCustomControls/*', GLOB_ONLYDIR) as $f) {
 			if('vendor' != substr($f, -6)) {
@@ -159,27 +185,11 @@ class stacks_customizer {
 		global $wp_scripts;
 		$serialized = json_encode( $exported_data );
 		$data = sprintf( 'window.%s = %s;', $exported_name, $serialized );
-		$wp_scripts->add_data( $handle, 'data', $data );
+//		$wp_scripts->add_data( $handle, 'data', $data );
 	}
-
-/*
-	public function honeyguide_stacks_scripts() {
-//		wp_enqueue_script( 'stack-scripts-xeditable', $this->vendorUrl . 'x-editable/dist/bootstrap3-editable/js/bootstrap-editable.min.js', array('jquery', 'customize-preview') );
-//		wp_enqueue_style( 'stack-styles-xeditable', $this->vendorUrl . 'x-editable/dist/bootstrap3-editable/css/bootstrap-editable.css');
-		foreach (scandir($this->dasModel->stacksPath . 'depot/') as $names) {
-			if ('.' === $names || '..' === $names || '.DS_Store' === $names) continue;
-			if(is_dir($this->dasModel->stacksPath . 'depot/' . $names)) {
-				$files = glob($this->dasModel->stacksPath . 'depot/' . $names . '/*.js');
-				foreach ($files as $file) {
-					wp_enqueue_script( 'stack-scripts-' . $names . '-' . pathinfo($file, PATHINFO_FILENAME), $this->stacksUrl . 'depot/' . $names . '/' . pathinfo($file, PATHINFO_FILENAME) . '.' . pathinfo($file, PATHINFO_EXTENSION), array('jquery', 'customize-preview') );
-				}
-			}
-		}
-	}
-*/
 
 	// grabs the dirs out of fields_meta and distributes them into 2 arrays according to the 1st line of each template file
-	public function honeyguide_customize_register($wp_customize){
+	public function cCommCompInit($wp_customize){
 
       // We can also change built-in settings by modifying properties. For instance, let's make some stuff use live preview JS...
       // $wp_customize->get_setting( 'blogname' )->transport = 'postMessage';
