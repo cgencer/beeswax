@@ -7,13 +7,13 @@
               {{/attachments}}
                 <figcaption>
                   <span class="title">
-                    <h1 class="mt-none mb-none">{{post.post_title}}</h1>
-                    <h4 class="mt-none mb-none">{{customfields.subtitle}}</h4>
+                    <h1 class="mt-none mb-none editable editable_textfield">{{post.post_title}}</h1>
+                    <h4 class="mt-none mb-none editable editable_textfield">{{customfields.subtitle}}</h4>
                   </span>
                   <p class="description text-center">
-                    <a href="{{customfields.twitter}}" class="text-white"><i class="fa fa-4x fa-twitter"></i></a>
-                    <a href="{{customfields.linkedin}}" class="text-white"><i class="fa fa-4x fa-linkedin"></i></a>
-                    <a href="{{customfields.facebook}}" class="text-white"><i class="fa fa-4x fa-skype"></i></a>
+                    <a href="{{customfields.twitter}}" class="text-white editable editable_icon"><i class="fa fa-4x fa-twitter"></i></a>
+                    <a href="{{customfields.linkedin}}" class="text-white editable editable_icon"><i class="fa fa-4x fa-linkedin"></i></a>
+                    <a href="{{customfields.facebook}}" class="text-white editable editable_icon"><i class="fa fa-4x fa-skype"></i></a>
                   </p>
                 </figcaption>
               </figure>

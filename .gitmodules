@@ -40,3 +40,6 @@
 [submodule "library/honeyguide/vendor/json-serializer"]
 	path = library/honeyguide/vendor/json-serializer
 	url = https://github.com/zumba/json-serializer.git
+[submodule "library/honeyguide/vendor/firephp"]
+	path = library/honeyguide/vendor/firephp
+	url = https://github.com/firephp/firephp-core.git

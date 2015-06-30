@@ -8,29 +8,75 @@ class stacks_customizer {
 	private $pri = 45;
 	private $templates;
 	private $dasModel;
-	public $stackMenu;
 
 	private $stackMeta;
+	private $scripts;
 
 	public function saveRef($id) {
 		$this->theParent = $id;
 		$this->dasModel = $this->theParent->dasModel;
 
+		$this->scripts = array(
+			'preview' => array(
+				'honeyguide-cCommPrvw' => array(
+					'path' => $this->dasModel->stacksUrl . 'js/cCommPreviewer.js',
+					'required' => array('customize-preview-widgets')
+				),
+				'honeypot-util' => array(
+					'path' => $this->dasModel->stacksUrl . 'js/honeyPot/util.js',
+					'required' => array('jquery', 'customize-preview-widgets')
+				),
+				'honeypot-editor' => array(
+					'path' => $this->dasModel->stacksUrl . 'js/honeyPot/editor.js',
+					'required' => array('jquery', 'honeypot-util', 'customize-preview-widgets')
+				),
+			),
+			'control' => array(
+				'honeyguide-cCommCtrl' => array(
+					'path' => $this->dasModel->stacksUrl . 'js/cCommController.js',
+					'required' => array('customize-controls')
+				)
+			),
+			'stacks' => array(),
+		);
+
+		foreach (scandir($this->dasModel->stacksPath . 'depot/') as $names) {
+			if ('.' === $names || '..' === $names || '.DS_Store' === $names) continue;
+			if(is_dir($this->dasModel->stacksPath . 'depot/' . $names)) {
+				$files = glob($this->dasModel->stacksPath . 'depot/' . $names . '/*.js');
+				foreach ($files as $file) {
+					$this->scripts['stacks'] = array(
+						'stack-scripts-' . $names . '-' . pathinfo($file, PATHINFO_FILENAME) => array(
+							'path'	=> $this->stacksUrl . 'depot/' . $names . '/' . pathinfo($file, PATHINFO_FILENAME) . '.' . pathinfo($file, PATHINFO_EXTENSION),
+							'required' => array('jquery', 'customize-preview')
+						)
+					);
+				}
+			}
+		}
+
 		$this->loadStuff();
 
-		add_action('customize_preview_init', array(&$this, 'honeyguide_stacks_scripts') );
-		add_action('customize_register', array(&$this, 'honeyguide_customize_register'));
 //		add_action('customize_controls_enqueue_scripts', array('CustomizeControl_stackList', 'live_preview') ); 
 	}
 
+	public function initJS(w) {
+		foreach ($this->scripts[w] as $key => $val) {
+	        wp_register_script($key, $val['path'], $val['required']);
+	        wp_enqueue_script($key);
+		}
+	}
+
 	public function cCommCtrlInit() {
-        wp_register_script('honeyguide-cCommCtrl', $this->dasModel->stacksUrl . 'js/cCommController.js', array('customize-controls'));
-        wp_enqueue_script('honeyguide-cCommCtrl');
+		$this->initJS('control');
 	}
 
 	public function cCommPrvwInit() {
-        wp_register_script('honeyguide-cCommPrvw', $this->dasModel->stacksUrl . 'js/cCommPreviewer.js', array('customize-preview-widgets'));
-        wp_enqueue_script('honeyguide-cCommPrvw');
+		$this->initJS('preview');
+	}
+
+	public function cStcksScrInit() {
+		$this->initJS('stacks');
 	}
 
 	public function loadStuff() {
@@ -40,8 +86,11 @@ class stacks_customizer {
 			require_once($file);
 		}
 
-		add_action('customize_controls_enqueue_scripts', array($this, 'cCommCtrlInit'));
-		add_action('wp_enqueue_scripts', array($this, 'cCommPrvwInit'));
+		add_action('customize_controls_enqueue_scripts', 	array($this, 'cCommCtrlInit'));
+		add_action('wp_enqueue_scripts', 					array($this, 'cCommPrvwInit'));
+		add_action('customize_preview_init', 				array($this, 'cStcksScrInit') );
+
+		add_action('customize_register', 					array($this, 'honeyguide_customize_register'));
 
 		foreach(glob($this->dasModel->vendorsPath . 'Honeyguide_WPCustomControls/*', GLOB_ONLYDIR) as $f) {
 			if('vendor' != substr($f, -6)) {
@@ -108,8 +157,8 @@ class stacks_customizer {
 		$wp_scripts->add_data( $handle, 'data', $data );
 	}
 
+/*
 	public function honeyguide_stacks_scripts() {
-		wp_enqueue_script( 'stack-scripts', $this->dasModel->stacksUrl . 'js/stacks.js', array('jquery', 'customize-preview') );
 //		wp_enqueue_script( 'stack-scripts-xeditable', $this->vendorUrl . 'x-editable/dist/bootstrap3-editable/js/bootstrap-editable.min.js', array('jquery', 'customize-preview') );
 //		wp_enqueue_style( 'stack-styles-xeditable', $this->vendorUrl . 'x-editable/dist/bootstrap3-editable/css/bootstrap-editable.css');
 		foreach (scandir($this->dasModel->stacksPath . 'depot/') as $names) {
@@ -122,7 +171,8 @@ class stacks_customizer {
 			}
 		}
 	}
-
+*/
+	
 	// grabs the dirs out of fields_meta and distributes them into 2 arrays according to the 1st line of each template file
 	public function honeyguide_customize_register($wp_customize){
 

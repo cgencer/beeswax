@@ -8,6 +8,7 @@
 
     var api = wp.customize;
     var OldPreview;
+    var editingStack;
 
     api.myCustomizerPreview = {
         // Init
@@ -16,12 +17,30 @@
             this.preview.bind('active', function() {});
 
             $('.container section').hover(function(e) {
-                //                alert($(this).position().top + ' x ' + $(this).position().left);
-
                 e.preventDefault();
                 self.createMenu(self, $(this));
-
+                self.editingMode(self, $, $(this));
             });
+        },
+        editingMode: function(self, $, stack) {
+            var uid = self.generateUid();
+            var uided = 'stack_' + uid;
+            if (!$(stack).hasClass('stacks')) {
+                $(stack).addClass('stacks').addClass(uided);
+                self.editingStack = uided;
+            }
+
+            $('.' + uided + ' .editable_textfield').css('border', '1 px dashed #cc0000');
+        },
+        generateUid: function(separator) {
+            var delim = separator || "-";
+            delim = "";
+
+            function S4() {
+                return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+            }
+
+            return (S4() + S4() + delim + S4() + delim + S4() + delim + S4() + delim + S4() + S4() + S4());
         },
         createMenu: function(self, stack) {
 

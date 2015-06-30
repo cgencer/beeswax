@@ -3,7 +3,7 @@
         <div class="row">
           <div class="col-xs-12">
           {{#set.global}}
-            <h2 class="lead text-center text-primary mb-none">{{strings.title}}</h2>
+            <h2 class="lead text-center text-primary mb-none editable editable_textfield">{{strings.title}}</h2>
           {{/set.global}}
           </div>
         </div>
