@@ -29,7 +29,7 @@ class stacks_customizer {
 				'honeypot-editor' => array(
 					'path' => $this->dasModel->stacksUrl . 'js/honeyPot/editor.js',
 					'required' => array('jquery', 'honeypot-util', 'customize-preview-widgets')
-				),
+				)
 			),
 			'control' => array(
 				'honeyguide-cCommCtrl' => array(
@@ -37,7 +37,8 @@ class stacks_customizer {
 					'required' => array('customize-controls')
 				)
 			),
-			'stacks' => array(),
+			'stacks' => array(
+			)
 		);
 
 		foreach (scandir($this->dasModel->stacksPath . 'depot/') as $names) {
@@ -45,9 +46,9 @@ class stacks_customizer {
 			if(is_dir($this->dasModel->stacksPath . 'depot/' . $names)) {
 				$files = glob($this->dasModel->stacksPath . 'depot/' . $names . '/*.js');
 				foreach ($files as $file) {
-					$this->scripts['stacks'] = array(
+					$this->scripts['stacks'][] = array(
 						'stack-scripts-' . $names . '-' . pathinfo($file, PATHINFO_FILENAME) => array(
-							'path'	=> $this->stacksUrl . 'depot/' . $names . '/' . pathinfo($file, PATHINFO_FILENAME) . '.' . pathinfo($file, PATHINFO_EXTENSION),
+							'path'	=> $this->dasModel->stacksUrl . 'depot/' . $names . '/' . pathinfo($file, PATHINFO_FILENAME) . '.' . pathinfo($file, PATHINFO_EXTENSION),
 							'required' => array('jquery', 'customize-preview')
 						)
 					);
@@ -60,10 +61,11 @@ class stacks_customizer {
 //		add_action('customize_controls_enqueue_scripts', array('CustomizeControl_stackList', 'live_preview') ); 
 	}
 
-	public function initJS(w) {
-		foreach ($this->scripts[w] as $key => $val) {
+	public function initJS($w) {
+		foreach ($this->scripts[$w] as $key => $val) {
 	        wp_register_script($key, $val['path'], $val['required']);
 	        wp_enqueue_script($key);
+	        echo($val['path'].'<br>');
 		}
 	}
 
@@ -86,10 +88,13 @@ class stacks_customizer {
 			require_once($file);
 		}
 
+		// action hook triggered after the WP Theme Customizer after customize_controls_init was called
 		add_action('customize_controls_enqueue_scripts', 	array($this, 'cCommCtrlInit'));
+		// to appear on the front end
 		add_action('wp_enqueue_scripts', 					array($this, 'cCommPrvwInit'));
+		// to enqueue assets (such as javascript files) directly in the Theme Customizer only
 		add_action('customize_preview_init', 				array($this, 'cStcksScrInit') );
-
+		// to customize and manipulate the Theme Customization admin screen (adding custom controls, etc)
 		add_action('customize_register', 					array($this, 'honeyguide_customize_register'));
 
 		foreach(glob($this->dasModel->vendorsPath . 'Honeyguide_WPCustomControls/*', GLOB_ONLYDIR) as $f) {
@@ -172,7 +177,7 @@ class stacks_customizer {
 		}
 	}
 */
-	
+
 	// grabs the dirs out of fields_meta and distributes them into 2 arrays according to the 1st line of each template file
 	public function honeyguide_customize_register($wp_customize){
 
