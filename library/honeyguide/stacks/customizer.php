@@ -36,23 +36,35 @@ class stacks_customizer {
 				'honeypot-editor' => array(
 					'path' => $this->dasModel->stacksUrl . 'js/honeyPot/editor.js',
 					'required' => array('jquery', 'honeypot-util', 'customize-preview-widgets')
+//				),
+				// https://github.com/xwp/wp-customize-inline-editing
+//				'customize-inline-editing-preview' => array(
+//					'path' => $this->dasModel->stacksUrl . 'js/customize-preview.js',
+//					'required' => array('jquery', 'customize-preview')
 				),
-				'customize-inline-editing-preview' => array(
-					'path' => $this->dasModel->stacksUrl . 'js/customize-preview.js',
-					'required' => array('jquery', 'customize-preview')
-				)
+				// 
+				'slidereveal' => array(
+					'path' => $this->dasModel->themeUrl . '/bower_components/slidereveal/dist/jquery.slidereveal.min.js',
+					'required' => array('jquery')
+/*				),
+				'slidereveal-panel' => array(
+					'path' => $this->dasModel->stacksUrl . 'js/customize-preview-slidepanel.js',
+					'required' => array('jquery')
+*/				)				
 			),
 			'control' => array(
 				'honeyguide-cCommCtrl' => array(
 					'path' => $this->dasModel->stacksUrl . 'js/cCommController.js',
 					'required' => array('customize-controls')
-				),
-				'customize-inline-editing-pane' => array(
-					'path' => $this->dasModel->stacksUrl . 'js/customize-pane.js',
-					'required' => array('jquery', 'customize-preview')
+//				),
+				// https://github.com/xwp/wp-customize-inline-editing
+//				'customize-inline-editing-pane' => array(
+//					'path' => $this->dasModel->stacksUrl . 'js/customize-pane.js',
+//					'required' => array('jquery', 'customize-preview')
 				)
 			),
 			'stacks' => array(
+				// http://vitalets.github.io/x-editable/
 				'stack-scripts-xeditable' => array(
 					'path' => $this->dasModel->stacksUrl . 'js/vendor/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.min.js',
 					'required' => array('jquery', 'customize-preview')
@@ -64,12 +76,10 @@ class stacks_customizer {
 			)
 		);
 
-
 		$this->export_script_data('customize-inline-editing-preview', '_CustomizeInlineEditingPreview_exports', array(
 			'settingElementSelectors' => $this->get_theme_support(),
 			'l10n' => array('shiftClickNotice' => __( 'Shift + Click to edit inline.', 'customize-inline-editing' ))
 		));
-
 
 		foreach (scandir($this->dasModel->stacksPath . 'depot/') as $names) {
 			if ('.' === $names || '..' === $names || '.DS_Store' === $names) continue;
@@ -87,15 +97,13 @@ class stacks_customizer {
 		}
 
 		$this->loadStuff();
-
-//		add_action('customize_controls_enqueue_scripts', array('CustomizeControl_stackList', 'live_preview') ); 
 	}
 
 	public function initJS($w) {
 		foreach ($this->scripts[$w] as $key => $val) {
 	        wp_register_script($key, $val['path'], $val['required']);
 	        wp_enqueue_script($key);
-	        echo($val['path'].'<br>');
+	        if (class_exists('FirePHP')) fb($val['path']);
 		}
 	}
 
@@ -126,28 +134,22 @@ class stacks_customizer {
 		foreach(glob($this->dasModel->vendorsPath . 'Honeyguide_WPCustomControls/*', GLOB_ONLYDIR) as $f) {
 			if('vendor' != substr($f, -6)) {
 				foreach (glob($f . '/class_*.php') as $file) {
-					require_once($file);
+
 //					if(method_exists(__CLASS__, 'do_enqueue'))
 //						add_action('customize_controls_enqueue_scripts', array(__CLASS__, 'do_enqueue'));
 
 
-/*
+
 					$r = require_once($file);
 					if(method_exists($r, 'live_preview'))
-						add_action('customize_controls_enqueue_scripts', array($r->className, 'live_preview') );
+						add_action('customize_controls_enqueue_scripts', array($r, 'customizerPreview') );
 					if(method_exists($r, 'admin_panels'))
-						add_action('customize_controls_enqueue_scripts', array($r->className, 'admin_panels') );
-*/
+						add_action('customize_controls_enqueue_scripts', array($r, 'customizerPanels') );
+
 				}
 			}
 		}
 	}
-
-	public function __construct() {
-//		add_action( 'customize_controls_enqueue_scripts', array( $this, 'customize_pane_scripts' ) );
-//		add_action( 'customize_preview_init', array( $this, 'customize_preview_init' ) );
-	}
-
 
 	public function getStacks() {
 		return $this->dasModel->stackedPages;

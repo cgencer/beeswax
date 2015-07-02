@@ -29,7 +29,9 @@ class stacks {
 
 		$this->dasModel->saveUtil(require_once( dirname(dirname(__FILE__)) . '/utils.php' ) );
 
-		if(!class_exists('WeDevs_Settings_API')) require_once( $this->vendorPath.'settings-api.php' );
+		if(!class_exists('WeDevs_Settings_API'))	require_once($this->vendorPath.'settings-api.php');
+		if(!class_exists('FirePHP')) 				require_once($this->vendorPath.'firephp/lib/FirePHPCore/fb.php');
+		ob_start();			// to use FirePHP
 		$this->settingsApi = new Settings_API;
 		$this->settingsApi->saveRef($this);
 		$this->initRenderer();
@@ -40,7 +42,7 @@ class stacks {
 			if($this->theParent->mustacheEngine) {
 				$this->mustacheEngine = $this->theParent->mustacheEngine;
 				$this->stackMenu = $this->mustacheEngine->render(file_get_contents(dirname(__FILE__).'/stackMenu.tpl'), null);
-				echo('###'.strlen($this->stackMenu).'###');
+//				echo('###'.strlen($this->stackMenu).'###');
 			}
 		}
     }

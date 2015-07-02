@@ -18,6 +18,17 @@ if( !function_exists( "wp_bootstrap_head_cleanup" ) ) {
 // Launch operation cleanup
 add_action( 'init', 'wp_bootstrap_head_cleanup' );
 
+/**
+*  Make sure that all excerpts have class="excerpt"
+*/
+if( !function_exists( 'layers_excerpt_class' ) ) {
+  function layers_excerpt_class( $excerpt ) {
+    return str_replace('<p', '<p class="excerpt"', $excerpt);
+  }
+} // layers_excerpt_class
+add_filter( "the_excerpt", "layers_excerpt_class" );
+add_filter( "get_the_excerpt", "layers_excerpt_class" );
+
 // remove WP version from RSS
 if( !function_exists( "wp_bootstrap_rss_version" ) ) {  
   function wp_bootstrap_rss_version() { return ''; }

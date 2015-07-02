@@ -4,17 +4,24 @@
 (function(wp, $) {
     "use strict";
 
-    if (!wp || !wp.customize) return;
+    if (!wp || !wp.customize) {
+        return;
+    }
 
     var api = wp.customize;
     var OldPreview;
-    var editingStack;
-
     api.myCustomizerPreview = {
-        // Init
         init: function() {
-            var self = this; // Store a reference to "this"
-            this.preview.bind('active', function() {});
+            var self = this;
+
+            $('body').append($('<div id="slider">Hello World!!</div>'));
+            $('#slider').slideReveal();
+
+            this.preview.bind('honeypot', function(data) {
+                if ('openPanel' === data) {
+                    alert('opening the panel...');
+                }
+            });
 
             $('.container section').hover(function(e) {
                 e.preventDefault();
@@ -45,7 +52,8 @@
         createMenu: function(self, stack) {
 
             $('#editingThisSack, #backingThisSack').remove();
-            self.preview.send('honeypot', $(stack).attr('alt'));
+
+            self.preview.send('honeypot', 'addPanelButton');
 
             $('#stackEditingContainer').clone().attr('id', 'backingThisSack').appendTo('body').
                 css('z-index', 998).
@@ -95,5 +103,6 @@
 
     $(function() {
         api.myCustomizerPreview.init();
+        console.log('init previewer');
     });
 })(window.wp, jQuery);

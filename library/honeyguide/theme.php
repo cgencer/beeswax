@@ -27,6 +27,19 @@ class honeyguide_theme {
 //	if( /* !method_exists('honeyguide_theme', 'templateRender') && */ class_exists('WeDevs_Settings_API') && class_exists('Mustache_Engine') ) {
 
 	public function init($themeEng) {
+
+		add_theme_support('html5');
+		add_theme_support('title-tag');
+		add_theme_support('widget-customizer');
+		add_theme_support( 'post-thumbnails' );
+		add_theme_support( 'automatic-feed-links' );
+		add_image_size( 'honeyguide-square-large', 1000, 1000, true );
+		add_image_size( 'honeyguide-portrait-large', 720, 1000, true );
+		add_image_size( 'honeyguide-landscape-large', 1000, 720, true );
+		add_image_size( 'honeyguide-square-medium', 480, 480, true );
+		add_image_size( 'honeyguide-portrait-medium', 340, 480, true );
+		add_image_size( 'honeyguide-landscape-medium', 480, 340, true );
+
 		$this->dasModel = require_once(dirname(__FILE__) . '/model.php');
 		$this->dasModel->saveRef($this);
 

@@ -1,42 +1,19 @@
-var honeyPot = (function(honeyPot, wp, $) {
+honeyPot.editor = (function($, wp, honeyPot) {
     "use strict";
 
     if (!wp || !wp.customize || !$) return;
     var api = wp.customize;
+    var self = Object.create(honeyPot);
 
-    honeyPot.editor = function() {
-
-        // private variables
-        var dimensions = {
-            width: width,
-            height: height
-        };
-
-        var me = {};
-        me._private = {};
-
-        // private methods
-        // creating getWidth and getHeight
-        // to prevent access by reference to dimensions
-        var getWidth = function() {
-            return dimensions.width;
-        };
-        var getHeight = function() {
-            return dimensions.height;
-        };
-
-        var init = function() {
-            var self = this;
-        };
-
-        // public API
-        return {
-            getWidth: getWidth,
-            getHeight: getHeight,
-            me: me,
-            init: init
-        };
+    self.init = function() {
+        var self = this;
+        //        alert('init');
     };
 
+    $(function() {
+        self.init();
+    });
 
-}(honeyPot || {}, window.wp, jQuery));
+    return self;
+
+}(jQuery, window.wp, honeyPot || {}));
