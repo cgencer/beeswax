@@ -10,16 +10,31 @@
 
     var api = wp.customize;
     var OldPreview;
+    var sRev;
+    var nxtIs;
     api.myCustomizerPreview = {
         init: function() {
             var self = this;
 
             $('body').append($('<div id="slider">Hello World!!</div>'));
-            $('#slider').slideReveal();
 
             this.preview.bind('honeypot', function(data) {
-                if ('openPanel' === data) {
-                    alert('opening the panel...');
+                sRev = $('#slider').slideReveal({
+                    //                    autoEscape: false,
+                    width: 500,
+                    speed: 700
+                });
+                switch (data.panel) {
+                    case 'open':
+                        $(function() {
+                            sRev.slideReveal('show');
+                        });
+                        break;
+                    case 'close':
+                        $(function() {
+                            sRev.slideReveal('hide');
+                        });
+                        break;
                 }
             });
 

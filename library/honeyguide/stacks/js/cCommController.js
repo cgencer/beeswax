@@ -6,17 +6,38 @@
 
     var api = wp.customize;
     var OldPreviewer;
+    var modusOperandi = false;
 
     api.myCustomizerPreviewer = {
         init: function() {
             var self = this;
             console.log('init controller');
+            api.section.each(function(sct) {
+                console.log(sct.id);
+                if ('stacks_' === sct.id.substr(0, 7)) {
+                    alert(sct.id);
+                    $(sct.container).append("<div id='panel_" + sct.id + "' class='panelContent' style='display:none;'>ADDED</div>");
+                }
+            });
             this.preview.bind('honeypot', function(data) {
                 if ('addPanelButton' === data) {
-                    $('#customize-header-actions .primary-actions input#save').after('<button id="trigger" class="button button-primary save">Trigger</button>');
+                    if ($('button#trigger').length == 0) {
+                        $('#customize-header-actions .primary-actions input#save').after('<button id="trigger" class="button button-primary save" style="margin-right:5px;">Trigger</button>');
+                    }
                     $('button#trigger').on('click', function(e) {
                         e.preventDefault();
-                        self.preview.send('honeypot', 'openPanel');
+                        if (modusOperandi) {
+                            console.log('opening');
+                            self.preview.send('honeypot', {
+                                'panel': 'open'
+                            });
+                        } else {
+                            console.log('closing');
+                            self.preview.send('honeypot', {
+                                'panel': 'close'
+                            });
+                        }
+                        modusOperandi = !modusOperandi;
                     });
                 }
             });

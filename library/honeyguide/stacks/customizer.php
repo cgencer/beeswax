@@ -309,6 +309,19 @@ class stacks_customizer {
 							);
 						}
 					}
+					// this part adds the 'static' content template container into the section as rendered template 
+					$wp_customize->add_setting(
+						'stacks_'.$v.'_panelContent', array(
+							'capability'	=> 'edit_theme_options',
+							'type'			=> 'option',
+					));
+					$wp_customize->add_control( 
+						new Honeyguide_WPCustomControls_ContentContainer($wp_customize, 'textarea_setting', array(
+							'id'   			=> $v,
+							'settings'		=> 'stacks_'.$v.'_panelContent',
+							'section' 		=> 'stacks_'.$v,
+					)));
+
 				}
 			}
 		}
