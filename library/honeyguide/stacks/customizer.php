@@ -311,22 +311,23 @@ class stacks_customizer {
 						}
 					}
 					// this part adds the 'static' content template container into the section as rendered template 
-					$wp_customize->add_setting(
-						'stacks_'.$v.'_panelContent', array(
-							'capability'	=> 'edit_theme_options',
-							'type'			=> 'option',
-					));
-					$panelContent = (!$this->templates['PARAM'][$v]['isDynamic']) ? "" :
-						$this->theParent->mustacheEngine->render(file_get_contents(dirname(__FILE__).'/panels/'.$this->templates['PARAM'][$v]['panel'].'.tpl'), null);
+					if($this->templates['PARAM'][$v]['isDynamic']) {
+						$wp_customize->add_setting(
+							'stacks_'.$v.'_panelContent', array(
+								'capability'	=> 'edit_theme_options',
+								'type'			=> 'option',
+						));
+						$wp_customize->add_control( 
+							new Honeyguide_WPCustomControls_ContentContainer($wp_customize, $v, array(
+								'choices'		=> $this->theParent->mustacheEngine->render(file_get_contents(dirname(__FILE__).'/panels/'.$this->templates['PARAM'][$v]['panel'].'.tpl'), null),
+								'label'			=> 'Query',
+								'settings'		=> 'stacks_'.$v.'_panelContent',
+								'section' 		=> 'stacks_'.$v,
+								'type'			=> 'contentContainer'
+						)));
+					}
 
 
-					$wp_customize->add_control( 
-						new Honeyguide_WPCustomControls_ContentContainer($wp_customize, $v, array(
-							'choices'		=> $panelContent,
-							'settings'		=> 'stacks_'.$v.'_panelContent',
-							'section' 		=> 'stacks_'.$v,
-							'type'			=> 'contentContainer'
-					)));
 
 				}
 			}
