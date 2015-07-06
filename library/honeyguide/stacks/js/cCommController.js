@@ -15,8 +15,8 @@
             api.section.each(function(sct) {
                 console.log(sct.id);
                 if ('stacks_' === sct.id.substr(0, 7)) {
-                    alert(sct.id);
-                    $(sct.container).append("<div id='panel_" + sct.id + "' class='panelContent' style='display:none;'>ADDED</div>");
+                    //                    alert(sct.id);
+                    // $(sct.container).append("<div id='panel_" + sct.id + "' class='panelContent' style='display:none;'>ADDED</div>");
                 }
             });
             this.preview.bind('honeypot', function(data) {
@@ -29,12 +29,14 @@
                         if (modusOperandi) {
                             console.log('opening');
                             self.preview.send('honeypot', {
-                                'panel': 'open'
+                                'panel': 'show',
+                                'content': $(this).parents('li').children('.panelContent').html()
                             });
                         } else {
                             console.log('closing');
                             self.preview.send('honeypot', {
-                                'panel': 'close'
+                                'panel': 'hide',
+                                'content': ''
                             });
                         }
                         modusOperandi = !modusOperandi;

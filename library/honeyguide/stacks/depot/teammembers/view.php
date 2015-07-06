@@ -19,7 +19,7 @@ class teammembersView
 		'global'		=> array(						// parameters specific to all items, this array contains only one item
 			array(
 				'param'		=> array(
-					'type'			=> 'dynamic'
+					'type'			=> 'dynamic',
 					'taxonomy'		=> 'skills',
 					'arrangement' 	=> array(2, 3)
 				),

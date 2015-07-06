@@ -19,23 +19,17 @@
             $('body').append($('<div id="slider">Hello World!!</div>'));
 
             this.preview.bind('honeypot', function(data) {
+                console.log('panel is ' + data.panel + 'ing itself.');
                 sRev = $('#slider').slideReveal({
-                    //                    autoEscape: false,
+                    autoEscape: true,
                     width: 500,
                     speed: 700
                 });
-                switch (data.panel) {
-                    case 'open':
-                        $(function() {
-                            sRev.slideReveal('show');
-                        });
-                        break;
-                    case 'close':
-                        $(function() {
-                            sRev.slideReveal('hide');
-                        });
-                        break;
-                }
+                $(function() {
+                    if (data.panel && data.content) {
+                        sRev.html(data.content).slideReveal(data.panel)
+                    }
+                });
             });
 
             $('.container section').hover(function(e) {

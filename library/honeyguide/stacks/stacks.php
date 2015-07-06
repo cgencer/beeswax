@@ -38,12 +38,12 @@ class stacks {
 
 		$obj = require_once(dirname(__FILE__) . '/customizer.php');
 		if( method_exists( $obj, 'saveRef') ) {
-			$obj->saveRef($this);
 			if($this->theParent->mustacheEngine) {
 				$this->mustacheEngine = $this->theParent->mustacheEngine;
 				$this->stackMenu = $this->mustacheEngine->render(file_get_contents(dirname(__FILE__).'/stackMenu.tpl'), null);
 //				echo('###'.strlen($this->stackMenu).'###');
 			}
+			$obj->saveRef($this);
 		}
     }
 

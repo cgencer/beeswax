@@ -262,7 +262,6 @@ class stacks_customizer {
 				))
 			);
 
-
 		$t = $this->dasModel->enabledStacks;
 		foreach ($t as $v) {
 
@@ -282,6 +281,8 @@ class stacks_customizer {
 
 					$custTypes = array('layout', 'tags', 'taxonomy', 'posts', 'posttypes', 'googlefonts', 'datepicker');
 					ccc($wp_customize, $sp, $v, $custTypes);
+
+//		echo('<pre>');var_dump($this->templates['PARAM'][$v]['isDynamic']);echo('</pre>');
 
 					foreach ($sp[$v] as $fieldKey => $fieldData) {
 
@@ -315,11 +316,16 @@ class stacks_customizer {
 							'capability'	=> 'edit_theme_options',
 							'type'			=> 'option',
 					));
+					$panelContent = (!$this->templates['PARAM'][$v]['isDynamic']) ? "" :
+						$this->theParent->mustacheEngine->render(file_get_contents(dirname(__FILE__).'/panels/'.$this->templates['PARAM'][$v]['panel'].'.tpl'), null);
+
+
 					$wp_customize->add_control( 
-						new Honeyguide_WPCustomControls_ContentContainer($wp_customize, 'textarea_setting', array(
-							'id'   			=> $v,
+						new Honeyguide_WPCustomControls_ContentContainer($wp_customize, $v, array(
+							'choices'		=> $panelContent,
 							'settings'		=> 'stacks_'.$v.'_panelContent',
 							'section' 		=> 'stacks_'.$v,
+							'type'			=> 'contentContainer'
 					)));
 
 				}
