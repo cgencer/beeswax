@@ -45,12 +45,16 @@ class stacks_customizer {
 				// 
 				'slidereveal' => array(
 					'path' => $this->dasModel->themeUrl . '/bower_components/slidereveal/dist/jquery.slidereveal.min.js',
-					'required' => array('jquery')
-/*				),
-				'slidereveal-panel' => array(
+					'required' => array('jquery', 'customize-preview')
+				),
+				'preview-slidePanel' => array(
 					'path' => $this->dasModel->stacksUrl . 'js/customize-preview-slidepanel.js',
-					'required' => array('jquery')
-*/				)				
+					'required' => array('jquery', 'customize-preview', 'bootstrap')
+				),
+				'preview-stackMenus' => array(
+					'path' => $this->dasModel->stacksUrl . 'js/customize-preview-stackMenus.js',
+					'required' => array('jquery', 'customize-preview')
+				)				
 			),
 			'control' => array(
 				'honeyguide-cCommCtrl' => array(

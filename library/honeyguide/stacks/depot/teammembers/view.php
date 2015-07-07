@@ -21,7 +21,7 @@ class teammembersView
 				'param'		=> array(
 					'type'			=> 'dynamic',
 					'taxonomy'		=> 'skills',
-					'arrangement' 	=> array(2, 3)
+					'arrangement' 	=> array(3, 2)
 				),
 				'strings' 	=> array(					// strings specific to all items (e.g. the container)
 					'title' 		=> "Our Team",
