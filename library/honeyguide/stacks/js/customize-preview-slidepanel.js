@@ -16,7 +16,7 @@
         // Init
         init: function() {
 
-            $('body').append($('<div id="slider" style="border-right:1px solid #aaa;">Hello World!!</div>'));
+            $('body').append($('<div id="slider" class="oneLiners container" style="border-right:1px solid #aaa;">Hello World!!</div>'));
             sRev = $('#slider');
 
             this.preview.bind('honeypot', function(data) {
@@ -29,19 +29,16 @@
                 $(function() {
                     if (data.panel && data.content) {
                         sRev.html(data.content).slideReveal(data.panel)
-                        api.slidePanel.createOneLiner();
+                        api.slidePanel.createOneLiner(data.liner);
                     }
                 });
             });
 
         },
-        createOneLiner: function() {
-            $('<div class="oneLiners" style="margin:3px; border:1px dashed #c00;">' +
-                '<span class="btn-group pull-right">' +
-                '<button id="addLiner_' + $('.oneLiners').length + '" class="oneLinerButton button button-primary" style="margin-right:5px;">' +
-                '+</button></span></div>').appendTo($(sRev));
+        createOneLiner: function(liner) {
+            $(liner).appendTo($(sRev));
 
-            $('body').contents().find('#slider button.oneLinerButton').last().on('click', function(e) {
+            $('body').contents().find('#slider .oneLinerButton').last().on('click', function(e) {
                 alert($(this).attr('id') + ' has been clicked.');
                 this.slidePanel.createOneLiner();
             });

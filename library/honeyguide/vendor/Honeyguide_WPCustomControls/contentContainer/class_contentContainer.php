@@ -21,7 +21,7 @@ class Honeyguide_WPCustomControls_ContentContainer extends WP_Customize_Control 
         <span class="btn-group pull-right"> 
             <button id="trigger" class="button button-primary save" style="margin-right:5px;"><?=$this->label;?></button>
         </span>
-        <div id="dynamicContentPanel_<?=$this->id;?>" class="panelContent" style="display:none;">
+        <div id="dynamicContentPanel_<?=$this->id;?>" class="templatePack" style="display:none;">
         <?=$this->choices;?>
         </div>
 

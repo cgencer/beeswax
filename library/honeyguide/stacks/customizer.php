@@ -321,9 +321,13 @@ class stacks_customizer {
 								'capability'	=> 'edit_theme_options',
 								'type'			=> 'option',
 						));
+
+						$templateSet = '<div class="dbQueryPanel">' . $this->theParent->mustacheEngine->render(file_get_contents(dirname(__FILE__).'/panels/'.$this->templates['PARAM'][$v]['panel'].'.tpl'), null) . '</div>';
+						$templateSet.= '<div class="dbQueryOneLiner">' . $this->theParent->mustacheEngine->render(file_get_contents(dirname(__FILE__).'/panels/dbQuery.oneLiner.tpl'), null) . '</div>';
+
 						$wp_customize->add_control( 
 							new Honeyguide_WPCustomControls_ContentContainer($wp_customize, $v, array(
-								'choices'		=> $this->theParent->mustacheEngine->render(file_get_contents(dirname(__FILE__).'/panels/'.$this->templates['PARAM'][$v]['panel'].'.tpl'), null),
+								'choices'		=> $templateSet,
 								'label'			=> 'Query',
 								'settings'		=> 'stacks_'.$v.'_panelContent',
 								'section' 		=> 'stacks_'.$v,

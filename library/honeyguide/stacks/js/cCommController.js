@@ -22,9 +22,11 @@
                         e.preventDefault();
                         self.preview.send('honeypot', modusOperandi ? {
                             'panel': 'show',
-                            'content': $(this).parents('li').children('.panelContent').html()
+                            'liner': $(this).parents('li').children('.templatePack .dbQueryOneLiner').html(),
+                            'content': $(this).parents('li').children('.templatePack .dbQueryPanel').html()
                         } : {
                             'panel': 'hide',
+                            'liner': '',
                             'content': ''
                         });
                         modusOperandi = !modusOperandi;
