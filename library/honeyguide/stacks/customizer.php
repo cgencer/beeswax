@@ -54,6 +54,10 @@ class stacks_customizer {
 				'preview-stackMenus' => array(
 					'path' => $this->dasModel->stacksUrl . 'js/customize-preview-stackMenus.js',
 					'required' => array('jquery', 'customize-preview')
+				),
+				'lodash' => array(
+					'path' => $this->dasModel->stacksUrl . 'js/vendor/lodash/lodash.min.js',
+					'required' => array('jquery', 'customize-preview')
 				)				
 			),
 			'control' => array(

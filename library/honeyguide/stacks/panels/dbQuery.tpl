@@ -3,9 +3,4 @@
 <br>
 <br>
 <br>
-<br>
-<br>
-<br>
-<br>
-<br>
-GOTCHA!!! GOTCHA!!! GOTCHA!!! GOTCHA!!! GOTCHA!!! GOTCHA!!! GOTCHA!!! GOTCHA!!! GOTCHA!!! GOTCHA!!! GOTCHA!!! GOTCHA!!!
+Create your query to be insert into the stack.

@@ -1,7 +1,7 @@
 /**
  * Customizer Previewer SlidePanel
  */
-(function(wp, $) {
+(function(wp, $, _) {
     "use strict";
 
     if (!wp || !wp.customize) {
@@ -44,6 +44,14 @@
                     $('body').contents().find('.oneLinerButton:last').removeClass('btn-danger').addClass('btn-primary').text('+');
                 }
             });
+            $(".dropdown-toggle").dropdown();
+            $('body').contents().find('.ddLeft ul li a').on('click', function(e) {
+                $(this).parents('span.dropdown').children('button').text($(this).text()+' ').append('<span class="caret"></span>');
+                e.preventDefault();
+                if($(this).hasClass('type_choices')) {
+                    alert( _.trim( $(this).attr('alt'), '][*+' ) );
+                }
+            });
         }
 
     };
@@ -58,4 +66,4 @@
     $(function() {
         api.slidePanel.init();
     });
-})(window.wp, jQuery);
+})(window.wp, jQuery, _);
