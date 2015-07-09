@@ -322,8 +322,11 @@ class stacks_customizer {
 								'type'			=> 'option',
 						));
 
+						require_once(dirname(__FILE__).'/queryRules.php');
+						$qrView = new queryRulesView($this->dasModel->queryRules);
+
 						$templateSet = '<div class="dbQueryPanel">' . $this->theParent->mustacheEngine->render(file_get_contents(dirname(__FILE__).'/panels/'.$this->templates['PARAM'][$v]['panel'].'.tpl'), null) . '</div>';
-						$templateSet.= '<div class="dbQueryOneLiner">' . $this->theParent->mustacheEngine->render(file_get_contents(dirname(__FILE__).'/panels/dbQuery.oneLiner.tpl'), null) . '</div>';
+						$templateSet.= '<div class="dbQueryOneLiner">' . $this->theParent->mustacheEngine->render(file_get_contents(dirname(__FILE__).'/panels/dbQuery.oneLiner.tpl'), $qrView) . '</div>';
 
 						$wp_customize->add_control( 
 							new Honeyguide_WPCustomControls_ContentContainer($wp_customize, $v, array(
@@ -334,9 +337,6 @@ class stacks_customizer {
 								'type'			=> 'contentContainer'
 						)));
 					}
-
-
-
 				}
 			}
 		}

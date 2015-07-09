@@ -22,8 +22,8 @@
                         e.preventDefault();
                         self.preview.send('honeypot', modusOperandi ? {
                             'panel': 'show',
-                            'liner': $(this).parents('li').children('.templatePack .dbQueryOneLiner').html(),
-                            'content': $(this).parents('li').children('.templatePack .dbQueryPanel').html()
+                            'liner': $(this).parents('li').find('.dbQueryOneLiner').html(),
+                            'content': $(this).parents('li').find('.dbQueryPanel').html()
                         } : {
                             'panel': 'hide',
                             'liner': '',

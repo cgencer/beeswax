@@ -1,16 +1,14 @@
 {{!isa:ITEM}}
      <div class="row">
-      <div class="col-md-9">
+      <div class="col-md-8">
         <div class="input-group">
           <div class="input-group-btn">
             <span class="dropdown">
               <button type="button" class="btn btn-default dropdown-toggle" id="dMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Content-type <span class="caret"></span></button>
               <ul class="dropdown-menu" aria-labelledby="dMenu1">
-                <li><a href="#">Content-type</a></li>
-                <li><a href="#">Another action</a></li>
-                <li><a href="#">Something else here</a></li>
-                <li role="separator" class="divider"></li>
-                <li><a href="#">Separated link</a></li>
+              {{#left}}
+                <li><a href="#">{{item}}</a></li>
+              {{/left}}
               </ul></span><span class="dropdown">
               <button type="button" class="btn btn-default dropdown-toggle" id="dMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><=> <span class="caret"></span></button>
               <ul class="dropdown-menu" aria-labelledby="dMenu2">
@@ -29,7 +27,7 @@
             </div>
           </div><!-- /btn-group -->
         </div><!-- /input-group -->
-        <div class="col-md-3 text-right pull-right">
+        <div class="col-md-4 text-right pull-right">
           <div class="btn-group">
             <a href="#" class="btn btn-default">on</a>
             <a href="#" class="btn btn-default">off</a>

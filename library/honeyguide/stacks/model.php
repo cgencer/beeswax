@@ -16,6 +16,7 @@ class stacks_model {
 	public $enabledStacks;
 	public $stackedPages;
 	public $dirs;
+	public $queryRules;
 
 	public $panelSet;
 	public $templates;
@@ -45,6 +46,7 @@ class stacks_model {
 
 		$this->enabledStacks = Spyc::YAMLLoad(dirname(__FILE__) . '/enabled.yaml')['stacks'];
 		$this->stackedPages = Spyc::YAMLLoad(dirname(__FILE__) . '/index.yaml');
+		$this->queryRules = Spyc::YAMLLoad(dirname(__FILE__) . '/queryRules.yaml');
 
 		$this->panelSet = array();
 

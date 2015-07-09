@@ -26,12 +26,11 @@
                     width: 500,
                     speed: 700
                 });
-                $(function() {
-                    if (data.panel && data.content) {
-                        sRev.html(data.content).slideReveal(data.panel)
-                        api.slidePanel.createOneLiner(data.liner);
-                    }
-                });
+                console.log(data);
+                if (data.panel) {
+                    sRev.html(data.content).slideReveal(data.panel)
+                    api.slidePanel.createOneLiner(data.liner);
+                }
             });
 
         },
