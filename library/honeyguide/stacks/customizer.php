@@ -322,7 +322,7 @@ class stacks_customizer {
 								'type'			=> 'option',
 						));
 
-						require_once(dirname(__FILE__).'/queryRules.php');
+						require(dirname(__FILE__).'/queryRules.php');
 						$qrView = new queryRulesView($this->dasModel->queryRules);
 
 						$templateSet = '<div class="dbQueryPanel">' . $this->theParent->mustacheEngine->render(file_get_contents(dirname(__FILE__).'/panels/'.$this->templates['PARAM'][$v]['panel'].'.tpl'), null) . '</div>';

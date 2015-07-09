@@ -26,7 +26,6 @@
                     width: 500,
                     speed: 700
                 });
-                console.log(data);
                 if (data.panel) {
                     sRev.html(data.content).slideReveal(data.panel)
                     api.slidePanel.createOneLiner(data.liner);
@@ -36,10 +35,14 @@
         },
         createOneLiner: function(liner) {
             $(liner).appendTo($(sRev));
-
-            $('body').contents().find('#slider .oneLinerButton').last().on('click', function(e) {
-                alert($(this).attr('id') + ' has been clicked.');
-                this.slidePanel.createOneLiner();
+            $('body').contents().find('.oneLinerButton').on('click', function(e) {
+                if('-' == $(this).text()){
+                    $(this).parents('.row').remove();
+                }else if('+' == $(this).text()){
+                    api.slidePanel.createOneLiner(liner);
+                    $('body').contents().find('.oneLinerButton').removeClass('btn-primary').addClass('btn-danger').text('-');
+                    $('body').contents().find('.oneLinerButton:last').removeClass('btn-danger').addClass('btn-primary').text('+');
+                }
             });
         }
 

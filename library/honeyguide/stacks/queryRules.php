@@ -8,7 +8,7 @@ class queryRulesView
     {
     	$p = array();
 		foreach ($set as $key => $val) {
-			array_push($p, array('item' => $key));
+			array_push($p, array('item' => $val));
 		}
     	$this->left = new ArrayObject($p);
 	}
