@@ -1,5 +1,5 @@
 {{!isa:ITEM}}
-<div class="row" style="padding:4px;">
+<div class="row ddrow" style="padding:4px;">
 	<div class="col-md-8">
 		<div class="input-group">
 			<div class="input-group-btn">

@@ -43,24 +43,28 @@
 
             return (S4() + S4() + delim + S4() + delim + S4() + delim + S4() + delim + S4() + S4() + S4());
         },
-        createAndOr: function(sRev, andor, grpid) {
-            $(andor).attr('alt', grpid).appendTo($(sRev));
-        },
-        createOneLiner: function(sRev, liner, andor, grpid) {
-            $(liner).attr('alt', grpid).appendTo($(sRev));
-            $('body').contents().find('.oneLinerButton').on('click', function(e) {
-                if ('-' == $(this).text()) {
-                    $('body').contents().find('div[alt="' + $(this).parents('.row').attr('alt') + '"]').remove();
-                } else if ('+' == $(this).text()) {
-                    api.slidePanel.createAndOr(sRev, andor, grpid);
-                    api.slidePanel.createOneLiner(sRev, liner, andor, api.slidePanel.generateUid());
-                    $('body').contents().find('.oneLinerButton').removeClass('btn-primary').addClass('btn-danger').text('-');
-                    $('body').contents().find('.oneLinerButton:last').removeClass('btn-danger').addClass('btn-primary').text('+');
+        switchingAndOr: function(liner) {},
+        dropdowns: function(liner) {
+            $(liner).find('.ddLeft ul li a').on('click', function(e) {
+                e.preventDefault();
+                $(this).parents('span.dropdown').children('button').text($(this).text());
+                if ($(this).hasClass('type_choices')) {
+                    alert(_.trim($(this).attr('alt'), '][*+'));
                 }
             });
-            $(".dropdown-toggle").dropdown();
+            $(liner).find('.ddMid ul li a').on('click', function(e) {
+                e.preventDefault();
+                $(this).parents('span.dropdown').children('button').text($(this).text());
+            });
+            $(liner).find('.ddRight ul li a').on('click', function(e) {
+                e.preventDefault();
+                $(this).parents('span.dropdown').children('button').text($(this).text());
+            });
+        },
 
-            $('body').contents().find('.andor').on('click', function(e) {
+        createAndOr: function(sRev, andor, grpid) {
+            $(andor).attr('alt', grpid).appendTo($(sRev));
+            $('div.row[alt="' + grpid + '"]').find('.andor').on('click', function(e) {
                 e.preventDefault();
                 if ('AND' == $(this).attr('alt')) {
                     $(this).text('OR ').append('<span class="glyphicon glyphicon-link"></span>');
@@ -70,22 +74,25 @@
                     $(this).attr('alt', 'AND');
                 }
             });
+        },
+        createOneLiner: function(sRev, liner, andor, grpid) {
+            $(liner).attr('alt', grpid).appendTo($(sRev));
+            $('body').contents().find('.oneLinerButton').on('click', function(e) {
+                if ('-' == $(this).text()) {
+                    $('body').contents().find('div[alt="' + $(this).parents('.row').attr('alt') + '"]').remove();
+                } else if ('+' == $(this).text()) {
 
-            $('iframe').contents().find('.ddLeft ul li a').on('click', function(e) {
-                e.preventDefault();
-                $(this).parents('span.dropdown').children('button').text($(this).text() + ' ').append('<span class="caret"></span>');
-                if ($(this).hasClass('type_choices')) {
-                    alert(_.trim($(this).attr('alt'), '][*+'));
+                    api.slidePanel.createAndOr(sRev, andor, grpid);
+
+                    api.slidePanel.createOneLiner(sRev, liner, andor, api.slidePanel.generateUid());
+                    $('body').contents().find('.oneLinerButton').removeClass('btn-primary').addClass('btn-danger').text('-');
+                    $('body').contents().find('.oneLinerButton:last').removeClass('btn-danger').addClass('btn-primary').text('+');
                 }
             });
-            $('iframe').contents().find('.ddMid ul li a').on('click', function(e) {
-                e.preventDefault();
-                $(this).parents('span.dropdown').children('button').text($(this).text() + ' ').append('<span class="caret"></span>');
-            });
-            $('iframe').contents().find('.ddRight ul li a').on('click', function(e) {
-                e.preventDefault();
-                $(this).parents('span.dropdown').children('button').text($(this).text() + ' ').append('<span class="caret"></span>');
-            });
+            $(".dropdown-toggle").dropdown();
+
+            api.slidePanel.dropdowns($('div.ddrow[alt="' + grpid + '"]'));
+
         }
 
     };
