@@ -58,6 +58,18 @@ class stacks_customizer {
 				'lodash' => array(
 					'path' => $this->dasModel->stacksUrl . 'js/vendor/lodash/lodash.min.js',
 					'required' => array('jquery', 'customize-preview')
+				),
+				'handlebars' => array(
+					'path' => $this->dasModel->stacksUrl . 'js/vendor/handlebars/handlebars.min.js',
+					'required' => array('jquery', 'customize-preview')
+				),
+				'ember' => array(
+					'path' => $this->dasModel->stacksUrl . 'js/vendor/ember/ember.min.js',
+					'required' => array('jquery', 'customize-preview')
+				),
+				'ember-app' => array(
+					'path' => $this->dasModel->stacksUrl . 'js/customize-preview-app.js',
+					'required' => array('ember', 'jquery', 'customize-preview')
 				)				
 			),
 			'control' => array(
