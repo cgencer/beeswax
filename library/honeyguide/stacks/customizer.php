@@ -63,13 +63,17 @@ class stacks_customizer {
 					'path' => $this->dasModel->stacksUrl . 'js/vendor/handlebars/handlebars.min.js',
 					'required' => array('jquery', 'customize-preview')
 				),
+				'requirejs' => array(
+					'path' => $this->dasModel->stacksUrl . 'js/vendor/requirejs/require.js',
+					'required' => array('customize-preview')
+				),
 				'ember' => array(
 					'path' => $this->dasModel->stacksUrl . 'js/vendor/ember/ember.min.js',
 					'required' => array('jquery', 'customize-preview')
 				),
 				'ember-app' => array(
-					'path' => $this->dasModel->stacksUrl . 'js/customize-preview-app.js',
-					'required' => array('ember', 'jquery', 'customize-preview')
+					'path' => $this->dasModel->stacksUrl . 'js/index.js',
+					'required' => array('ember', 'requirejs', 'jquery', 'customize-preview')
 				)				
 			),
 			'control' => array(
@@ -344,6 +348,7 @@ class stacks_customizer {
 						$templateSet = '<div class="dbQueryPanel">' . $this->theParent->mustacheEngine->render(file_get_contents(dirname(__FILE__).'/panels/'.$this->templates['PARAM'][$v]['panel'].'.tpl'), null) . '</div>';
 						$templateSet.= '<div class="dbQueryOneLiner">' . $this->theParent->mustacheEngine->render(file_get_contents(dirname(__FILE__).'/panels/dbQuery.oneLiner.tpl'), $qrView) . '</div>';
 						$templateSet.= '<div class="dbQueryAndOr">' . $this->theParent->mustacheEngine->render(file_get_contents(dirname(__FILE__).'/panels/dbQuery.andOr.tpl'), null) . '</div>';
+						$templateSet.= '<div class="dbQueryEmber">' . file_get_contents(dirname(__FILE__).'/panels/dbQuery.ember.tpl') . '</div>';
 
 						$wp_customize->add_control( 
 							new Honeyguide_WPCustomControls_ContentContainer($wp_customize, $v, array(

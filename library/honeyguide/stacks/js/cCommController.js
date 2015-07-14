@@ -24,6 +24,7 @@
                             'panel': 'show',
                             'liner': $(this).parents('li').find('.dbQueryOneLiner').html(),
                             'andor': $(this).parents('li').find('.dbQueryAndOr').html(),
+                            'ember': $(this).parents('li').find('.dbQueryEmber').html(),
                             'content': $(this).parents('li').find('.dbQueryPanel').html()
                         } : {
                             'panel': 'hide',

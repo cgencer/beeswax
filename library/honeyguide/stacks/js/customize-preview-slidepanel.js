@@ -28,7 +28,8 @@
                 });
                 if (data.panel) {
                     sRev.html(data.content).slideReveal(data.panel);
-                    api.slidePanel.createOneLiner(sRev, data.liner, data.andor, api.slidePanel.generateUid());
+                    api.slidePanel.createOneLiner(sRev, data.liner, data.andor, api.slidePanel.generateUid(), data.ember);
+                    $(data.ember).appendTo($(sRev));
                 }
             });
 
