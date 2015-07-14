@@ -72,7 +72,7 @@ class stacks_customizer {
 					'required' => array('jquery', 'customize-preview')
 				),
 				'ember-app' => array(
-					'path' => $this->dasModel->stacksUrl . 'js/index.js',
+					'path' => $this->dasModel->stacksUrl . 'js/app.js',
 					'required' => array('ember', 'requirejs', 'jquery', 'customize-preview')
 				)				
 			),
