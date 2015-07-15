@@ -16,6 +16,12 @@
     "tests"
   ],
   "dependencies": {
-    "gridster": "~0.5.6"
+    "gridster": "~0.5.6",
+    "ember": "*",
+    "handlebars": "*",
+    "jquery": "*",
+    "requirejs": "*",
+    "x-editable": "*",
+    "lodash": "*"
   }
 }

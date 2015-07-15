@@ -72,7 +72,10 @@ class stacks_customizer {
 					'required' => array('jquery', 'customize-preview')
 				),
 				'ember-app' => array(
-					'path' => $this->dasModel->stacksUrl . 'js/app.js',
+					'path' => $this->dasModel->stacksUrl . 'js/customize-preview-ember-loader.js',
+					'passthru' => array(
+						'stacksURL' => $this->dasModel->stacksUrl
+					),
 					'required' => array('ember', 'requirejs', 'jquery', 'customize-preview')
 				)				
 			),
@@ -126,6 +129,13 @@ class stacks_customizer {
 	public function initJS($w) {
 		foreach ($this->scripts[$w] as $key => $val) {
 	        wp_register_script($key, $val['path'], $val['required']);
+
+	        foreach ($val as $k => $v) {
+		        if('passthru' === $k) {
+					wp_localize_script( $key, 'set', $v );
+		        }
+	        }
+
 	        wp_enqueue_script($key);
 	        if (class_exists('FirePHP')) fb($val['path']);
 		}
