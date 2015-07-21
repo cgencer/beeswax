@@ -71,6 +71,10 @@ class stacks_customizer {
 					'path' => $this->dasModel->stacksUrl . 'js/vendor/ember/ember.min.js',
 					'required' => array('jquery', 'customize-preview')
 				),
+				'ember-data' => array(
+					'path' => $this->dasModel->stacksUrl . 'js/vendor/ember-data/ember-data.min.js',
+					'required' => array('jquery', 'customize-preview')
+				),
 				'ember-app' => array(
 					'path' => $this->dasModel->stacksUrl . 'js/customize-preview-ember-loader.js',
 					'passthru' => array(
@@ -359,6 +363,8 @@ class stacks_customizer {
 						$templateSet.= '<div class="dbQueryOneLiner">' . $this->theParent->mustacheEngine->render(file_get_contents(dirname(__FILE__).'/panels/dbQuery.oneLiner.tpl'), $qrView) . '</div>';
 						$templateSet.= '<div class="dbQueryAndOr">' . $this->theParent->mustacheEngine->render(file_get_contents(dirname(__FILE__).'/panels/dbQuery.andOr.tpl'), null) . '</div>';
 						$templateSet.= '<div class="dbQueryEmber">' . file_get_contents(dirname(__FILE__).'/panels/dbQuery.ember.tpl') . '</div>';
+
+
 
 						$wp_customize->add_control( 
 							new Honeyguide_WPCustomControls_ContentContainer($wp_customize, $v, array(

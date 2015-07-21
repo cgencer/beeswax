@@ -17,11 +17,14 @@
   ],
   "dependencies": {
     "gridster": "~0.5.6",
-    "ember": "*",
-    "handlebars": "*",
-    "jquery": "*",
-    "requirejs": "*",
-    "x-editable": "*",
-    "lodash": "*"
+    "ember": "~1.13.*",
+    "handlebars": "~3.0.3",
+    "jquery": "~2.1.*",
+    "requirejs": "~2.1.*",
+    "x-editable": "~1.5.*",
+    "lodash": "~3.*",
+    "pubsub.js": "*",
+    "nbd.js": "~1.1.2",
+    "ember-data": "~1.13.*"
   }
 }

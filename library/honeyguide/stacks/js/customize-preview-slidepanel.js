@@ -11,6 +11,7 @@
     var api = wp.customize;
     var sRev;
     var OldPreview;
+    var renderEmberOnce = false;
 
     api.slidePanel = {
         // Init
@@ -20,7 +21,6 @@
             sRev = $('#slider');
 
             this.preview.bind('honeypot', function(data) {
-                console.log('panel is ' + data.panel + 'ing itself.');
                 sRev.slideReveal({
                     autoEscape: true,
                     width: 500,
@@ -29,7 +29,12 @@
                 if (data.panel) {
                     sRev.html(data.content).slideReveal(data.panel);
                     api.slidePanel.createOneLiner(sRev, data.liner, data.andor, api.slidePanel.generateUid(), data.ember);
-                    $(data.ember).appendTo($(sRev));
+                    if(data.ember && !renderEmberOnce) {
+                        $(data.ember).appendTo($(sRev));
+                        renderEmberOnce = true;
+                        // moves the emberview into the slider area
+                        $(sRev).parent().find('.ember-view').appendTo(sRev).css('border', '1px solid #a33').text('here and now.');
+                    }
                 }
             });
 

@@ -2,7 +2,7 @@
 		<div class="container">
 			<div class="navbar-header">
 				<a class="navbar-brand" href="#">
-					<img alt="Beeswax" src="images/brand.svg">
+					<img alt="Beeswax" src="<?=get_template_directory_uri();?>/zero/dist/images/brand.svg">
 				</a>
 			</div>
 			<nav class="clearfix ">

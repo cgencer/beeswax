@@ -26,7 +26,8 @@ $theTheme = new honeyguide_theme(THEME_NAME, THEME_VERSION);
 $theTheme->init(new Mustache());
 
 ob_start();			// to use FirePHP
-
+/*
 define('KIRKI_PATH', dirname( __FILE__ ) . '/plugins/kirki/' );
 define('KIRKI_URL', get_template_directory_uri() . '/plugins/kirki/');
 include_once( dirname( __FILE__ ) . '/plugins/kirki/kirki.php' );
+*/

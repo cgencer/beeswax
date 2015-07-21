@@ -68,7 +68,7 @@ function kirki_demo_configuration_sample() {
     return $args;
 
 }
-add_filter( 'kirki/config', 'kirki_demo_configuration_sample' );
+//add_filter( 'kirki/config', 'kirki_demo_configuration_sample' );
 
 // Add WP 3+ Functions & Theme Support
 if( !function_exists( "wp_bootstrap_theme_support" ) ) {  
