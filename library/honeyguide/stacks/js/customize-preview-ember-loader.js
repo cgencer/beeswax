@@ -1,34 +1,61 @@
-requirejs.config({
+require.config({
     baseUrl: set.stacksURL + 'js/app/',
+
+    shim: {
+        Ember: {
+            deps: ['Handlebars', 'jQuery'],
+            exports: 'Ember'
+        },
+
+        DS: {
+            deps: ['Ember'],
+            exports: 'DS'
+        },
+
+        LS: {
+            deps: ['Ember', 'DS'],
+            exports: 'DS'
+        }
+    },
+
     paths: {
-      'routes': '../routes/',
-      'models': '../models/',
-      'components': '../components/',
-      'services': '../services/',
+        DS: '../vendor/deprec/ember-data',
+        LS: '../vendor/deprec/localstorage_adapter',
+        Ember: '../vendor/deprec/ember',
+        jQuery: '../vendor/deprec/jquery',
+        Handlebars: '../vendor/deprec/handlebars'
     }
 });
-requirejs(['main']);
 
-/*
-        App.ApplicationAdapter = require('../services/adapter');
-        App.ApplicationSerializer = require('../services/serializer');
+require(['Todos'], function (Todos) {
+    // We'll avoid auto-initialization of the app while we manage our
+    // dependencies.
+    Todos.deferReadiness();
 
-        // Routes
-        App.Router.map(require('../routes/router'));
-        App.IndexRoute = require('../routes/index');
-        App.PostRoute = require('../routes/post').extend();
-        App.PageRoute = require('../routes/post').extend();
-        App.UserRoute = require('../routes/user');
-        App.TagRoute = require('../routes/term').extend();
-        App.CategoryRoute = require('../routes/term').extend();
+    require([
+        'router',
+        'models/store',
+        'models/todo',
+        'controllers/todo_controller',
+        'controllers/todos_controller',
+        'views/edit_todo_view'
+    ],
+    function (Router, StoreModel, TodoModel, TodoController, TodosController, EditTodoView) {
+        // Configure router.
+        Router();
 
-        // Models
-        App.Post = require('../models/post').extend();
-        App.Page = require('../models/post').extend();
-        App.User = require('../models/user');
-        App.Tag = require('../models/term').extend();
-        App.Category = require('../models/term').extend();
+        // Configure models.
+        Todos.Store = StoreModel;
+        Todos.Todo = TodoModel;
 
-        // Components
-        App.SinglePostComponent = require('../components/single-post');
-*/
+        // Configure controllers.
+        Todos.TodoController = TodoController;
+        Todos.TodosController = TodosController;
+
+        // Configure view.
+        Todos.EditTodoView = EditTodoView;
+
+        // We're ready to launch the app!
+        Todos.advanceReadiness();
+    });
+});

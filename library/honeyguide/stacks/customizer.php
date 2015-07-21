@@ -59,28 +59,16 @@ class stacks_customizer {
 					'path' => $this->dasModel->stacksUrl . 'js/vendor/lodash/lodash.min.js',
 					'required' => array('jquery', 'customize-preview')
 				),
-				'handlebars' => array(
-					'path' => $this->dasModel->stacksUrl . 'js/vendor/handlebars/handlebars.min.js',
-					'required' => array('jquery', 'customize-preview')
-				),
 				'requirejs' => array(
 					'path' => $this->dasModel->stacksUrl . 'js/vendor/requirejs/require.js',
 					'required' => array('customize-preview')
-				),
-				'ember' => array(
-					'path' => $this->dasModel->stacksUrl . 'js/vendor/ember/ember.min.js',
-					'required' => array('jquery', 'customize-preview')
-				),
-				'ember-data' => array(
-					'path' => $this->dasModel->stacksUrl . 'js/vendor/ember-data/ember-data.min.js',
-					'required' => array('jquery', 'customize-preview')
 				),
 				'ember-app' => array(
 					'path' => $this->dasModel->stacksUrl . 'js/customize-preview-ember-loader.js',
 					'passthru' => array(
 						'stacksURL' => $this->dasModel->stacksUrl
 					),
-					'required' => array('ember', 'requirejs', 'jquery', 'customize-preview')
+					'required' => array('jquery', 'requirejs', 'customize-preview')
 				)				
 			),
 			'control' => array(
@@ -151,6 +139,9 @@ class stacks_customizer {
 
 	public function cCommPrvwInit() {
 		$this->initJS('preview');
+
+        wp_register_style( 'todo-css', $this->dasModel->themeUrl . '/css/todo.css');
+        wp_enqueue_style( 'todo-css' );
 	}
 
 	public function cStcksScrInit() {

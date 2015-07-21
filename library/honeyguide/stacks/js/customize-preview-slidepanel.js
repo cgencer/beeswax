@@ -33,7 +33,8 @@
                         $(data.ember).appendTo($(sRev));
                         renderEmberOnce = true;
                         // moves the emberview into the slider area
-                        $(sRev).parent().find('.ember-view').appendTo(sRev).css('border', '1px solid #a33').text('here and now.');
+                        $(sRev).parent().find('.ember-view').appendTo(sRev);
+//                        .css('border', '1px solid #a33').text('here and now.');
                     }
                 }
             });
