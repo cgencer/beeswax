@@ -26,44 +26,54 @@
 			LS: '../vendor/deprec/localstorage_adapter',
 			Ember: '../vendor/deprec/ember',
 			jQuery: '../vendor/deprec/jquery',
-			Handlebars: '../vendor/deprec/handlebars'
+			Handlebars: '../vendor/deprec/handlebars',
+			lsbridge: '../vendor/lsbridge/build/lsbridge.min'
 		}
 	});
 
-	require(['Todos'], function (Todos) {
+	var todoInit = function () {
 
-		var $ = jQuery;
-		$('iframe').contents().find('body').removeClass('ember-application');
-		var sRev = $('iframe').contents().find('#slider');
-		$('<div class="ember-application"></div>').appendTo(sRev);
+		require(['Todos'], function (Todos) {
 
-		Todos.deferReadiness();
+			var $ = jQuery;
+			var sRev = $('iframe').contents().find('#slider');
 
-		require([
-			'router',
-			'models/store',
-			'models/todo',
-			'controllers/todo_controller',
-			'controllers/todos_controller',
-			'views/edit_todo_view'
-			],
-			function (Router, StoreModel, TodoModel, TodoController, TodosController, EditTodoView) {
+			Todos.deferReadiness();
 
-				Router();
-				console.log('ember:router called');
+			require([
+				'router',
+				'models/store',
+				'models/todo',
+				'controllers/todo_controller',
+				'controllers/todos_controller',
+				'views/edit_todo_view'
+				],
+				function (Router, StoreModel, TodoModel, TodoController, TodosController, EditTodoView) {
 
-				Todos.Store = StoreModel;
-				Todos.Todo = TodoModel;
+					Router();
+					console.log('ember:router called');
 
-				Todos.TodoController = TodoController;
-				Todos.TodosController = TodosController;
+					Todos.Store = StoreModel;
+					Todos.Todo = TodoModel;
 
-				Todos.EditTodoView = EditTodoView;
+					Todos.TodoController = TodoController;
+					Todos.TodosController = TodosController;
 
-				Todos.advanceReadiness();
-				console.log('ember:start called');
-			}
-		);
+					Todos.EditTodoView = EditTodoView;
+
+					Todos.advanceReadiness();
+					console.log('ember:start called');
+				}
+			);
+		});
+	}
+
+	lsbridge.subscribe('emberBridge', function(data) {
+		console.log('received command');
+		if('boot' === data.cmd) {
+			console.log(':::command = boot');
+			todoInit();
+		}
 	});
 
 })(jQuery);

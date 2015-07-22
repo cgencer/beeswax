@@ -10,7 +10,7 @@
 
 //			jQuery( document ).ready(function( $ ) {
 			return window.Todos = Ember.Application.create({
-//				rootElement: '#emberArea'
+				rootElement: '#emberArea'
 			});
 //			})
 	});

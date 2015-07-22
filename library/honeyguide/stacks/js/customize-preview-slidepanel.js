@@ -19,27 +19,30 @@
 
 			$('body').append($('<div id="slider" class="oneLiners container" style="border-right:1px solid #aaa;">Hello World!!</div>'));
 			sRev = $('#slider');
-			$(sRev).append('<div id="emberArea" class="ember-application"></div>');
+			$(sRev).append('<div id="emberArea"></div>');
 			$(sRev).append('<div id="queryArea"></div>');
 			sRev = $('#queryArea');
 
 			this.preview.bind('honeypot', function(data) {
-				sRev.slideReveal({
-					autoEscape: true,
-					width: 500,
-					speed: 700
-				});
-				if(data.panel != '') {
-					sRev.html(data.content).slideReveal(data.panel);
-					api.slidePanel.createOneLiner(sRev, data.liner, data.andor, api.slidePanel.generateUid(), data.ember);
 
-					if(data.ember != '' && !renderEmberOnce) {
-						// moves the emberview into the slider area
-						$('body').find('#emberArea').css('border', '1px solid #a33').css('height',20).css('width','400');
-						$(data.ember).appendTo($('#slider'));
-						renderEmberOnce = true;
+					sRev.slideReveal({
+						autoEscape: true,
+						width: 500,
+						speed: 700
+					});
+					lsbridge.send('emberBridge', { cmd: 'boot' });
+console.log('sent command.');
+					if(data.panel != '') {
+						sRev.append(data.content).slideReveal(data.panel);
+						api.slidePanel.createOneLiner(sRev, data.liner, data.andor, api.slidePanel.generateUid(), data.ember);
+
+						if(data.ember != '' && !renderEmberOnce) {
+							// moves the emberview into the slider area
+							$('body').find('#emberArea').css('border', '1px solid #a33').css('height',20).css('width','400');
+							$(data.ember).appendTo($('#slider'));
+							renderEmberOnce = true;
+						}
 					}
-				}
 			});
 
 		},
@@ -101,7 +104,6 @@
 			$(".dropdown-toggle").dropdown();
 
 			api.slidePanel.dropdowns($('div.ddrow[alt="' + grpid + '"]'));
-
 		}
 
 	};
