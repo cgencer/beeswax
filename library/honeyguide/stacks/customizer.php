@@ -59,6 +59,9 @@ class stacks_customizer {
 					'path' => $this->dasModel->stacksUrl . 'js/vendor/lodash/lodash.min.js',
 					'required' => array('jquery', 'customize-preview')
 				),
+				'lsbridge' => array(
+					'path' => $this->dasModel->stacksUrl . 'js/vendor/lsbridge/build/lsbridge.min.js'
+				),
 				'requirejs' => array(
 					'path' => $this->dasModel->stacksUrl . 'js/vendor/requirejs/require.js',
 					'required' => array('customize-preview')
@@ -75,6 +78,9 @@ class stacks_customizer {
 				'honeyguide-cCommCtrl' => array(
 					'path' => $this->dasModel->stacksUrl . 'js/cCommController.js',
 					'required' => array('customize-controls')
+				),
+				'lsbridge' => array(
+					'path' => $this->dasModel->stacksUrl . 'js/vendor/lsbridge/build/lsbridge.min.js'
 //				),
 				// https://github.com/xwp/wp-customize-inline-editing
 //				'customize-inline-editing-pane' => array(

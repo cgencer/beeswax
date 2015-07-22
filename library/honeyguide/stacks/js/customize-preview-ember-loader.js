@@ -1,61 +1,69 @@
-require.config({
-    baseUrl: set.stacksURL + 'js/app/',
+(function($) {
+	"use strict";
 
-    shim: {
-        Ember: {
-            deps: ['Handlebars', 'jQuery'],
-            exports: 'Ember'
-        },
+	require.config({
+		baseUrl: set.stacksURL + 'js/app/',
 
-        DS: {
-            deps: ['Ember'],
-            exports: 'DS'
-        },
+		shim: {
+			Ember: {
+				deps: ['Handlebars', 'jQuery'],
+				exports: 'Ember'
+			},
 
-        LS: {
-            deps: ['Ember', 'DS'],
-            exports: 'DS'
-        }
-    },
+			DS: {
+				deps: ['Ember'],
+				exports: 'DS'
+			},
 
-    paths: {
-        DS: '../vendor/deprec/ember-data',
-        LS: '../vendor/deprec/localstorage_adapter',
-        Ember: '../vendor/deprec/ember',
-        jQuery: '../vendor/deprec/jquery',
-        Handlebars: '../vendor/deprec/handlebars'
-    }
-});
+			LS: {
+				deps: ['Ember', 'DS'],
+				exports: 'LS'
+			}
+		},
 
-require(['Todos'], function (Todos) {
-    // We'll avoid auto-initialization of the app while we manage our
-    // dependencies.
-    Todos.deferReadiness();
+		paths: {
+			DS: '../vendor/deprec/ember-data',
+			LS: '../vendor/deprec/localstorage_adapter',
+			Ember: '../vendor/deprec/ember',
+			jQuery: '../vendor/deprec/jquery',
+			Handlebars: '../vendor/deprec/handlebars'
+		}
+	});
 
-    require([
-        'router',
-        'models/store',
-        'models/todo',
-        'controllers/todo_controller',
-        'controllers/todos_controller',
-        'views/edit_todo_view'
-    ],
-    function (Router, StoreModel, TodoModel, TodoController, TodosController, EditTodoView) {
-        // Configure router.
-        Router();
+	require(['Todos'], function (Todos) {
 
-        // Configure models.
-        Todos.Store = StoreModel;
-        Todos.Todo = TodoModel;
+		var $ = jQuery;
+		$('iframe').contents().find('body').removeClass('ember-application');
+		var sRev = $('iframe').contents().find('#slider');
+		$('<div class="ember-application"></div>').appendTo(sRev);
 
-        // Configure controllers.
-        Todos.TodoController = TodoController;
-        Todos.TodosController = TodosController;
+		Todos.deferReadiness();
 
-        // Configure view.
-        Todos.EditTodoView = EditTodoView;
+		require([
+			'router',
+			'models/store',
+			'models/todo',
+			'controllers/todo_controller',
+			'controllers/todos_controller',
+			'views/edit_todo_view'
+			],
+			function (Router, StoreModel, TodoModel, TodoController, TodosController, EditTodoView) {
 
-        // We're ready to launch the app!
-        Todos.advanceReadiness();
-    });
-});
+				Router();
+				console.log('ember:router called');
+
+				Todos.Store = StoreModel;
+				Todos.Todo = TodoModel;
+
+				Todos.TodoController = TodoController;
+				Todos.TodosController = TodosController;
+
+				Todos.EditTodoView = EditTodoView;
+
+				Todos.advanceReadiness();
+				console.log('ember:start called');
+			}
+		);
+	});
+
+})(jQuery);

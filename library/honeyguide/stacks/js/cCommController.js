@@ -8,6 +8,8 @@
     var OldPreviewer;
     var modusOperandi = false;
 
+//    $('body').append('<div id="emberArea"></div>');
+
     $('button#trigger').on('click', function(e) {
         e.preventDefault();
         return false;
@@ -30,6 +32,7 @@
                             'panel': 'hide',
                             'liner': '',
                             'andor': '',
+                            'ember': '',
                             'content': ''
                         });
                         modusOperandi = !modusOperandi;

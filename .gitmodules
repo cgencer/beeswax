@@ -43,3 +43,6 @@
 [submodule "library/honeyguide/vendor/firephp"]
 	path = library/honeyguide/vendor/firephp
 	url = https://github.com/firephp/firephp-core.git
+[submodule "library/honeyguide/stacks/js/vendor/lsbridge"]
+	path = library/honeyguide/stacks/js/vendor/lsbridge
+	url = https://github.com/krasimir/lsbridge.git
