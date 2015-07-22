@@ -19,8 +19,7 @@
 
 			$('body').append($('<div id="slider" class="oneLiners container" style="border-right:1px solid #aaa;">Hello World!!</div>'));
 			sRev = $('#slider');
-			$(sRev).append('<div id="emberArea"></div>');
-			$(sRev).append('<div id="queryArea"></div>');
+			$(sRev).append('<div id="slideArea"><div id="queryArea"></div><div id="emberArea"></div></div>');
 			sRev = $('#queryArea');
 
 			this.preview.bind('honeypot', function(data) {
@@ -33,7 +32,7 @@
 					lsbridge.send('emberBridge', { cmd: 'boot' });
 console.log('sent command.');
 					if(data.panel != '') {
-						sRev.append(data.content).slideReveal(data.panel);
+						sRev.html(data.content).slideReveal(data.panel);
 						api.slidePanel.createOneLiner(sRev, data.liner, data.andor, api.slidePanel.generateUid(), data.ember);
 
 						if(data.ember != '' && !renderEmberOnce) {
