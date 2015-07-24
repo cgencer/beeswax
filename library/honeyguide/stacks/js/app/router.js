@@ -1,50 +1,40 @@
-define(
-'router',
-['Ember', 'Todos'],
-function (Ember, Todos) {
-	return function () {
-		Todos.Router.map(function () {
-			this.resource('todos', { path: '/' }, function () {
-				this.route('active');
-				this.route('completed');
-			});
-		});
+/*global Ember, Todos */
+(function() {
+    'use strict';
 
-		Todos.TodosRoute = Ember.Route.extend({
-			model: function () {
-				return Todos.Todo.find();
-			}
-		});
+    Todos.Router.map(function() {
+        this.resource('todos', {
+            path: '/'
+        }, function() {
+            this.route('active');
+            this.route('completed');
+        });
+    });
 
-		Todos.TodosIndexRoute = Ember.Route.extend({
-			setupController: function () {
-				var todos = Todos.Todo.find();
-				this.controllerFor('todos').set('filteredTodos', todos);
-			}
-		});
+    Todos.TodosRoute = Ember.Route.extend({
+        model: function() {
+            return this.store.find('todo');
+        }
+    });
 
-		Todos.TodosActiveRoute = Ember.Route.extend({
-			setupController: function () {
-				var todos = Todos.Todo.filter(function (todo) {
-					if (!todo.get('isCompleted')) {
-						return true;
-					}
-				});
+    Todos.TodosIndexRoute = Todos.TodosRoute.extend({
+        templateName: 'todo-list',
+        controllerName: 'todos-list'
+    });
 
-				this.controllerFor('todos').set('filteredTodos', todos);
-			}
-		});
+    Todos.TodosActiveRoute = Todos.TodosIndexRoute.extend({
+        model: function() {
+            return this.store.filter('todo', function(todo) {
+                return !todo.get('isCompleted');
+            });
+        }
+    });
 
-		Todos.TodosCompletedRoute = Ember.Route.extend({
-			setupController: function () {
-				var todos = Todos.Todo.filter(function (todo) {
-					if (todo.get('isCompleted')) {
-						return true;
-					}
-				});
-
-				this.controllerFor('todos').set('filteredTodos', todos);
-			}
-		});
-	}
-});
+    Todos.TodosCompletedRoute = Todos.TodosIndexRoute.extend({
+        model: function() {
+            return this.store.filter('todo', function(todo) {
+                return todo.get('isCompleted');
+            });
+        }
+    });
+})();

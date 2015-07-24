@@ -1,62 +1,51 @@
-define(
-'controllers/todos_controller',
-['Ember', 'Todos', 'models/store'],
-function (Ember, Todos, Store) {
-	return Ember.ArrayController.extend({
-		createTodo: function () {
-			// Get the todo title set by the "New Todo" text field
-			var title = this.get('newTitle');
-			if (!title.trim()) {
-				return;
+/*global Todos, Ember */
+(function () {
+	'use strict';
+
+	Todos.TodosController = Ember.ArrayController.extend({
+		actions: {
+			createTodo: function () {
+				var title, todo;
+
+				// Get the todo title set by the "New Todo" text field
+				title = this.get('newTitle').trim();
+				if (!title) {
+					return;
+				}
+
+				// Create the new Todo model
+				todo = this.store.createRecord('todo', {
+					title: title,
+					isCompleted: false
+				});
+				todo.save();
+
+				// Clear the "New Todo" text field
+				this.set('newTitle', '');
+			},
+
+			clearCompleted: function () {
+				var completed = this.get('completed');
+				completed.invoke('deleteRecord');
+				completed.invoke('save');
 			}
-
-			// Create the new Todo model
-			Todos.Todo.createRecord({
-				title: title,
-				isCompleted: false
-			});
-
-			// Clear the "New Todo" text field
-			this.set('newTitle', '');
-
-			// Save the new model
-			Store.commit();
 		},
 
-		clearCompleted: function () {
-			var completed = this.filterProperty('isCompleted', true);
+		/* properties */
 
-			completed.invoke('deleteRecord');
-
-			Store.commit();
-		},
-
-		remaining: function () {
-			return this.filterProperty('isCompleted', false).get('length');
-		}.property('@each.isCompleted'),
-
-		remainingFormatted: function () {
-			var remaining = this.get('remaining');
-			var plural = remaining === 1 ? 'item' : 'items';
-
-			return '<strong>%@</strong> %@ left'.fmt(remaining, plural);
-		}.property('remaining'),
-
-		completed: function () {
-			return this.filterProperty('isCompleted', true).get('length');
-		}.property('@each.isCompleted'),
-
-		hasCompleted: function () {
-			return this.get('completed') > 0;
-		}.property('completed'),
+		remaining: Ember.computed.filterBy('model', 'isCompleted', false),
+		completed: Ember.computed.filterBy('model', 'isCompleted', true),
 
 		allAreDone: function (key, value) {
 			if (value !== undefined) {
 				this.setEach('isCompleted', value);
 				return value;
 			} else {
-				return !!this.get('length') && this.everyProperty('isCompleted', true);
+				var length = this.get('length');
+				var completedLength = this.get('completed.length');
+
+				return length > 0 && length === completedLength;
 			}
-		}.property('@each.isCompleted')
+		}.property('length', 'completed.length')
 	});
-});
+})();

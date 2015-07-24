@@ -62,17 +62,57 @@ class stacks_customizer {
 				'lsbridge' => array(
 					'path' => $this->dasModel->stacksUrl . 'js/vendor/lsbridge/build/lsbridge.min.js'
 				),
-				'requirejs' => array(
-					'path' => $this->dasModel->stacksUrl . 'js/vendor/requirejs/require.js',
-					'required' => array('customize-preview')
+// All below here are for the TO-DO app...
+				'todomvc-base' => array(
+					'path' => $this->dasModel->stacksUrl . 'js/vendor/dependencies/todomvc-common/base.js'
+				),
+				'jquery' => array(
+					'path' => $this->dasModel->stacksUrl . 'js/vendor/dependencies/jquery/dist/jquery.js'
+				),
+				'handlebars' => array(
+					'path' => $this->dasModel->stacksUrl . 'js/vendor/dependencies/handlebars/dist/handlebars.js'
+				),
+				'ember' => array(
+					'path' => $this->dasModel->stacksUrl . 'js/vendor/dependencies/components-ember/ember.js'
+				),
+				'ember-data' => array(
+					'path' => $this->dasModel->stacksUrl . 'js/vendor/dependencies/ember-data/ember-data.js'
+				),
+				'ember-localstorage' => array(
+					'path' => $this->dasModel->stacksUrl . 'js/vendor/dependencies/ember-localstorage-adapter/localstorage_adapter.js'
 				),
 				'ember-app' => array(
-					'path' => $this->dasModel->stacksUrl . 'js/customize-preview-ember-loader.js',
-					'passthru' => array(
-						'stacksURL' => $this->dasModel->stacksUrl
-					),
-					'required' => array('jquery', 'requirejs', 'customize-preview')
-				)				
+					'path' => $this->dasModel->stacksUrl . 'js/app/app.js'
+				),
+				'todomvc-router' => array(
+					'path' => $this->dasModel->stacksUrl . 'js/app/router.js'
+				),
+				'todomvc-todo' => array(
+					'path' => $this->dasModel->stacksUrl . 'js/app/models/todo.js'
+				),
+				'todomvc-todoscontroller' => array(
+					'path' => $this->dasModel->stacksUrl . 'js/app/controllers/todos_controller.js'
+				),
+				'todomvc-todolistcontroller' => array(
+					'path' => $this->dasModel->stacksUrl . 'js/app/controllers/todos_list_controller.js'
+				),
+				'todomvc-todocontroller' => array(
+					'path' => $this->dasModel->stacksUrl . 'js/app/controllers/todo_controller.js'
+				),
+				'todomvc-todoinputcomponent' => array(
+					'path' => $this->dasModel->stacksUrl . 'js/app/views/todo_input_component.js'
+				),
+				'todomvc-pluralize' => array(
+					'path' => $this->dasModel->stacksUrl . 'js/app/helpers/pluralize.js'
+				),
+
+//				'ember-app' => array(
+//					'path' => $this->dasModel->stacksUrl . 'js/customize-preview-ember-loader.js',
+//					'passthru' => array(
+//						'stacksURL' => $this->dasModel->stacksUrl
+//					),
+//					'required' => array('jquery', 'customize-preview')
+//				),
 			),
 			'control' => array(
 				'honeyguide-cCommCtrl' => array(
