@@ -82,7 +82,8 @@ class stacks_customizer {
 					'path' => $this->dasModel->stacksUrl . 'js/vendor/dependencies/ember-localstorage-adapter/localstorage_adapter.js'
 				),
 				'ember-app' => array(
-					'path' => $this->dasModel->stacksUrl . 'js/app/app.js'
+//					'path' => $this->dasModel->stacksUrl . 'js/app/app.js'
+					'path' => $this->dasModel->stacksUrl . 'js/customize-preview-ember-loader.js',
 				),
 				'todomvc-router' => array(
 					'path' => $this->dasModel->stacksUrl . 'js/app/router.js'
@@ -104,15 +105,16 @@ class stacks_customizer {
 				),
 				'todomvc-pluralize' => array(
 					'path' => $this->dasModel->stacksUrl . 'js/app/helpers/pluralize.js'
+				)
+/*
+				'ember-app' => array(
+					'path' => $this->dasModel->stacksUrl . 'js/customize-preview-ember-loader.js',
+					'passthru' => array(
+						'stacksURL' => $this->dasModel->stacksUrl
+					),
+					'required' => array('jquery', 'customize-preview')
 				),
-
-//				'ember-app' => array(
-//					'path' => $this->dasModel->stacksUrl . 'js/customize-preview-ember-loader.js',
-//					'passthru' => array(
-//						'stacksURL' => $this->dasModel->stacksUrl
-//					),
-//					'required' => array('jquery', 'customize-preview')
-//				),
+*/
 			),
 			'control' => array(
 				'honeyguide-cCommCtrl' => array(

@@ -6,7 +6,11 @@
         if ('boot' === data.cmd) {
             console.log(':::command = boot');
 
-            window.Todos = Ember.Application.create();
+            // TODOS init olmadan diğer script'ler ona attach olmaya çalışıyor.
+
+            window.Todos = Ember.Application.create({
+                rootElement: '#emberArea'
+            });
 
             Todos.ApplicationAdapter = DS.LSAdapter.extend({
                 namespace: 'todos-emberjs'
