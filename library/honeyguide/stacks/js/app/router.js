@@ -2,38 +2,44 @@
 (function() {
     'use strict';
 
-    Todos.Router.map(function() {
-        this.resource('todos', {
-            path: '/'
-        }, function() {
-            this.route('active');
-            this.route('completed');
-        });
-    });
+    lsbridge.subscribe('emberBridge', function(data) {
+        if ('start' === data.cmd) {
+            console.log('reporting to duty: router.js')
 
-    Todos.TodosRoute = Ember.Route.extend({
-        model: function() {
-            return this.store.find('todo');
-        }
-    });
-
-    Todos.TodosIndexRoute = Todos.TodosRoute.extend({
-        templateName: 'todo-list',
-        controllerName: 'todos-list'
-    });
-
-    Todos.TodosActiveRoute = Todos.TodosIndexRoute.extend({
-        model: function() {
-            return this.store.filter('todo', function(todo) {
-                return !todo.get('isCompleted');
+            Todos.Router.map(function() {
+                this.resource('todos', {
+                    path: '/'
+                }, function() {
+                    this.route('active');
+                    this.route('completed');
+                });
             });
-        }
-    });
 
-    Todos.TodosCompletedRoute = Todos.TodosIndexRoute.extend({
-        model: function() {
-            return this.store.filter('todo', function(todo) {
-                return todo.get('isCompleted');
+            Todos.TodosRoute = Ember.Route.extend({
+                model: function() {
+                    return this.store.find('todo');
+                }
+            });
+
+            Todos.TodosIndexRoute = Todos.TodosRoute.extend({
+                templateName: 'todo-list',
+                controllerName: 'todos-list'
+            });
+
+            Todos.TodosActiveRoute = Todos.TodosIndexRoute.extend({
+                model: function() {
+                    return this.store.filter('todo', function(todo) {
+                        return !todo.get('isCompleted');
+                    });
+                }
+            });
+
+            Todos.TodosCompletedRoute = Todos.TodosIndexRoute.extend({
+                model: function() {
+                    return this.store.filter('todo', function(todo) {
+                        return todo.get('isCompleted');
+                    });
+                }
             });
         }
     });

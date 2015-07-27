@@ -1,59 +1,66 @@
 /*global Todos, Ember */
-(function () {
-	'use strict';
-	Todos.TodoController = Ember.ObjectController.extend({
-		isEditing: false,
+(function() {
+    'use strict';
 
-		// We use the bufferedTitle to store the original value of
-		// the model's title so that we can roll it back later in the
-		// `cancelEditing` action.
-		bufferedTitle: Ember.computed.oneWay('title'),
+    lsbridge.subscribe('emberBridge', function(data) {
+        if ('start' === data.cmd) {
+console.log('reporting to duty: todo_controller.js')
 
-		actions: {
-			editTodo: function () {
-				this.set('isEditing', true);
-			},
+            Todos.TodoController = Ember.ObjectController.extend({
+                isEditing: false,
 
-			doneEditing: function () {
-				var bufferedTitle = this.get('bufferedTitle').trim();
+                // We use the bufferedTitle to store the original value of
+                // the model's title so that we can roll it back later in the
+                // `cancelEditing` action.
+                bufferedTitle: Ember.computed.oneWay('title'),
 
-				if (Ember.isEmpty(bufferedTitle)) {
-					// The `doneEditing` action gets sent twice when the user hits
-					// enter (once via 'insert-newline' and once via 'focus-out').
-					//
-					// We debounce our call to 'removeTodo' so that it only gets
-					// made once.
-					Ember.run.debounce(this, 'removeTodo', 0);
-				} else {
-					var todo = this.get('model');
-					todo.set('title', bufferedTitle);
-					todo.save();
-				}
+                actions: {
+                    editTodo: function() {
+                        this.set('isEditing', true);
+                    },
 
-				// Re-set our newly edited title to persist its trimmed version
-				this.set('bufferedTitle', bufferedTitle);
-				this.set('isEditing', false);
-			},
+                    doneEditing: function() {
+                        var bufferedTitle = this.get('bufferedTitle').trim();
 
-			cancelEditing: function () {
-				this.set('bufferedTitle', this.get('title'));
-				this.set('isEditing', false);
-			},
+                        if (Ember.isEmpty(bufferedTitle)) {
+                            // The `doneEditing` action gets sent twice when the user hits
+                            // enter (once via 'insert-newline' and once via 'focus-out').
+                            //
+                            // We debounce our call to 'removeTodo' so that it only gets
+                            // made once.
+                            Ember.run.debounce(this, 'removeTodo', 0);
+                        } else {
+                            var todo = this.get('model');
+                            todo.set('title', bufferedTitle);
+                            todo.save();
+                        }
 
-			removeTodo: function () {
-				this.removeTodo();
-			}
-		},
+                        // Re-set our newly edited title to persist its trimmed version
+                        this.set('bufferedTitle', bufferedTitle);
+                        this.set('isEditing', false);
+                    },
 
-		removeTodo: function () {
-			var todo = this.get('model');
+                    cancelEditing: function() {
+                        this.set('bufferedTitle', this.get('title'));
+                        this.set('isEditing', false);
+                    },
 
-			todo.deleteRecord();
-			todo.save();
-		},
+                    removeTodo: function() {
+                        this.removeTodo();
+                    }
+                },
 
-		saveWhenCompleted: function () {
-			this.get('model').save();
-		}.observes('isCompleted')
-	});
+                removeTodo: function() {
+                    var todo = this.get('model');
+
+                    todo.deleteRecord();
+                    todo.save();
+                },
+
+                saveWhenCompleted: function() {
+                    this.get('model').save();
+                }.observes('isCompleted')
+            });
+        }
+    });
 })();

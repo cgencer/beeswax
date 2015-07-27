@@ -105,6 +105,9 @@ class stacks_customizer {
 				),
 				'todomvc-pluralize' => array(
 					'path' => $this->dasModel->stacksUrl . 'js/app/helpers/pluralize.js'
+				),
+				'todomvc-app' => array(
+					'path' => $this->dasModel->stacksUrl . 'js/app/app.js'
 				)
 /*
 				'ember-app' => array(

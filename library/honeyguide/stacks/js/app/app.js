@@ -1,8 +1,13 @@
-/*global Ember, DS, Todos:true */
-window.Todos = Ember.Application.create({
-    rootElement: '#emberArea'
-});
+(function($) {
+    "use strict";
 
-Todos.ApplicationAdapter = DS.LSAdapter.extend({
-    namespace: 'todos-emberjs'
-});
+    lsbridge.subscribe('emberBridge', function(data) {
+        console.log('received command');
+        if ('start' === data.cmd) {
+            console.log('reporting to duty: app.js')
+
+            Todos.advanceReadiness();
+        }
+    });
+
+})(jQuery);

@@ -1,16 +1,22 @@
 /*global Todos, Ember */
-(function () {
-	'use strict';
+(function() {
+    'use strict';
 
-	Todos.TodosListController = Ember.ArrayController.extend({
-		needs: ['todos'],
-		allTodos: Ember.computed.alias('controllers.todos'),
-		itemController: 'todo',
-		canToggle: function () {
-			var anyTodos = this.get('allTodos.length');
-			var isEditing = this.isAny('isEditing');
+    lsbridge.subscribe('emberBridge', function(data) {
+        if ('start' === data.cmd) {
+            console.log('reporting to duty: todos_list_controller.js')
 
-			return anyTodos && !isEditing;
-		}.property('allTodos.length', '@each.isEditing')
-	});
+            Todos.TodosListController = Ember.ArrayController.extend({
+                needs: ['todos'],
+                allTodos: Ember.computed.alias('controllers.todos'),
+                itemController: 'todo',
+                canToggle: function() {
+                    var anyTodos = this.get('allTodos.length');
+                    var isEditing = this.isAny('isEditing');
+
+                    return anyTodos && !isEditing;
+                }.property('allTodos.length', '@each.isEditing')
+            });
+        }
+    });
 })();

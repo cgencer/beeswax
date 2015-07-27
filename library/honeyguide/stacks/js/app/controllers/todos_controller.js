@@ -1,51 +1,58 @@
 /*global Todos, Ember */
-(function () {
-	'use strict';
+(function() {
+    'use strict';
 
-	Todos.TodosController = Ember.ArrayController.extend({
-		actions: {
-			createTodo: function () {
-				var title, todo;
+    lsbridge.subscribe('emberBridge', function(data) {
+        if ('start' === data.cmd) {
+            console.log('reporting to duty: todos_controller.js')
 
-				// Get the todo title set by the "New Todo" text field
-				title = this.get('newTitle').trim();
-				if (!title) {
-					return;
-				}
+            Todos.TodosController = Ember.ArrayController.extend({
+                actions: {
+                    createTodo: function() {
+                        var title;
+                        var todo;
 
-				// Create the new Todo model
-				todo = this.store.createRecord('todo', {
-					title: title,
-					isCompleted: false
-				});
-				todo.save();
+                        // Get the todo title set by the "New Todo" text field
+                        title = this.get('newTitle').trim();
+                        if (!title) {
+                            return;
+                        }
 
-				// Clear the "New Todo" text field
-				this.set('newTitle', '');
-			},
+                        // Create the new Todo model
+                        todo = this.store.createRecord('todo', {
+                            title: title,
+                            isCompleted: false
+                        });
+                        todo.save();
 
-			clearCompleted: function () {
-				var completed = this.get('completed');
-				completed.invoke('deleteRecord');
-				completed.invoke('save');
-			}
-		},
+                        // Clear the "New Todo" text field
+                        this.set('newTitle', '');
+                    },
 
-		/* properties */
+                    clearCompleted: function() {
+                        var completed = this.get('completed');
+                        completed.invoke('deleteRecord');
+                        completed.invoke('save');
+                    }
+                },
 
-		remaining: Ember.computed.filterBy('model', 'isCompleted', false),
-		completed: Ember.computed.filterBy('model', 'isCompleted', true),
+                /* properties */
 
-		allAreDone: function (key, value) {
-			if (value !== undefined) {
-				this.setEach('isCompleted', value);
-				return value;
-			} else {
-				var length = this.get('length');
-				var completedLength = this.get('completed.length');
+                remaining: Ember.computed.filterBy('model', 'isCompleted', false),
+                completed: Ember.computed.filterBy('model', 'isCompleted', true),
 
-				return length > 0 && length === completedLength;
-			}
-		}.property('length', 'completed.length')
-	});
+                allAreDone: function(key, value) {
+                    if (value !== undefined) {
+                        this.setEach('isCompleted', value);
+                        return value;
+                    } else {
+                        var length = this.get('length');
+                        var completedLength = this.get('completed.length');
+
+                        return length > 0 && length === completedLength;
+                    }
+                }.property('length', 'completed.length')
+            });
+        }
+    });
 })();
