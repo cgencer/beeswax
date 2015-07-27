@@ -18,7 +18,6 @@
             lsbridge.send('emberBridge', {
                 cmd: 'start'
             });
-
         }
     });
 

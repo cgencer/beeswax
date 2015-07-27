@@ -85,6 +85,9 @@ class stacks_customizer {
 //					'path' => $this->dasModel->stacksUrl . 'js/app/app.js'
 					'path' => $this->dasModel->stacksUrl . 'js/customize-preview-ember-loader.js',
 				),
+				'emberApp' => array(
+					'path' => $this->dasModel->stacksUrl . 'js/app/build/app.min.js'
+/*				),
 				'todomvc-router' => array(
 					'path' => $this->dasModel->stacksUrl . 'js/app/router.js'
 				),
@@ -107,8 +110,8 @@ class stacks_customizer {
 					'path' => $this->dasModel->stacksUrl . 'js/app/helpers/pluralize.js'
 				),
 				'todomvc-app' => array(
-					'path' => $this->dasModel->stacksUrl . 'js/app/app.js'
-				)
+					'path' => $this->dasModel->stacksUrl . 'js/app/boot.js'
+*/				)
 /*
 				'ember-app' => array(
 					'path' => $this->dasModel->stacksUrl . 'js/customize-preview-ember-loader.js',

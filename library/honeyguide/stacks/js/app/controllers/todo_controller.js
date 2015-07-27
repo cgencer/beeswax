@@ -4,7 +4,7 @@
 
     lsbridge.subscribe('emberBridge', function(data) {
         if ('start' === data.cmd) {
-console.log('reporting to duty: todo_controller.js')
+            console.log('reporting to duty: todo_controller.js');
 
             Todos.TodoController = Ember.ObjectController.extend({
                 isEditing: false,

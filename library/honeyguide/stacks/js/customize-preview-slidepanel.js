@@ -39,7 +39,7 @@
 
                     if (data.ember != '' && !renderEmberOnce) {
                         // moves the emberview into the slider area
-                        $('body').find('#emberArea').css('border', '1px solid #a33').css('height', 20).css('width', '400');
+                        $('body').find('#slideArea').css('border-right', '1px solid #a33');
                         $(data.ember).appendTo($('#slider'));
                         renderEmberOnce = true;
                     }
