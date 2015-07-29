@@ -1,0 +1,101 @@
+---
+preview:
+  honeyguide-cCommPrvw:
+    path: >
+      http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/cCommPreviewer.js
+    required:
+      - customize-preview-widgets
+  honeypot-util:
+    path: >
+      http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/honeyPot/util.js
+    required:
+      - jquery
+      - customize-preview-widgets
+  honeypot-editor:
+    path: >
+      http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/honeyPot/editor.js
+    required:
+      - jquery
+      - honeypot-util
+      - customize-preview-widgets
+  slidereveal:
+    path: >
+      http://wplab.dev/wp-content/themes/beeswax/bower_components/slidereveal/dist/jquery.slidereveal.min.js
+    required:
+      - jquery
+      - customize-preview
+  preview-slidePanel:
+    path: >
+      http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/customize-preview-slidepanel.js
+    required:
+      - jquery
+      - customize-preview
+      - bootstrap
+  preview-stackMenus:
+    path: >
+      http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/customize-preview-stackMenus.js
+    required:
+      - jquery
+      - customize-preview
+  lodash:
+    path: >
+      http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/vendor/lodash/lodash.min.js
+    required:
+      - jquery
+      - customize-preview
+  lsbridge:
+    path: >
+      http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/vendor/lsbridge/build/lsbridge.min.js
+  todomvc-base:
+    path: >
+      http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/vendor/dependencies/todomvc-common/base.js
+  jquery:
+    path: >
+      http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/vendor/dependencies/jquery/dist/jquery.js
+  handlebars:
+    path: >
+      http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/vendor/dependencies/handlebars/dist/handlebars.js
+  moment:
+    path: >
+      http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/vendor/moment/min/moment-with-locales.min.js
+  ember:
+    path: >
+      http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/vendor/ember/ember.debug.js
+  ember-template-compiler:
+    path: >
+      http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/vendor/ember/ember-template-compiler.js
+  ember-restless:
+    path: >
+      http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/vendor/ember-restless/dist/ember-restless.js
+  ember-data:
+    path: >
+      http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/vendor/dependencies/ember-data/ember-data.js
+  ember-localstorage:
+    path: >
+      http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/vendor/dependencies/ember-localstorage-adapter/localstorage_adapter.js
+  ember-app:
+    path: >
+      http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/customize-preview-ember-loader.js
+  emberApp:
+    path: >
+      http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/app/build/app.min.js
+control:
+  honeyguide-cCommCtrl:
+    path: >
+      http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/cCommController.js
+    required:
+      - customize-controls
+  lsbridge:
+    path: >
+      http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/vendor/lsbridge/build/lsbridge.min.js
+stacks:
+  stack-scripts-xeditable:
+    path: >
+      http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/vendor/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.min.js
+    required:
+      - jquery
+      - customize-preview
+  stack-styles-xeditable:
+    path: >
+      http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/vendor/x-editable/dist/bootstrap3-editable/css/bootstrap-editable.css
+    required: [ ]

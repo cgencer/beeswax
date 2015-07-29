@@ -19,7 +19,7 @@
 
             $('body').append($('<div id="slider" class="oneLiners container" style="border-right:1px solid #aaa;">Hello World!!</div>'));
             sRev = $('#slider');
-            $(sRev).append('<div id="slideArea"><div id="queryArea"></div><div id="emberArea"></div></div>');
+            $(sRev).append('<div id="slideArea"><div id="queryArea"></div><div id="emberArea"></div><div id="emberAppArea"></div></div>');
             sRev = $('#queryArea');
 
             this.preview.bind('honeypot', function(data) {

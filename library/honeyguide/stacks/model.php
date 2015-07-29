@@ -63,9 +63,23 @@ class stacks_model {
 	}
 
     public function dump($obj, $name) {
-		$handle = fopen('', 'w');
+		$handle = fopen(dirname(__FILE__) . '/' . $name, 'w');
 		fwrite($handle, $this->utils->dump($obj));
 		fclose($handle);
+    }
+
+    public function dumpYAML($obj, $name) {
+		$handle = fopen(dirname(__FILE__) . '/' . $name, 'w');
+		fwrite($handle, Spyc::YAMLDump($obj));
+		fclose($handle);
+    }
+
+    public function loadYAML($name) {
+		return Spyc::YAMLLoad(dirname(__FILE__) . '/' . $name);
+    }
+
+    public function loadScripts() {
+		return $this->loadYAML('scripts.yaml');
     }
 
     public function restore($dump) {

@@ -5,13 +5,13 @@
 				{{input type="checkbox" id="toggle-all" checked=allTodos.allAreDone}}
 				{{/if}}
 				<ul id="todo-list">
-					{{#each}}
+					{{#each todo in this}}
 					<li {{bind-attr class="isCompleted:completed isEditing:editing"}}>
-						{{#if isEditing}}
+						{{#if todo.isEditing}}
 						{{todo-input type="text" class="edit" value=bufferedTitle focus-out="doneEditing" insert-newline="doneEditing" escape-press="cancelEditing"}}
 						{{else}}
-						{{input type="checkbox" class="toggle" checked=isCompleted}}
-						<label {{action "editTodo" on="doubleClick"}}>{{title}}</label>
+						{{input type="checkbox" class="toggle" checked=todo.isCompleted}}
+						<label {{action "editTodo" on="doubleClick"}}>{{todo.title}}</label>
 						<button {{action "removeTodo"}} class="destroy"></button>
 						{{/if}}
 					</li>
@@ -54,12 +54,58 @@
 		</script>
 
 		<script type="text/x-handlebars" data-template-name="index">
+			{{group-chat messages=model action="sendMessage"}}
 			{{multi-liner packages=model action="sendMessage"}}
 		</script>
- 
+
+		<script type="text/x-handlebars" data-template-name="components/group-chat">
+			<div class="chat-component">
+				<ul class="conversation">
+					{{#each message in messages}}
+					<li class="txt">{{chat-message username=message.twitterUserName message=message.text time=message.timeStamp }}</li>
+					{{/each}}
+				</ul>
+
+				<form class="new-message" {{action submit on="submit"}}>
+					{{input type="text" placeholder="Send new message" value=message class="txt-field"}}
+					{{input type="submit" class="send-btn" value="Send"}}
+				</form>
+			</div>
+		</script>
+
+		<script type="text/x-handlebars" data-template-name="components/chat-message">
+			<div class="message media">
+				<div class="img">
+					{{user-avatar username=username service="twitter"}}
+				</div>
+				<div class="bd">
+					{{user-message message=message}}
+					{{time-stamp time=time}}
+				</div>
+			</div>
+		</script>
+
+		<script type="text/x-handlebars" data-template-name="components/user-avatar">
+			<img {{bind-attr src=avatarUrl alt=username}} class="avatar">
+		</script>
+
+		<script type="text/x-handlebars" data-template-name="components/user-message">
+			<div class="user-message">{{message}}</div>
+		</script>
+
+		<script type="text/x-handlebars" data-template-name="components/time-stamp">
+			<div class="time-stamp">
+				<span class="clock" role="presentation"></span>
+				<span class="time">{{format-date time}}</span>
+			</div>
+		</script>
+
+
+
+
 		<script type="text/x-handlebars" data-template-name="components/multi-liner">
 			{{#each pack in packages}}
-				{{one-liner item=pack}}
+			{{one-liner item=pack}}
 			{{/each}}
 		</script>
 
@@ -71,9 +117,9 @@
 							<span class="dropdown ddLeft">
 								<button type="button" class="btn btn-default btn-xs dropdown-toggle" id="dMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Content-type <span class="caret"></span></button>
 								<ul class="dropdown-menu" aria-labelledby="dMenu1">
-									{{#left}}
+									{{#each item in left}}
 									<li><a href="#" class="type_{{item.type}}" alt="{{item.values}}">{{item.label}}{{#item.required}} (*){{/item.required}}</a></li>
-									{{/left}}
+									{{/each}}
 								</ul>
 							</span>
 							<span class="dropdown ddMid">

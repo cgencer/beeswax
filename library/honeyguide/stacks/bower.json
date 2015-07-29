@@ -27,6 +27,8 @@
     "nbd.js": "~1.1.2",
     "ember-data": "~1.13.*",
     "ember-localstorage-adapter": "*",
-    "store.js": "~1.3.17"
+    "store.js": "~1.3.17",
+    "moment": "~2.10.6",
+    "ember-restless": "~0.7.8"
   }
 }
