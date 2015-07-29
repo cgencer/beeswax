@@ -6,7 +6,7 @@
             console.log('reporting to duty: app.js')
 
             Todos.advanceReadiness();
-            App.advanceReadiness();
+            //            App.advanceReadiness();
             $('#emberAppArea').appendTo('#emberArea');
             $('#emberArea').appendTo('#queryArea');
         }

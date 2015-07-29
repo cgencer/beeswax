@@ -18,7 +18,7 @@
             window.App = Ember.Application.create({
                 rootElement: '#emberAppArea'
             });
-            App.deferReadiness();
+            //            App.deferReadiness();
 
             App.IndexRoute = Ember.Route.extend({
                 model: function() {
