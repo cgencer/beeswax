@@ -1,22 +1,29 @@
 ---
 preview:
-  honeyguide-cCommPrvw:
+  lodash:
     path: >
-      http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/cCommPreviewer.js
+      http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/vendor/lodash/lodash.min.js
     required:
-      - customize-preview-widgets
+      - jquery
+      - customize-preview
+  lsbridge:
+    path: >
+      http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/vendor/lsbridge/build/lsbridge.min.js
+  exports-polyfill:
+    path: >
+      http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/vendor/exports-polyfill/exports-polyfill.min.js
   honeypot-util:
     path: >
       http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/honeyPot/util.js
     required:
       - jquery
-      - customize-preview-widgets
-  honeypot-editor:
+  honeypot-require:
     path: >
-      http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/honeyPot/editor.js
+      http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/honeyPot/require.js
+  honeyguide-cCommPrvw:
+    path: >
+      http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/cCommPreviewer.js
     required:
-      - jquery
-      - honeypot-util
       - customize-preview-widgets
   slidereveal:
     path: >
@@ -37,15 +44,6 @@ preview:
     required:
       - jquery
       - customize-preview
-  lodash:
-    path: >
-      http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/vendor/lodash/lodash.min.js
-    required:
-      - jquery
-      - customize-preview
-  lsbridge:
-    path: >
-      http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/vendor/lsbridge/build/lsbridge.min.js
   todomvc-base:
     path: >
       http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/vendor/dependencies/todomvc-common/base.js
@@ -76,6 +74,9 @@ preview:
   ember-app:
     path: >
       http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/customize-preview-ember-loader.js
+    required:
+      - utils
+      - jquery
   emberApp:
     path: >
       http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/app/build/app.min.js

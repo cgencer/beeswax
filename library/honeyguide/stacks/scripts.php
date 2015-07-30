@@ -35,8 +35,17 @@ return array(
 			'path' => $this->dasModel->stacksUrl . 'js/vendor/lodash/lodash.min.js',
 			'required' => array('jquery', 'customize-preview')
 			),
+		'utils' => array(
+			'path' => $this->dasModel->stacksUrl . 'js/vendor/utils.js'
+			),
 		'lsbridge' => array(
 			'path' => $this->dasModel->stacksUrl . 'js/vendor/lsbridge/build/lsbridge.min.js'
+			),
+		'utils' => array(
+			'path' => $this->dasModel->stacksUrl . 'js/vendor/utils.js'
+			),
+		'exports-polyfill' => array(
+			'path' => $this->dasModel->stacksUrl . 'js/vendor/exports-polyfill/exports-polyfill.min.js'
 			),
 // All below here are for the TO-DO app...
 		'todomvc-base' => array(

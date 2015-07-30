@@ -46,3 +46,6 @@
 [submodule "library/honeyguide/stacks/js/vendor/lsbridge"]
 	path = library/honeyguide/stacks/js/vendor/lsbridge
 	url = https://github.com/krasimir/lsbridge.git
+[submodule "library/honeyguide/stacks/js/vendor/exports-polyfill"]
+	path = library/honeyguide/stacks/js/vendor/exports-polyfill
+	url = https://github.com/fraction/exports-polyfill.git

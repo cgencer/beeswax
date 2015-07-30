@@ -18,7 +18,9 @@
             window.App = Ember.Application.create({
                 rootElement: '#emberAppArea'
             });
-            //            App.deferReadiness();
+
+			App.ApplicationAdapter = require('./services/adapter.js');
+			App.ApplicationSerializer = require('./services/serializer.js');
 
             App.IndexRoute = Ember.Route.extend({
                 model: function() {
