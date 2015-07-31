@@ -1,11 +1,16 @@
 ---
 preview:
-  lodash:
+  lsbridge:
     path: >
-      http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/vendor/lodash/lodash.min.js
+      http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/vendor/lsbridge/build/lsbridge.min.js
+  namespace:
+    path: >
+      http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/vendor/Namespace.js/Namespace.js
+  lodash.string:
+    path: >
+      http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/vendor/underscore.string/dist/underscore.string.min.js
     required:
-      - jquery
-      - customize-preview
+      - lodash
   lsbridge:
     path: >
       http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/vendor/lsbridge/build/lsbridge.min.js
@@ -17,9 +22,13 @@ preview:
       http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/honeyPot/util.js
     required:
       - jquery
+      - lodash
   honeypot-require:
     path: >
       http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/honeyPot/require.js
+    required:
+      - jquery
+      - lodash
   honeyguide-cCommPrvw:
     path: >
       http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/cCommPreviewer.js

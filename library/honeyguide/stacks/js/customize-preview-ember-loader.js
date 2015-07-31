@@ -1,6 +1,8 @@
 (function($) {
     "use strict";
 
+    var honeyPot = honeyPot || {};
+
     lsbridge.subscribe('emberBridge', function(data) {
         console.log('received command');
         if ('boot' === data.cmd) {
@@ -15,14 +17,30 @@
                 namespace: 'todos-emberjs'
             });
 
-            window.App = Ember.Application.create({
+            honeyPot.App = Ember.Application.create({
                 rootElement: '#emberAppArea'
             });
 
-			App.ApplicationAdapter = require('./services/adapter.js');
-			App.ApplicationSerializer = require('./services/serializer.js');
+            honeyPot.App.ApplicationAdapter = honeyPot.LoadFile('./services/adapter.js');
+            honeyPot.App.ApplicationSerializer = honeyPot.LoadFile('./services/serializer.js');
 
-            App.IndexRoute = Ember.Route.extend({
+            honeyPot.App.Router.map(honeyPot.LoadFile('./routes/router.js'));
+            honeyPot.App.IndexRoute = honeyPot.LoadFile('./routes/index.js');
+            honeyPot.App.PostRoute = honeyPot.LoadFile('./routes/post.js').extend();
+            honeyPot.App.PageRoute = honeyPot.LoadFile('./routes/post.js').extend();
+            honeyPot.App.UserRoute = honeyPot.LoadFile('./routes/user.js');
+            honeyPot.App.TagRoute = honeyPot.LoadFile('./routes/term.js').extend();
+            honeyPot.App.CategoryRoute = honeyPot.LoadFile('./routes/term.js').extend();
+
+            honeyPot.App.Post = require('./models/post.js').extend();
+            honeyPot.App.Page = require('./models/post.js').extend();
+            honeyPot.App.User = require('./models/user.js');
+            honeyPot.App.Tag = require('./models/term.js').extend();
+            honeyPot.App.Category = require('./models/term.js').extend();
+
+            honeyPot.App.SinglePostComponent = require('./components/single-post.js');
+
+            honeyPot.App.IndexRoute = Ember.Route.extend({
                 model: function() {
                     return [
                         {
