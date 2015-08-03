@@ -6,9 +6,10 @@ module.exports = (function($, _, s, honeyPot) {
     exports.honeyPot = _.extend(honeyPot, {
 
         _loadedFiles: [],
+
         loadFile: function(url) {
             var self = this;
-            if (this.LoadedFiles.contains(url)) return;
+            if (this._loadedFiles.contains(url)) return;
 
             var xhr = new XMLHttpRequest();
             xhr.onload = function() {

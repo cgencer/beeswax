@@ -45,11 +45,7 @@ module.exports = function(grunt) {
             ember: {
                 files: {
                     'library/honeyguide/stacks/js/app/build/app.min.js': [
-                        'library/honeyguide/stacks/js/app/controllers/*.js',
-                        'library/honeyguide/stacks/js/app/helpers/*.js',
-                        'library/honeyguide/stacks/js/app/models/*.js',
-                        'library/honeyguide/stacks/js/app/views/*.js',
-                        'library/honeyguide/stacks/js/app/*.js'
+                        'library/honeyguide/stacks/js/app/**/*.js'
                     ]
                 },
                 options: {

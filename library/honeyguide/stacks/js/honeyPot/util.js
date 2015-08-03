@@ -1,5 +1,6 @@
 var exports = module.exports = {};
 var honeyPot = exports.honeyPot || {};
+_.extend(honeyPot, set);
 
 module.exports = (function($, _, s, honeyPot) {
     'use strict';

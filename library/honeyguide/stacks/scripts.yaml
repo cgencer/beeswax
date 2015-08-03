@@ -29,6 +29,8 @@ preview:
     required:
       - jquery
       - lodash
+    passthru:
+      -
   honeypot-require:
     path: >
       http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/honeyPot/require.js
@@ -89,9 +91,6 @@ preview:
     required:
       - utils
       - jquery
-  emberApp:
-    path: >
-      http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/app/build/app.min.js
 control:
   honeyguide-cCommCtrl:
     path: >
@@ -111,4 +110,3 @@ stacks:
   stack-styles-xeditable:
     path: >
       http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/vendor/x-editable/dist/bootstrap3-editable/css/bootstrap-editable.css
-    required: [ ]

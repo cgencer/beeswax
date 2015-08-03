@@ -55,7 +55,7 @@ class stacks_customizer {
 
 	        foreach ($val as $k => $v) {
 		        if('passthru' === $k) {
-					wp_localize_script( $key, 'set', $v );
+					wp_localize_script( $key, 'set', array('stacksURL' => $this->dasModel->stacksUrl) );
 		        }
 	        }
 
