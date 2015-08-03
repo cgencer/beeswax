@@ -1,7 +1,5 @@
-(function($) {
+module.exports = (function($, _, s, honeyPot) {
     "use strict";
-
-    var honeyPot = honeyPot || {};
 
     lsbridge.subscribe('emberBridge', function(data) {
         console.log('received command');
@@ -17,30 +15,30 @@
                 namespace: 'todos-emberjs'
             });
 
-            honeyPot.App = Ember.Application.create({
+            var App = Ember.Application.create({
                 rootElement: '#emberAppArea'
             });
+            /*
+                        App.ApplicationAdapter = honeyPot.LoadFile('./services/adapter.js'),
+                        App.ApplicationSerializer = honeyPot.LoadFile('./services/serializer.js'),
 
-            honeyPot.App.ApplicationAdapter = honeyPot.LoadFile('./services/adapter.js');
-            honeyPot.App.ApplicationSerializer = honeyPot.LoadFile('./services/serializer.js');
+                        App.Router.map(honeyPot.LoadFile('./routes/router.js'));
+                        App.IndexRoute = honeyPot.LoadFile('./routes/index.js');
+                        App.PostRoute = honeyPot.LoadFile('./routes/post.js').extend();
+                        App.PageRoute = honeyPot.LoadFile('./routes/post.js').extend();
+                        App.UserRoute = honeyPot.LoadFile('./routes/user.js');
+                        App.TagRoute = honeyPot.LoadFile('./routes/term.js').extend();
+                        App.CategoryRoute = honeyPot.LoadFile('./routes/term.js').extend();
 
-            honeyPot.App.Router.map(honeyPot.LoadFile('./routes/router.js'));
-            honeyPot.App.IndexRoute = honeyPot.LoadFile('./routes/index.js');
-            honeyPot.App.PostRoute = honeyPot.LoadFile('./routes/post.js').extend();
-            honeyPot.App.PageRoute = honeyPot.LoadFile('./routes/post.js').extend();
-            honeyPot.App.UserRoute = honeyPot.LoadFile('./routes/user.js');
-            honeyPot.App.TagRoute = honeyPot.LoadFile('./routes/term.js').extend();
-            honeyPot.App.CategoryRoute = honeyPot.LoadFile('./routes/term.js').extend();
+                        App.Post = honeyPot.LoadFile('./models/post.js').extend();
+                        App.Page = honeyPot.LoadFile('./models/post.js').extend();
+                        App.User = honeyPot.LoadFile('./models/user.js');
+                        App.Tag = honeyPot.LoadFile('./models/term.js').extend();
+                        App.Category = honeyPot.LoadFile('./models/term.js').extend();
 
-            honeyPot.App.Post = require('./models/post.js').extend();
-            honeyPot.App.Page = require('./models/post.js').extend();
-            honeyPot.App.User = require('./models/user.js');
-            honeyPot.App.Tag = require('./models/term.js').extend();
-            honeyPot.App.Category = require('./models/term.js').extend();
-
-            honeyPot.App.SinglePostComponent = require('./components/single-post.js');
-
-            honeyPot.App.IndexRoute = Ember.Route.extend({
+                        App.SinglePostComponent = honeyPot.LoadFile('./components/single-post.js');
+            */
+            App.IndexRoute = Ember.Route.extend({
                 model: function() {
                     return [
                         {
@@ -63,8 +61,14 @@
                 }
             });
 
+
             Ember.Handlebars.helper('format-date', function(date) {
+                moment = window.moment;
                 return moment(date).fromNow();
+            });
+
+            exports.honeyPot = _.extend(honeyPot, {
+                App: App
             });
 
             lsbridge.send('emberBridge', {
@@ -73,4 +77,4 @@
         }
     });
 
-})(jQuery);
+})(jQuery, _, s, honeyPot)
