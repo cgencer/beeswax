@@ -1,16 +1,22 @@
 ---
 preview:
+  jquery:
+    path: >
+      http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/vendor/dependencies/jquery/dist/jquery.js
+  lodash:
+    path: >
+      http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/vendor/lodash/lodash.min.js
+  lodash.string:
+    path: >
+      http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/vendor/underscore.string/dist/underscore.string.min.js
+    required:
+      - lodash
   lsbridge:
     path: >
       http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/vendor/lsbridge/build/lsbridge.min.js
   namespace:
     path: >
       http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/vendor/Namespace.js/Namespace.js
-  lodash.string:
-    path: >
-      http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/vendor/underscore.string/dist/underscore.string.min.js
-    required:
-      - lodash
   lsbridge:
     path: >
       http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/vendor/lsbridge/build/lsbridge.min.js
@@ -56,9 +62,6 @@ preview:
   todomvc-base:
     path: >
       http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/vendor/dependencies/todomvc-common/base.js
-  jquery:
-    path: >
-      http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/vendor/dependencies/jquery/dist/jquery.js
   handlebars:
     path: >
       http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/vendor/dependencies/handlebars/dist/handlebars.js
