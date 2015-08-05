@@ -68,7 +68,7 @@ preview:
       http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/vendor/dependencies/handlebars/dist/handlebars.js
   moment:
     path: >
-      http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/vendor/moment/min/moment.min.js
+      http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/vendor/moment/min/moment-with-langs.min.js
   ember:
     path: >
       http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/vendor/ember/ember.debug.js
