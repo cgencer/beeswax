@@ -17,9 +17,6 @@ preview:
   namespace:
     path: >
       http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/vendor/Namespace.js/Namespace.js
-  lsbridge:
-    path: >
-      http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/vendor/lsbridge/build/lsbridge.min.js
   exports-polyfill:
     path: >
       http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/vendor/exports-polyfill/exports-polyfill.min.js
@@ -30,7 +27,7 @@ preview:
       - jquery
       - lodash
     passthru:
-      -
+      - dummy
   honeypot-require:
     path: >
       http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/honeyPot/require.js
@@ -64,6 +61,8 @@ preview:
   todomvc-base:
     path: >
       http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/vendor/dependencies/todomvc-common/base.js
+    passthru:
+      - dummy
   handlebars:
     path: >
       http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/vendor/dependencies/handlebars/dist/handlebars.js
