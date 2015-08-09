@@ -1,16 +1,14 @@
-(function($) {
-    "use strict";
+module.exports = (function($, _, s, honeyPot) {
+    'use strict';
 
     lsbridge.subscribe('emberBridge', function(data) {
         if ('start' === data.cmd) {
             console.log('reporting to duty: boot.js')
 
-            $('#emberAppArea').appendTo('#emberArea');
-            $('#emberArea').appendTo('#queryArea');
+            var App = exports.honeyPot.App;
+            $('#emberAppArea').appendTo('#queryArea');
 
-            //            Todos.advanceReadiness();
-            //            App.advanceReadiness();
         }
     });
 
-})(jQuery);
+})(jQuery, _, s, honeyPot)

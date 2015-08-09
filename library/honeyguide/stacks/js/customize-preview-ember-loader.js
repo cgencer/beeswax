@@ -6,43 +6,6 @@ module.exports = (function($, _, s, honeyPot) {
         if ('boot' === data.cmd) {
             console.log(':::command: boot');
 
-            window.Todos = Ember.Application.create({
-                rootElement: '#emberArea'
-            });
-            //            Todos.deferReadiness();
-
-            Todos.ApplicationAdapter = DS.LSAdapter.extend({
-                namespace: 'todos-emberjs'
-            });
-
-            var App = Ember.Application.create({
-                rootElement: '#emberAppArea'
-            });
-            //            App.deferReadiness();
-
-            App.IndexRoute = Ember.Route.extend({
-                model: function() {
-                    return [
-                        {
-                            id: 1,
-                            firstName: 'Tom',
-                            lastName: 'Dale',
-                            twitterUserName: 'tomdale',
-                            text: 'I think we should back old Tomster. He was awesome.',
-                            timeStamp: Date.now() - 400000,
-                        },
-                        {
-                            id: 2,
-                            firstName: 'Yehuda',
-                            lastName: 'Katz',
-                            twitterUserName: 'wycats',
-                            text: 'That\'s a good idea.',
-                            timeStamp: Date.now() - 300000,
-                        }
-                    ];
-                }
-            });
-
             Ember.Handlebars.helper('format-date', function(date) {
                 moment = window.moment;
                 return moment(date).fromNow();
@@ -71,10 +34,14 @@ module.exports = (function($, _, s, honeyPot) {
             App.SinglePostComponent = honeyPot.loadFile(honeyPot.stacksURL + 'js/app/components/single-post.js');
             */
 
-            exports.honeyPot = _.extend(honeyPot, {
-                App: App,
-                Todos: Todos
-            });
+            if(!exports.honeyPot.App) {
+           		exports.honeyPot = _.extend(honeyPot, {
+            		App: Ember.Application.create({
+            	    	rootElement: '#emberAppArea'
+        	    	})
+    	        });
+				var App = exports.honeyPot.App;
+            }
 
             lsbridge.send('emberBridge', {
                 cmd: 'start'
