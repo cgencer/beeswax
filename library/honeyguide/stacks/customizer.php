@@ -53,9 +53,15 @@ class stacks_customizer {
 		foreach ($this->scripts[$w] as $key => $val) {
 	        wp_register_script($key, $val['path'], $val['required']);
 
+	        $set = [];
 	        foreach ($val as $k => $v) {
 		        if('passthru' === $k) {
-					wp_localize_script( $key, 'set', array('stacksURL' => $this->dasModel->stacksUrl) );
+		        	foreach ($v as $vv) {
+		        		if('model.' == substr($vv, 0, 6)){
+		        			$set[substr($vv, 6)] = $this->dasModel->{substr($vv, 6)};
+		        		}
+		        	}
+					wp_localize_script( $key, 'set', $set);
 		        }
 	        }
 

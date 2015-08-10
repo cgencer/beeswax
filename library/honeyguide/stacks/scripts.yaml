@@ -27,7 +27,7 @@ preview:
       - jquery
       - lodash
     passthru:
-      - dummy
+      - model.stacksUrl
   honeypot-require:
     path: >
       http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/honeyPot/require.js
@@ -35,7 +35,7 @@ preview:
       - jquery
       - lodash
     passthru:
-      - dummy
+      - model.stacksUrl
   honeyguide-cCommPrvw:
     path: >
       http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/cCommPreviewer.js
@@ -64,7 +64,7 @@ preview:
     path: >
       http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/vendor/dependencies/todomvc-common/base.js
     passthru:
-      - dummy
+      - model.stacksUrl
   handlebars:
     path: >
       http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/vendor/dependencies/handlebars/dist/handlebars.js
@@ -89,6 +89,9 @@ preview:
   ember-app:
     path: >
       http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/customize-preview-ember-loader.js
+    passthru:
+      - model.stacksUrl
+      - model.queryRules
     required:
       - utils
       - jquery
