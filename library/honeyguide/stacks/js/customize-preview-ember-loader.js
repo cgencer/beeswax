@@ -34,14 +34,26 @@ module.exports = (function($, _, s, honeyPot) {
             App.SinglePostComponent = honeyPot.loadFile(honeyPot.stacksURL + 'js/app/components/single-post.js');
             */
 
-            if(!exports.honeyPot.App) {
-           		exports.honeyPot = _.extend(honeyPot, {
-            		App: Ember.Application.create({
-            	    	rootElement: '#emberAppArea'
-        	    	})
-    	        });
-				var App = exports.honeyPot.App;
+            if (!exports.honeyPot.App) {
+                exports.honeyPot = _.extend(honeyPot, {
+                    App: Ember.Application.create({
+                        rootElement: '#emberAppArea'
+                    })
+                });
+                var App = exports.honeyPot.App;
+
+                exports.honeyPot.set = set || {};
+
+                App.IndexRoute = Ember.Route.extend({
+                    model: function() {
+                        return exports.honeyPot.set.queryRules;
+                    }
+                });
+
+                $('#emberAppArea').appendTo('#queryArea');
+                $('.on-off-pills').bootstrapToggle();
             }
+
 
             lsbridge.send('emberBridge', {
                 cmd: 'start'

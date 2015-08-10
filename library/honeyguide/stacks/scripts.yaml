@@ -60,6 +60,11 @@ preview:
     required:
       - jquery
       - customize-preview
+  bootstrap-toggle:
+    path: >
+      http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/vendor/bootstrap-toggle/js/bootstrap-toggle.min.js
+    required:
+      - bootstrap
   todomvc-base:
     path: >
       http://wplab.dev/wp-content/themes/beeswax/library/honeyguide/stacks/js/vendor/dependencies/todomvc-common/base.js

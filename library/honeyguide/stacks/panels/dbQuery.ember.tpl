@@ -58,9 +58,7 @@
 		</script>
 
 		<script type="text/x-handlebars" data-template-name="components/multi-liner">
-			{{#each pack in model}}
-			{{query-row item=pack}}
-			{{/each}}
+			{{query-row}}
 		</script>
 
 		<script type="text/x-handlebars" data-template-name="components/query-row">
@@ -98,10 +96,7 @@
 					</div>
 				</div>
 				<div class="col-md-4 text-right pull-right">
-					<div class="btn-group">
-						<a href="#" class="btn btn-default btn-xs">on</a>
-						<a href="#" class="btn btn-default btn-xs">off</a>
-					</div>
+					<input class="on-off-pills" type="checkbox" checked data-toggle="toggle">
 					<a id="addLiner" class="btn btn-primary btn-xs oneLinerButton">+</a>
 				</div>
 			</div>

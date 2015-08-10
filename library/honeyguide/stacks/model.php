@@ -48,6 +48,9 @@ class stacks_model {
 		$this->stackedPages = Spyc::YAMLLoad(dirname(__FILE__) . '/index.yaml');
 		$this->queryRules = Spyc::YAMLLoad(dirname(__FILE__) . '/queryRules.yaml');
 
+// write yaml as json onto disk (to check)
+//file_put_contents(dirname(__FILE__) . '/queryRules.json', json_encode($this->queryRules, TRUE));
+
 		$this->panelSet = array();
 
 		$this->loadTemplatesIntoArray();

@@ -35,7 +35,7 @@
                 console.log('sent command.');
                 if (data.panel != '') {
                     sRev.html(data.content).slideReveal(data.panel);
-                    api.slidePanel.createOneLiner(sRev, data.liner, data.andor, api.slidePanel.generateUid(), data.ember);
+                    //                    api.slidePanel.createOneLiner(sRev, data.liner, data.andor, api.slidePanel.generateUid(), data.ember);
 
                     if (data.ember != '' && !renderEmberOnce) {
                         // moves the emberview into the slider area

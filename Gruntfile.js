@@ -46,7 +46,7 @@ module.exports = function(grunt) {
                 files: {
                     'library/honeyguide/stacks/js/app/build/app.min.js': [
                         'library/honeyguide/stacks/js/app/**/*.js',
-                        'library/honeyguide/stacks/js/app/router.js',
+                        'library/honeyguide/stacks/js/app/*.js'
                     ]
                 },
                 options: {

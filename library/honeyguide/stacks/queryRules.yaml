@@ -14,6 +14,7 @@
 # tag__in         tag__not_in     tag__and            tag_slug__in    tag_slug__and    tag_id
 # post_mime_type  perm            comments_per_page   post__in        post__not_in     post_parent
 # post_parent__in                 post_parent__not_in  post_type: 
+  post_type:
     type: choices
     values: "[post, page, any]+"
     required: true

@@ -8,6 +8,16 @@ module.exports = (function($, _, s, honeyPot) {
             var App = exports.honeyPot.App;
             $('#emberAppArea').appendTo('#queryArea');
 
+            App.IndexRoute = Ember.Route.extend({
+                model: function() {
+                    return [{
+                        title: "Top 2 Paula Cole Songs"
+                    }, {
+                        title: "the other title"
+                    }];
+                }
+            });
+
         }
     });
 
