@@ -7,10 +7,7 @@ module.exports = (function($, _, s, honeyPot) {
         queryData: [],
         order: 0,
         actions: {
-            deleteTodo: function(todo) {
-                var todos = this.modelFor('index').todos;
-                todos.removeObject(todo);
-            }
+            anyAction: function() {}
         }
     });
 

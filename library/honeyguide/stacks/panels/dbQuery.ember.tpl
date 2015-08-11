@@ -54,11 +54,7 @@
 		</script>
 
 		<script type="text/x-handlebars" data-template-name="index">
-			{{multi-liner model=model action="sendMessage"}}
-		</script>
-
-		<script type="text/x-handlebars" data-template-name="components/multi-liner">
-			{{query-row}}
+			{{query-row model=model}}
 		</script>
 
 		<script type="text/x-handlebars" data-template-name="components/query-row">
@@ -69,8 +65,8 @@
 							<span class="dropdown ddLeft">
 								<button type="button" class="btn btn-default btn-xs dropdown-toggle" id="dMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Content-type <span class="caret"></span></button>
 								<ul class="dropdown-menu" aria-labelledby="dMenu1">
-									{{#each item in left}}
-									<li><a href="#" class="type_{{item.type}}" alt="{{item.values}}">{{item.label}}{{#item.required}} (*){{/item.required}}</a></li>
+									{{#each item in model}}
+									<li><a href="#">{{item.label}}</a></li>
 									{{/each}}
 								</ul>
 							</span>

@@ -22,6 +22,10 @@
             $(sRev).append('<div id="slideArea"><div id="queryArea"></div><div id="emberArea"></div><div id="emberAppArea"></div></div>');
             sRev = $('#queryArea');
 
+            $('.dropdown-toggle').on('click', function() {
+                //                e.preventDefault();
+            });
+
             this.preview.bind('honeypot', function(data) {
 
                 sRev.slideReveal({

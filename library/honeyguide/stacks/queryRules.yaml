@@ -20,18 +20,21 @@
     required: true
     label: "Content Type"
     related: null
+    order: 0
   post_status: 
     type: choices
     values: "[publish, pending, private, future, trash, any]+"
     required: false
     label: "Status"
     related: null
+    order: 1
   page_id: 
     type: regexp
     values: "[0-9]*"
     required: false
     label: "ID"
     related: null
+    order: 2
   posts_per_page: 
     type: regexp
     values: "[0-9]*"

@@ -46,7 +46,7 @@ module.exports = (function($, _, s, honeyPot) {
 
                 App.IndexRoute = Ember.Route.extend({
                     model: function() {
-                        return exports.honeyPot.set.queryRules;
+                        return _.sortByOrder(_.toArray(exports.honeyPot.set.queryRules), ['order', 'label'], ['asc', 'asc']);
                     }
                 });
 
