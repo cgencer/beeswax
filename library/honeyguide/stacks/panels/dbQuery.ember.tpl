@@ -66,7 +66,7 @@
 								<button type="button" class="btn btn-default btn-xs dropdown-toggle" id="dMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Content-type <span class="caret"></span></button>
 								<ul class="dropdown-menu" aria-labelledby="dMenu1">
 									{{#each item in model}}
-									<li><a href="#">{{item.label}}</a></li>
+									<li><a href="#" {{bind-attr class=item.className}} {{bind-attr alt=item.values}}>{{item.label}}</a></li>
 									{{/each}}
 								</ul>
 							</span>

@@ -15,93 +15,94 @@
 # post_mime_type  perm            comments_per_page   post__in        post__not_in     post_parent
 # post_parent__in                 post_parent__not_in  post_type: 
   post_type:
-    type: choices
+    className: choices
     values: "[post, page, any]+"
     required: true
     label: "Content Type"
     related: null
     order: 0
   post_status: 
-    type: choices
+    className: choices
     values: "[publish, pending, private, future, trash, any]+"
     required: false
     label: "Status"
     related: null
     order: 1
   page_id: 
-    type: regexp
+    className: regexp
     values: "[0-9]*"
     required: false
     label: "ID"
     related: null
     order: 2
   posts_per_page: 
-    type: regexp
+    className: regexp
     values: "[0-9]*"
     required: false
     label: "Pagination count"
     related: null
   post_parent: 
-    type: regexp
+    className: regexp
     values: "[0-9]*"
     required: false
     label: "Parent ID"
     related: null
   orderby: 
-    type: choices
+    className: choices
     values: "[none, ID, author, title, name, type, date, modified, parent, rand, comment_count, menu_order, meta_value, meta_value_num, post__in]+"
     required: false
     label: "order by"
     related: null
   order: 
-    type: choices
+    className: choices
     values: "[ASC, DESC]*"
     required: false
     label: "order"
     related: "orderby"
   offset: 
-    type: regexp
+    className: regexp
     values: "[0-9]*"
     required: false
     label: "offset"
     related: "posts_per_page"
   paged: 
-    type: regexp
+    className: regexp
     values: "[0-9]*"
     required: false
     label: "paged"
     related: "posts_per_page"
   page: 
-    type: regexp
+    className: regexp
     values: "[0-9]*"
     required: false
     label: "page"
     related: "posts_per_page"
   ignore_sticky_posts: 
-    type: choices
+    className: choices
     values: "[true, false]+"
     required: false
     label: "Ignore sticky posts"
     related: null
   year: 
+    className: regexp
     values: "[0-9]{4}+"
     required: false
     label: "Date: year"
     related: null
   monthnum: 
-    type: choices
+    className: choices
     values: "[1,2,3,4,5,6,7,8,9,10,11,12]+"
     required: false
     label: "Date: month"
     related: "year"
   w: 
-    type: regexp
+    className: regexp
     values: "[0-9]{2}+"
     required: false
     label: "Date: week"
     related: null
   day: 
-    type: regexp
+    className: regexp
     values: "[0-9]{2}+"
     required: false
     label: "Date: day"
