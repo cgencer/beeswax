@@ -1,7 +1,7 @@
 {
-  "name": "library/honeyguide/stacks/js/query-app",
+  "name": "queryApp",
   "version": "0.0.0",
-  "description": "Small description for library/honeyguide/stacks/js/query-app goes here",
+  "description": "Small description for queryApp goes here",
   "private": true,
   "directories": {
     "doc": "doc",
@@ -20,6 +20,7 @@
   "license": "MIT",
   "devDependencies": {
     "broccoli-asset-rev": "^2.0.2",
+    "ember-bootstrap": "^0.1.4",
     "ember-cli": "1.13.1",
     "ember-cli-app-version": "0.4.0",
     "ember-cli-babel": "^5.0.0",
