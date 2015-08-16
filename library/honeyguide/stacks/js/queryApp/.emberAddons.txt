@@ -1,8 +1,0 @@
-ember-cli-toggle        https://github.com/knownasilya/ember-cli-toggle
-ember-json-pretty
-ember-lodash
-ember-cli-dropzonejs
-ember-cli-bootstrap
-ember-cli-bootstrap-datetimepicker
-ember-cli-to-wp-theme
-ember-cli-font-awesome

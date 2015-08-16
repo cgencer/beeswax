@@ -109,6 +109,11 @@ module.exports = function(grunt) {
             ember: [
                 'library/honeyguide/stacks/js/app/build'
             ]
+        },
+        ember: {
+            build: [
+                exec: 'ember build --output-path=library/honeyguide/stacks/js/queryApp/'
+            ],
         }
     });
 
@@ -132,6 +137,10 @@ module.exports = function(grunt) {
     ]);
 
     grunt.registerTask('ember', [
+        'ember:build',
+    ]);
+
+    grunt.registerTask('emberx', [
         'clean:ember',
         'uglify:ember',
     ]);
