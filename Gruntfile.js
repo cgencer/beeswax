@@ -110,15 +110,33 @@ module.exports = function(grunt) {
                 'library/honeyguide/stacks/js/app/build'
             ]
         },
-        ember: {
-            build: [
-                exec: 'ember build --output-path=library/honeyguide/stacks/js/queryApp/'
-            ],
+        exec: {
+            build_ember: {
+                cwd: 'queryApp',
+                command: 'ember build --output-path=../library/honeyguide/stacks/js/queryApp/'
+            },
+            run_ember: {
+                cwd: 'queryApp',
+                command: 'ember serve'
+            },
+        },
+        connect: {
+            ember: {
+                options: {
+                    hostname: '127.0.0.1',
+                    port: 4200,
+                    open: {
+                        target: 'http://localhost:4200',
+                        appName: 'open'
+                    }
+                }
+            }
         }
     });
 
     // Load tasks
     grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
@@ -126,6 +144,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-wp-assets');
     grunt.loadNpmTasks('grunt-grunticon');
     grunt.loadNpmTasks('grunt-svgstore');
+    grunt.loadNpmTasks('grunt-exec');
 
     // Register tasks
     grunt.registerTask('default', [
@@ -137,7 +156,9 @@ module.exports = function(grunt) {
     ]);
 
     grunt.registerTask('ember', [
-        'ember:build',
+        'exec:build_ember',
+        'exec:run_ember',
+        'connect:ember'
     ]);
 
     grunt.registerTask('emberx', [
