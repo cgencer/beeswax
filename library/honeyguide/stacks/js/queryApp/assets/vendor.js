@@ -84711,6 +84711,688 @@ define("ember/load-initializers",
   }));
 });
 
+define('ember-cli-to-wp-theme', ['ember-cli-to-wp-theme/index', 'ember', 'exports'], function(__index__, __Ember__, __exports__) {
+  'use strict';
+  var keys = Object.keys || __Ember__['default'].keys;
+  var forEach = Array.prototype.forEach && function(array, cb) {
+    array.forEach(cb);
+  } || __Ember__['default'].EnumerableUtils.forEach;
+
+  forEach(keys(__index__), (function(key) {
+    __exports__[key] = __index__[key];
+  }));
+});
+
+define('ember-cli-to-wp-theme/adapters/application', ['exports', 'ember-data'], function (exports, DS) {
+
+	'use strict';
+
+	exports['default'] = DS['default'].RESTAdapter.extend({
+		host: location.host,
+		namespace: 'wp-json',
+
+		pathForType: function pathForType(type) {
+			if (type === 'category' || type === 'subcategory' || type === 'term') {
+				return 'taxonomies/category/terms';
+			} else {
+				return this._super(type);
+			}
+		}
+	});
+
+});
+define('ember-cli-to-wp-theme/components/wp-menu-item', ['exports', 'ember', 'ember-cli-to-wp-theme/templates/components/wp-menu-item'], function (exports, Ember, layout) {
+
+  'use strict';
+
+  exports['default'] = Ember['default'].Component.extend({
+    layout: layout['default'],
+    tagName: 'li',
+
+    isCustom: Ember['default'].computed('item', function () {
+      if (this.get('item')) {
+        return this.get('item').get('object') === 'custom';
+      }
+      return false;
+    }),
+
+    link: Ember['default'].computed('item', function () {
+      var route = 'index';
+      if (this.get('item')) {
+        switch (this.get('item').get('object')) {
+          case 'page':
+            route = 'page.show';
+            break;
+          case 'post':
+            route = 'post.show';
+            break;
+          case 'category':
+            route = 'term.show';
+            break;
+          default:
+            break;
+        }
+      }
+      return route;
+    })
+  });
+
+});
+define('ember-cli-to-wp-theme/components/wp-menu', ['exports', 'ember', 'ember-cli-to-wp-theme/templates/components/wp-menu'], function (exports, Ember, layout) {
+
+  'use strict';
+
+  exports['default'] = Ember['default'].Component.extend({
+    layout: layout['default'],
+    tagName: 'ul'
+  });
+
+});
+define('ember-cli-to-wp-theme/models/item', ['exports', 'ember-data'], function (exports, DS) {
+
+	'use strict';
+
+	exports['default'] = DS['default'].Model.extend({
+		order: DS['default'].attr('number'),
+		parent: DS['default'].belongsTo('item', { async: true }),
+		title: DS['default'].attr('string'),
+		url: DS['default'].attr('string'),
+		attr: DS['default'].attr('string'),
+		target: DS['default'].attr('string'),
+		classes: DS['default'].attr('string'),
+		xfn: DS['default'].attr('string'),
+		description: DS['default'].attr('string'),
+		object_id: DS['default'].attr('number'),
+		object: DS['default'].attr('string'),
+		type: DS['default'].attr('string'),
+		type_label: DS['default'].attr('string'),
+		subItems: DS['default'].hasMany('item', { inverse: 'parent' })
+	});
+
+});
+define('ember-cli-to-wp-theme/models/menu', ['exports', 'ember-data'], function (exports, DS) {
+
+	'use strict';
+
+	exports['default'] = DS['default'].Model.extend({
+		name: DS['default'].attr('string'),
+		slug: DS['default'].attr('string'),
+		description: DS['default'].attr('string'),
+		count: DS['default'].attr('number'),
+		items: DS['default'].hasMany('item')
+	});
+
+});
+define('ember-cli-to-wp-theme/models/page', ['exports', 'ember-data'], function (exports, DS) {
+
+	'use strict';
+
+	exports['default'] = DS['default'].Model.extend({
+		title: DS['default'].attr(),
+		status: DS['default'].attr(),
+		type: DS['default'].attr(),
+		author: DS['default'].belongsTo('user'),
+		content: DS['default'].attr(),
+		parent: DS['default'].attr(),
+		link: DS['default'].attr(),
+		date: DS['default'].attr('date'),
+		modified: DS['default'].attr('date'),
+		format: DS['default'].attr(),
+		slug: DS['default'].attr(),
+		guid: DS['default'].attr(),
+		excerpt: DS['default'].attr(),
+		menu_order: DS['default'].attr('number'),
+		comment_status: DS['default'].attr(),
+		ping_status: DS['default'].attr(),
+		sticky: DS['default'].attr('boolean'),
+		date_tz: DS['default'].attr(),
+		date_gmt: DS['default'].attr('date'),
+		modified_tz: DS['default'].attr(),
+		modified_gmt: DS['default'].attr('date'),
+		featured_image: DS['default'].attr(),
+		tags: DS['default'].hasMany('tag'),
+		categories: DS['default'].hasMany('term')
+	});
+
+});
+define('ember-cli-to-wp-theme/models/post', ['exports', 'ember-data'], function (exports, DS) {
+
+	'use strict';
+
+	exports['default'] = DS['default'].Model.extend({
+		title: DS['default'].attr(),
+		status: DS['default'].attr(),
+		type: DS['default'].attr(),
+		author: DS['default'].belongsTo('user'),
+		content: DS['default'].attr(),
+		parent: DS['default'].attr(),
+		link: DS['default'].attr(),
+		date: DS['default'].attr('date'),
+		modified: DS['default'].attr('date'),
+		format: DS['default'].attr(),
+		slug: DS['default'].attr(),
+		guid: DS['default'].attr(),
+		excerpt: DS['default'].attr(),
+		menu_order: DS['default'].attr('number'),
+		comment_status: DS['default'].attr(),
+		ping_status: DS['default'].attr(),
+		sticky: DS['default'].attr('boolean'),
+		date_tz: DS['default'].attr(),
+		date_gmt: DS['default'].attr('date'),
+		modified_tz: DS['default'].attr(),
+		modified_gmt: DS['default'].attr('date'),
+		featured_image: DS['default'].attr(),
+		tags: DS['default'].hasMany('tag'),
+		categories: DS['default'].hasMany('term')
+	});
+
+});
+define('ember-cli-to-wp-theme/models/tag', ['exports', 'ember-data'], function (exports, DS) {
+
+	'use strict';
+
+	exports['default'] = DS['default'].Model.extend({});
+
+});
+define('ember-cli-to-wp-theme/models/term', ['exports', 'ember-data'], function (exports, DS) {
+
+	'use strict';
+
+	exports['default'] = DS['default'].Model.extend({
+		name: DS['default'].attr(),
+		slug: DS['default'].attr(),
+		description: DS['default'].attr(),
+		parent: DS['default'].attr(),
+		count: DS['default'].attr('number'),
+		link: DS['default'].attr(),
+		posts: DS['default'].hasMany('post', {
+			async: true
+		})
+	});
+
+});
+define('ember-cli-to-wp-theme/models/user', ['exports', 'ember-data'], function (exports, DS) {
+
+	'use strict';
+
+	exports['default'] = DS['default'].Model.extend({
+		username: DS['default'].attr(),
+		name: DS['default'].attr(),
+		first_name: DS['default'].attr(),
+		last_name: DS['default'].attr(),
+		nickname: DS['default'].attr(),
+		slug: DS['default'].attr(),
+		URL: DS['default'].attr(),
+		avatar: DS['default'].attr(),
+		description: DS['default'].attr(),
+		registered: DS['default'].attr('date'),
+		posts: DS['default'].hasMany('post', {
+			inverse: 'author',
+			async: true
+		})
+	});
+
+});
+define('ember-cli-to-wp-theme/serializers/application', ['exports', 'ember-data', 'ember'], function (exports, DS, Ember) {
+
+	'use strict';
+
+	exports['default'] = DS['default'].RESTSerializer.extend(DS['default'].EmbeddedRecordsMixin, {
+
+		primaryKey: 'ID',
+
+		attrs: {
+			author: {
+				embedded: 'always'
+			},
+			tags: {
+				embedded: 'always'
+			},
+			categories: {
+				embedded: 'always'
+			},
+			items: {
+				embedded: 'always'
+			}
+		},
+
+		normalizePayload: function normalizePayload(payload) {
+			if (payload.menu) {
+				payload.menu.items.forEach(function (item) {
+					if (item.parent === 0) {
+						delete item.parent;
+					}
+				});
+			}
+			return payload;
+		},
+
+		extractArray: function extractArray(store, type, payload) {
+			var data = {},
+			    extracted = [],
+			    root = Ember['default'].String.pluralize(type.typeKey);
+
+			payload.forEach(function (e) {
+				if (e.terms) {
+					if (typeof e.terms.post_tag !== 'undefined') {
+						e.tags = e.terms.post_tag;
+					}
+
+					if (typeof e.terms.category !== 'undefined') {
+						e.categories = e.terms.category;
+					}
+
+					delete e.terms;
+				}
+				extracted.push(e);
+			});
+
+			data[root] = extracted;
+
+			return this._super(store, type, data);
+		},
+
+		extractSingle: function extractSingle(store, type, payload, id) {
+			var payloadTemp = {};
+			payloadTemp[type.typeKey] = payload;
+			return this._super(store, type, payloadTemp, id);
+		}
+	});
+
+});
+define('ember-cli-to-wp-theme/templates/components/wp-menu-item', ['exports'], function (exports) {
+
+  'use strict';
+
+  exports['default'] = Ember.HTMLBars.template((function() {
+    var child0 = (function() {
+      return {
+        meta: {
+          "revision": "Ember@1.13.3",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 1,
+              "column": 0
+            },
+            "end": {
+              "line": 3,
+              "column": 0
+            }
+          }
+        },
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("	");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("a");
+          dom.setAttribute(el1,"target","_blank");
+          var el2 = dom.createComment("");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var element0 = dom.childAt(fragment, [1]);
+          var morphs = new Array(2);
+          morphs[0] = dom.createAttrMorph(element0, 'href');
+          morphs[1] = dom.createMorphAt(element0,0,0);
+          return morphs;
+        },
+        statements: [
+          ["attribute","href",["get","item.url",["loc",[null,[2,21],[2,29]]]]],
+          ["content","item.title",["loc",[null,[2,49],[2,63]]]]
+        ],
+        locals: [],
+        templates: []
+      };
+    }());
+    var child1 = (function() {
+      var child0 = (function() {
+        return {
+          meta: {
+            "revision": "Ember@1.13.3",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 4,
+                "column": 1
+              },
+              "end": {
+                "line": 4,
+                "column": 49
+              }
+            }
+          },
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode(" ");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createComment("");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode(" ");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var morphs = new Array(1);
+            morphs[0] = dom.createMorphAt(fragment,1,1,contextualElement);
+            return morphs;
+          },
+          statements: [
+            ["content","item.title",["loc",[null,[4,34],[4,48]]]]
+          ],
+          locals: [],
+          templates: []
+        };
+      }());
+      return {
+        meta: {
+          "revision": "Ember@1.13.3",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 3,
+              "column": 0
+            },
+            "end": {
+              "line": 5,
+              "column": 0
+            }
+          }
+        },
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("	");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(fragment,1,1,contextualElement);
+          return morphs;
+        },
+        statements: [
+          ["block","link-to",[["get","link",["loc",[null,[4,12],[4,16]]]],["get","item.object_id",["loc",[null,[4,17],[4,31]]]]],[],0,null,["loc",[null,[4,1],[4,61]]]]
+        ],
+        locals: [],
+        templates: [child0]
+      };
+    }());
+    var child2 = (function() {
+      var child0 = (function() {
+        return {
+          meta: {
+            "revision": "Ember@1.13.3",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 9,
+                "column": 1
+              },
+              "end": {
+                "line": 11,
+                "column": 1
+              }
+            }
+          },
+          arity: 1,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("		");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createComment("");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var morphs = new Array(1);
+            morphs[0] = dom.createMorphAt(fragment,1,1,contextualElement);
+            return morphs;
+          },
+          statements: [
+            ["inline","wp-menu-item",[],["item",["subexpr","@mut",[["get","menuItem",["loc",[null,[10,22],[10,30]]]]],[],[]]],["loc",[null,[10,2],[10,32]]]]
+          ],
+          locals: ["menuItem"],
+          templates: []
+        };
+      }());
+      return {
+        meta: {
+          "revision": "Ember@1.13.3",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 7,
+              "column": 0
+            },
+            "end": {
+              "line": 13,
+              "column": 0
+            }
+          }
+        },
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("	");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("ul");
+          var el2 = dom.createTextNode("\n");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createComment("");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("	");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1]),1,1);
+          return morphs;
+        },
+        statements: [
+          ["block","each",[["get","item.subItems",["loc",[null,[9,9],[9,22]]]]],[],0,null,["loc",[null,[9,1],[11,10]]]]
+        ],
+        locals: [],
+        templates: [child0]
+      };
+    }());
+    return {
+      meta: {
+        "revision": "Ember@1.13.3",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 14,
+            "column": 0
+          }
+        }
+      },
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var morphs = new Array(2);
+        morphs[0] = dom.createMorphAt(fragment,0,0,contextualElement);
+        morphs[1] = dom.createMorphAt(fragment,2,2,contextualElement);
+        dom.insertBoundary(fragment, 0);
+        dom.insertBoundary(fragment, null);
+        return morphs;
+      },
+      statements: [
+        ["block","if",[["get","isCustom",["loc",[null,[1,6],[1,14]]]]],[],0,1,["loc",[null,[1,0],[5,7]]]],
+        ["block","if",[["get","item.subItems",["loc",[null,[7,6],[7,19]]]]],[],2,null,["loc",[null,[7,0],[13,7]]]]
+      ],
+      locals: [],
+      templates: [child0, child1, child2]
+    };
+  }()));
+
+});
+define('ember-cli-to-wp-theme/templates/components/wp-menu', ['exports'], function (exports) {
+
+  'use strict';
+
+  exports['default'] = Ember.HTMLBars.template((function() {
+    var child0 = (function() {
+      var child0 = (function() {
+        return {
+          meta: {
+            "revision": "Ember@1.13.3",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 2,
+                "column": 1
+              },
+              "end": {
+                "line": 4,
+                "column": 1
+              }
+            }
+          },
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("		");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createComment("");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var morphs = new Array(1);
+            morphs[0] = dom.createMorphAt(fragment,1,1,contextualElement);
+            return morphs;
+          },
+          statements: [
+            ["inline","wp-menu-item",[],["item",["subexpr","@mut",[["get","menuItem",["loc",[null,[3,22],[3,30]]]]],[],[]]],["loc",[null,[3,2],[3,32]]]]
+          ],
+          locals: [],
+          templates: []
+        };
+      }());
+      return {
+        meta: {
+          "revision": "Ember@1.13.3",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 1,
+              "column": 0
+            },
+            "end": {
+              "line": 5,
+              "column": 0
+            }
+          }
+        },
+        arity: 1,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(fragment,0,0,contextualElement);
+          dom.insertBoundary(fragment, 0);
+          dom.insertBoundary(fragment, null);
+          return morphs;
+        },
+        statements: [
+          ["block","unless",[["get","menuItem.parent",["loc",[null,[2,11],[2,26]]]]],[],0,null,["loc",[null,[2,1],[4,12]]]]
+        ],
+        locals: ["menuItem"],
+        templates: [child0]
+      };
+    }());
+    return {
+      meta: {
+        "revision": "Ember@1.13.3",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 5,
+            "column": 9
+          }
+        }
+      },
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var morphs = new Array(1);
+        morphs[0] = dom.createMorphAt(fragment,0,0,contextualElement);
+        dom.insertBoundary(fragment, 0);
+        dom.insertBoundary(fragment, null);
+        return morphs;
+      },
+      statements: [
+        ["block","each",[["get","items",["loc",[null,[1,8],[1,13]]]]],[],0,null,["loc",[null,[1,0],[5,9]]]]
+      ],
+      locals: [],
+      templates: [child0]
+    };
+  }()));
+
+});
 ;/* jshint ignore:start */
 
 

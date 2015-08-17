@@ -112,11 +112,11 @@ module.exports = function(grunt) {
         },
         exec: {
             build_ember: {
-                cwd: 'queryApp',
-                command: 'ember build --output-path=../library/honeyguide/stacks/js/queryApp/'
+                cwd: 'qApp',
+                command: 'ember build --output-path=../library/honeyguide/stacks/js/qApp/'
             },
             run_ember: {
-                cwd: 'queryApp',
+                cwd: 'qApp',
                 command: 'ember serve'
             },
         },
