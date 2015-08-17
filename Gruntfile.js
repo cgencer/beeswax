@@ -42,11 +42,22 @@ module.exports = function(grunt) {
                     // sourceMappingURL: '/app/themes/roots/assets/js/scripts.min.js.map'
                 }
             },
-            ember: {
+            emberx: {
                 files: {
                     'library/honeyguide/stacks/js/app/build/app.min.js': [
                         'library/honeyguide/stacks/js/app/**/*.js',
                         'library/honeyguide/stacks/js/app/*.js'
+                    ]
+                },
+                options: {
+                    mangle: false
+                }
+            },
+            ember: {
+                files: {
+                    'library/honeyguide/stacks/js/qApp/assets/app.min.js': [
+                        'library/honeyguide/stacks/js/qApp/assets/ember-cli-wordpress.js',
+                        'library/honeyguide/stacks/js/qApp/assets/vendor.js'
                     ]
                 },
                 options: {
@@ -73,32 +84,13 @@ module.exports = function(grunt) {
             }
         },
         watch: {
-            less: {
-                files: [
-                    'bower_components/bootstrap/less/*.less',
-                    'bower_components/font-awesome/less/*.less',
-                    'library/less/*.less'
-                ],
-                tasks: ['less', 'version']
-            },
-            js: {
-                files: [
-                    '<%= jshint.all %>'
-                ],
-                tasks: ['uglify']
-            },
-            livereload: {
-                // Browser live reloading
-                // https://github.com/gruntjs/grunt-contrib-watch#live-reloading
+            ember: {
+                files: './library/honeyguide/stacks/js/qApp/assets/app.min.js',
+                tasks: ['uglify:ember', 'processhtml:ember', 'exec:run_ember', 'connect:ember'],
                 options: {
-                    livereload: true
-                },
-                files: [
-                    'library/dist/css/styles.css',
-                    'library/js/*',
-                    'style.css',
-                    '*.php'
-                ]
+                    spawn: false,
+                    event: ['added']
+                }
             }
         },
         clean: {
@@ -120,6 +112,21 @@ module.exports = function(grunt) {
                 command: 'ember serve'
             },
         },
+        bgShell: {
+            build_ember: {
+                cmd: 'ember build --output-path=../library/honeyguide/stacks/js/qApp/', // or function(){return 'ls -la'}
+                execOpts: {
+                    cwd: './qApp'
+                },
+                stdout: true,
+                stderr: true,
+                bg: false,
+                fail: false,
+                done: function(err, stdout, stderr) {
+                    grunt.task.run(['uglify:ember', 'watch:ember']);
+                }
+            }
+        },
         connect: {
             ember: {
                 options: {
@@ -129,6 +136,18 @@ module.exports = function(grunt) {
                         target: 'http://localhost:4200',
                         appName: 'open'
                     }
+                }
+            }
+        },
+        processhtml: {
+            ember: {
+                options: {
+                    data: {
+                        message: 'Proccessing the index.html to include minimized scripts.'
+                    }
+                },
+                files: {
+                    'library/honeyguide/stacks/js/qApp/index.html': ['library/honeyguide/stacks/js/qApp/index.html']
                 }
             }
         }
@@ -142,9 +161,12 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-wp-assets');
+    grunt.loadNpmTasks('grunt-processhtml');
     grunt.loadNpmTasks('grunt-grunticon');
     grunt.loadNpmTasks('grunt-svgstore');
     grunt.loadNpmTasks('grunt-exec');
+    grunt.loadNpmTasks('grunt-bg-shell');
+
 
     // Register tasks
     grunt.registerTask('default', [
@@ -156,9 +178,7 @@ module.exports = function(grunt) {
     ]);
 
     grunt.registerTask('ember', [
-        'exec:build_ember',
-        'exec:run_ember',
-        'connect:ember'
+        'bgShell:build_ember' // the remaining tasks will be called trough watch:ember
     ]);
 
     grunt.registerTask('emberx', [
@@ -173,10 +193,4 @@ module.exports = function(grunt) {
         'grunticon',
         'version'
     ]);
-
-    grunt.registerTask('dev', [
-        'grunticon',
-        'watch'
-    ]);
-
 };
