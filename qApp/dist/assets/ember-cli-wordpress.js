@@ -1438,7 +1438,7 @@ catch(err) {
 if (runningTests) {
   require("ember-cli-wordpress/tests/test-helper");
 } else {
-  require("ember-cli-wordpress/app")["default"].create({"name":"ember-cli-wordpress","version":"0.0.0.3b0ba4d9"});
+  require("ember-cli-wordpress/app")["default"].create({"name":"ember-cli-wordpress","version":"0.0.0.45ddde11"});
 }
 
 /* jshint ignore:end */

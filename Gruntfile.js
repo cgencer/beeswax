@@ -29,19 +29,6 @@ module.exports = function(grunt) {
             }
         },
         uglify: {
-            dist: {
-                files: {
-                    'library/dist/js/scripts.min.js': [
-                        'library/js/*.js'
-                    ]
-                    // Consider adding bootstrap js files here to consolidate your browser requests
-                },
-                options: {
-                    // JS source map: to enable, uncomment the lines below and update sourceMappingURL based on your install
-                    // sourceMap: 'assets/js/scripts.min.js.map',
-                    // sourceMappingURL: '/app/themes/roots/assets/js/scripts.min.js.map'
-                }
-            },
             emberx: {
                 files: {
                     'library/honeyguide/stacks/js/app/build/app.min.js': [
@@ -83,23 +70,16 @@ module.exports = function(grunt) {
                 }
             }
         },
-        watch: {
-            ember: {
-                files: './library/honeyguide/stacks/js/qApp/assets/app.min.js',
-                tasks: ['uglify:ember', 'processhtml:ember', 'exec:run_ember', 'connect:ember'],
-                options: {
-                    spawn: false,
-                    event: ['added']
-                }
-            }
-        },
         clean: {
             dist: [
                 'library/dist/css',
                 'library/dist/js'
             ],
-            ember: [
+            emberx: [
                 'library/honeyguide/stacks/js/app/build'
+            ],
+            ember: [
+                'library/honeyguide/stacks/js/qApp'
             ]
         },
         exec: {
@@ -123,7 +103,7 @@ module.exports = function(grunt) {
                 bg: false,
                 fail: false,
                 done: function(err, stdout, stderr) {
-                    grunt.task.run(['uglify:ember', 'watch:ember']);
+                    grunt.task.run(['concurrent:wait_for_it']);
                 }
             }
         },
@@ -136,6 +116,47 @@ module.exports = function(grunt) {
                         target: 'http://localhost:4200',
                         appName: 'open'
                     }
+                }
+            }
+        },
+        concurrent: {
+            boot_it: {
+                tasks: ['clean:ember'],
+                options: {
+                    limit: 5,
+                    logConcurrentOutput: true
+                }
+            },
+            wait_for_it: {
+                tasks: ['uglify:ember'],
+                options: {
+                    limit: 5,
+                    logConcurrentOutput: true
+                }
+            },
+            squeeze_the_babe: {
+                tasks: ['processhtml:ember'],
+                options: {
+                    limit: 5,
+                    logConcurrentOutput: true
+                }
+            },
+            run_forrest_run: {
+                tasks: ['exec:run_ember', 'connect:ember'],
+                options: {
+                    limit: 5,
+                    logConcurrentOutput: true
+                }
+            }
+        },
+        watch: {
+            ember: {
+                files: './library/honeyguide/stacks/js/qApp/assets/app.min.js',
+                tasks: 'concurrent:squeeze_the_babe',
+                options: {
+                    spawn: false,
+                    debounceDelay: 5000,
+                    event: ['added']
                 }
             }
         },
@@ -166,7 +187,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-svgstore');
     grunt.loadNpmTasks('grunt-exec');
     grunt.loadNpmTasks('grunt-bg-shell');
-
+    grunt.loadNpmTasks('grunt-concurrent');
 
     // Register tasks
     grunt.registerTask('default', [
@@ -178,7 +199,10 @@ module.exports = function(grunt) {
     ]);
 
     grunt.registerTask('ember', [
-        'bgShell:build_ember' // the remaining tasks will be called trough watch:ember
+        'clean:ember',
+        'bgShell:build_ember', // the remaining tasks will be called trough watch:ember
+        'uglify:ember',
+        'processhtml:ember'
     ]);
 
     grunt.registerTask('emberx', [
