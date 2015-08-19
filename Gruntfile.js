@@ -99,7 +99,7 @@ module.exports = function(grunt) {
         },
         bgShell: {
             build_ember: {
-                cmd: 'ember build --output-path=./library/honeyguide/stacks/js/qApp/', // or function(){return 'ls -la'}
+                cmd: 'ember build --output-path=../library/honeyguide/stacks/js/qApp/', // or function(){return 'ls -la'}
                 execOpts: {
                     cwd: './qApp'
                 },
