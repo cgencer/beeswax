@@ -2,6 +2,11 @@
 module.exports = function(grunt) {
 
     grunt.initConfig({
+        properties: {
+            domain: 'http://wplab.dev',
+            pathTheme: 'wp-content/themes/beeswax',
+            pathEmber: 'library/honeyguide/stacks/js/qApp'
+        },
         jshint: {
             options: {
                 jshintrc: '.jshintrc'
@@ -94,7 +99,7 @@ module.exports = function(grunt) {
         },
         bgShell: {
             build_ember: {
-                cmd: 'ember build --output-path=../library/honeyguide/stacks/js/qApp/', // or function(){return 'ls -la'}
+                cmd: 'ember build --output-path=./library/honeyguide/stacks/js/qApp/', // or function(){return 'ls -la'}
                 execOpts: {
                     cwd: './qApp'
                 },
@@ -160,6 +165,27 @@ module.exports = function(grunt) {
                 }
             }
         },
+        replace: {
+            emberConfig: {
+                src: ['./library/honeyguide/stacks/js/qApp/config/environment.js'],
+                overwrite: true,
+                replacements: [{
+                    from: /host:.*,/g,
+                    to: 'host: "<%= properties.domain %>",'
+                }]
+            },
+            emberServe: {
+                src: ['./library/honeyguide/stacks/js/qApp/index.html'],
+                overwrite: true,
+                replacements: [{
+                    from: /href="assets/g,
+                    to: 'href="<%= properties.domain %>/<%= properties.pathTheme %>/<%= properties.pathEmber %>/assets'
+                }, {
+                    from: /src="assets/g,
+                    to: 'src="<%= properties.domain %>/<%= properties.pathTheme %>/<%= properties.pathEmber %>/assets'
+                }]
+            }
+        },
         processhtml: {
             ember: {
                 options: {
@@ -188,6 +214,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-exec');
     grunt.loadNpmTasks('grunt-bg-shell');
     grunt.loadNpmTasks('grunt-concurrent');
+    grunt.loadNpmTasks('grunt-text-replace');
 
     // Register tasks
     grunt.registerTask('default', [
@@ -199,10 +226,12 @@ module.exports = function(grunt) {
     ]);
 
     grunt.registerTask('ember', [
+        'replace:emberConfig',
         'clean:ember',
         'bgShell:build_ember', // the remaining tasks will be called trough watch:ember
         'uglify:ember',
-        'processhtml:ember'
+        'processhtml:ember',
+        'replace:emberServe'
     ]);
 
     grunt.registerTask('emberx', [

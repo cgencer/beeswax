@@ -1,5 +1,11 @@
 <h2>Latest Posts</h2>
 
+<section id="query">
+  {{#each query in model}}
+    {{one-liner model=query}}
+  {{/each}}
+</section>
+
 <section id="main">
   {{#each post in model}}
     {{single-post model=post}}
