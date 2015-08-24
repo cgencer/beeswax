@@ -10,6 +10,7 @@ var App = Ember.Application.extend({
   podModulePrefix: config.podModulePrefix,
   Resolver: Resolver
 });
+App.import('bower_components/requirejs/require.js');
 
 loadInitializers(App, config.modulePrefix);
 

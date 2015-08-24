@@ -9,13 +9,21 @@
 
     {{content-for 'head'}}
 
+<!-- b.uild:js assets/styles.css -->
+    <!-- bower:css -->
     <link rel="stylesheet" href="assets/vendor.css">
     <link rel="stylesheet" href="assets/ember-cli-wordpress.css">
-
+    <!-- endbower -->
+<!-- /build -->
     {{content-for 'head-footer'}}
   </head>
   <body>
     {{content-for 'body'}}
+
+<!-- b.uild:js assets/vendorLibs.min.js -->
+    <!-- bower:js -->
+    <!-- endbower -->
+<!-- /build -->
 
 <!-- build:js assets/app.min.js -->
     <script src="assets/vendor.js"></script>

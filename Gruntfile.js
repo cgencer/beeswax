@@ -49,7 +49,8 @@ module.exports = function(grunt) {
                 files: {
                     'library/honeyguide/stacks/js/qApp/assets/app.min.js': [
                         'library/honeyguide/stacks/js/qApp/assets/ember-cli-wordpress.js',
-                        'library/honeyguide/stacks/js/qApp/assets/vendor.js'
+                        'library/honeyguide/stacks/js/qApp/assets/vendor.js',
+                        'qApp/bower_components/requirejs/require.js'
                     ]
                 },
                 options: {
@@ -197,7 +198,34 @@ module.exports = function(grunt) {
                     'library/honeyguide/stacks/js/qApp/index.html': ['library/honeyguide/stacks/js/qApp/index.html']
                 }
             }
+        },
+        wiredep: {
+            ember: {
+                src: [
+                    'library/honeyguide/stacks/js/qApp/index.html'
+                ],
+                options: {
+                    cwd: 'library/honeyguide/stacks'
+                },
+                ignorePath: /\.\.\//
+            }
+        },
+        useminPrepare: {
+            html: 'library/honeyguide/stacks/js/qApp/index.html',
+            options: {
+                dest: 'library/honeyguide/stacks/js/qApp/assets',
+                flow: {
+                    steps: {
+                        js: ['concat', 'uglify']
+                    },
+                    post: {}
+                }
+            }
+        },
+        usemin: {
+            js: ['library/honeyguide/stacks/js/qApp/assets']
         }
+
     });
 
     // Load tasks
@@ -215,6 +243,8 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-bg-shell');
     grunt.loadNpmTasks('grunt-concurrent');
     grunt.loadNpmTasks('grunt-text-replace');
+    grunt.loadNpmTasks('grunt-wiredep');
+    grunt.loadNpmTasks('grunt-usemin');
 
     // Register tasks
     grunt.registerTask('default', [
@@ -231,7 +261,9 @@ module.exports = function(grunt) {
         'bgShell:build_ember', // the remaining tasks will be called trough watch:ember
         'uglify:ember',
         'processhtml:ember',
-        'replace:emberServe'
+        'wiredep:ember',
+        'useminPrepare'
+        //        'replace:emberServe'
     ]);
 
     grunt.registerTask('emberx', [
