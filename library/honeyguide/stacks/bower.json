@@ -37,11 +37,15 @@
     "ember-load-initializers": "ember-cli/ember-load-initializers#0.1.5",
     "ember-qunit": "0.4.1",
     "ember-qunit-notifications": "0.0.7",
+    "ember-template-compiler": "*",
     "ember-resolver": "~0.1.18",
     "jquery": "*",
     "loader.js": "ember-cli/loader.js#3.2.0",
     "qunit": "~1.17.1",
     "bootstrap": "~3.3.2",
     "webshim": "~1.15.8"
+  },
+  "devDependencies": {
+    "grunt-contrib-connect": "~0.11.2"
   }
 }
