@@ -213,13 +213,8 @@ module.exports = function(grunt) {
         useminPrepare: {
             html: 'library/honeyguide/stacks/js/qApp/index.html',
             options: {
+                root: 'library/honeyguide/stacks/js',
                 dest: 'library/honeyguide/stacks/js/qApp/assets',
-                flow: {
-                    steps: {
-                        js: ['concat', 'uglify']
-                    },
-                    post: {}
-                }
             }
         },
         usemin: {
@@ -262,7 +257,7 @@ module.exports = function(grunt) {
         'uglify:ember',
         'processhtml:ember',
         'wiredep:ember',
-        'useminPrepare'
+        //        'useminPrepare'
         //        'replace:emberServe'
     ]);
 

@@ -1,0 +1,4 @@
+module('JSHint - components');
+test('components/one-liner.js should pass jshint', function() { 
+  ok(true, 'components/one-liner.js should pass jshint.'); 
+});

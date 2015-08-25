@@ -1,0 +1,1 @@
+/Users/cgencer/worx/bsbeeswax/qApp/node_modules/ember-cli/lib/broccoli/testem.js

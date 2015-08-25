@@ -1,0 +1,1 @@
+/Users/cgencer/worx/bsbeeswax/qApp/app/components/one-liner.js
