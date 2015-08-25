@@ -54,6 +54,7 @@ module.exports = function(grunt) {
                     ]
                 },
                 options: {
+                    banner: '/*! <%=grunt.template.today("dd-mm-yyyy")%> */\n/*! developed by Cem Gencer, Honeyguide Ventures, o.cem.gencer@gmail.com */',
                     mangle: false
                 }
             }
@@ -205,7 +206,7 @@ module.exports = function(grunt) {
                     'library/honeyguide/stacks/js/qApp/index.html'
                 ],
                 options: {
-                    cwd: 'library/honeyguide/stacks'
+                    cwd: 'library/honeyguide/stacks/'
                 },
                 ignorePath: /\.\.\//
             }

@@ -1,1 +1,0 @@
-/Users/cgencer/worx/bsbeeswax/qApp/tmp/template_compiler-tmp_cache_dir-lhbz3iXs.tmp/1

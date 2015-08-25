@@ -1,1 +1,0 @@
-/Users/cgencer/worx/bsbeeswax/qApp/tmp/class-tmp_cache_dir-IN8XG52e.tmp/addons.js

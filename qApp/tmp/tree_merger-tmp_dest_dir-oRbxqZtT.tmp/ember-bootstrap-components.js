@@ -1,0 +1,1 @@
+/Users/cgencer/worx/bsbeeswax/qApp/tmp/funnel-dest_0jIvtC.tmp/ember-bootstrap-components.js

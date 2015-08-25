@@ -12,6 +12,7 @@ var App = Ember.Application.extend({
   Resolver: Resolver
 });
 
+// this should remove CORS errors
 App.ApplicationAdapter = DS.RESTAdapter.extend({
   host: config.wordpress.host,
   ajax: function(url, method, hash) {

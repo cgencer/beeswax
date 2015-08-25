@@ -1,1 +1,0 @@
-{"modulePrefix":"ember-cli-wordpress","environment":"test","baseURL":"/","locationType":"none","EmberENV":{"FEATURES":{}},"APP":{"LOG_ACTIVE_GENERATION":false,"LOG_VIEW_LOOKUPS":false,"rootElement":"#ember-testing","name":"ember-cli-wordpress","version":"0.0.0.547a18a0"},"wordpress":{"host":"http://wplab.dev","namespace":"wp-json"},"exportApplicationGlobal":true}

@@ -1,1 +1,0 @@
-/Users/cgencer/worx/bsbeeswax/qApp/app/serializers/application.js

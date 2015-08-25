@@ -1,1 +1,0 @@
-/Users/cgencer/worx/bsbeeswax/qApp/tmp/class-tmp_cache_dir-kQ8UkRnB.tmp/assets/ember-cli-wordpress.js
