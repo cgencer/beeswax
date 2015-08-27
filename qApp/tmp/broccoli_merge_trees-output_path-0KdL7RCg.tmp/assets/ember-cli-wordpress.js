@@ -1,1 +1,0 @@
-/Users/obsesif/worx/honeyguide/bsbeeswax/qApp/tmp/core_object-cache_path-oUzudhVl.tmp/assets/ember-cli-wordpress.js

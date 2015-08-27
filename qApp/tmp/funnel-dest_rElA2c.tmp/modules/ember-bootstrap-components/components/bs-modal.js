@@ -1,1 +1,0 @@
-/Users/cgencer/worx/bsbeeswax/qApp/node_modules/ember-bootstrap-components/addon/components/bs-modal.js

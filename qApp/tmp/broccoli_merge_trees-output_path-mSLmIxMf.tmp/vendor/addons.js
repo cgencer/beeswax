@@ -1,1 +1,0 @@
-/Users/obsesif/worx/honeyguide/bsbeeswax/qApp/tmp/core_object-cache_path-XG6Mtod3.tmp/addons.js

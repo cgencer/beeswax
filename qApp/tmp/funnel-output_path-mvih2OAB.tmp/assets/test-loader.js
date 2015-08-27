@@ -1,1 +1,0 @@
-/Users/obsesif/worx/honeyguide/bsbeeswax/qApp/tmp/funnel-input_base_path-BXL0Mn5m.tmp/0/bower_components/ember-cli-test-loader/test-loader.js
