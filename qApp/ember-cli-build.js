@@ -12,6 +12,9 @@ module.exports = function(defaults) {
             'handlebars.js': null
         }
     });
-//    app.import('');
+    app.import('bower_components/ember-data/ember-data.js');
+    app.import('bower_components/ember-data.model-fragments/dist/ember-data.model-fragments.js');
+    app.import('bower_components/ember/ember-template-compiler.js');
+
     return app.toTree();
 }

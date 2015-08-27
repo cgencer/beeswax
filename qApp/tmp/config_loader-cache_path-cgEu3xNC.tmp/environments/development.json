@@ -1,0 +1,1 @@
+{"modulePrefix":"ember-cli-wordpress","environment":"development","baseURL":"/","locationType":"auto","contentSecurityPolicy":{"connect-src":"'self' http://localhost:4200 http://wplab.dev","script-src":"'self' http://localhost:4200 http://wplab.dev"},"EmberENV":{"FEATURES":{}},"APP":{},"wordpress":{"host":"http://wplab.dev","namespace":"wp-json"}}

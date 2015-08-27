@@ -1,0 +1,1 @@
+/Users/obsesif/worx/honeyguide/bsbeeswax/qApp/tmp/funnel-input_base_path-FRrVS5w4.tmp/0/

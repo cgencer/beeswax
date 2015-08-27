@@ -1,0 +1,1 @@
+/Users/obsesif/worx/honeyguide/bsbeeswax/qApp/bower_components/loader.js

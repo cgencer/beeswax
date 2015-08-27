@@ -1,0 +1,1 @@
+/Users/obsesif/worx/honeyguide/bsbeeswax/qApp/node_modules/ember-cli/lib/broccoli/testem.js

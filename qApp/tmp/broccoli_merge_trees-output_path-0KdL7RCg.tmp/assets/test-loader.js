@@ -1,0 +1,1 @@
+/Users/obsesif/worx/honeyguide/bsbeeswax/qApp/bower_components/ember-cli-test-loader/test-loader.js

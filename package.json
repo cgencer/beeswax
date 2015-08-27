@@ -20,6 +20,7 @@
     "node": ">= 0.10.0"
   },
   "devDependencies": {
+    "ember-bootstrap": "0.2.0",
     "ember-template-compiler": "^1.8.0",
     "grunt": "~0.4.2",
     "grunt-bg-shell": "^2.3.1",

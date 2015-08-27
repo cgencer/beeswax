@@ -49,8 +49,7 @@ module.exports = function(grunt) {
                 files: {
                     'library/honeyguide/stacks/js/qApp/assets/app.min.js': [
                         'library/honeyguide/stacks/js/qApp/assets/ember-cli-wordpress.js',
-                        'library/honeyguide/stacks/js/qApp/assets/vendor.js',
-                        'qApp/bower_components/requirejs/require.js'
+                        'library/honeyguide/stacks/js/qApp/assets/vendor.js'
                     ]
                 },
                 options: {
@@ -257,7 +256,7 @@ module.exports = function(grunt) {
         'bgShell:build_ember', // the remaining tasks will be called trough watch:ember
         'uglify:ember',
         'processhtml:ember',
-        'wiredep:ember',
+        //        'wiredep:ember',
         //        'useminPrepare'
         //        'replace:emberServe'
     ]);
