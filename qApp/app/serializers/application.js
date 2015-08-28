@@ -10,6 +10,10 @@ export default DS.RESTSerializer.extend(DS.EmbeddedRecordsMixin,{
     author: { embedded: 'always' }
   },
 
+  serializeId: function(id) {
+    return id.toString();
+  },
+
   extractArray: function(store, type, payload) {
     var data = {},
     extracted = [],

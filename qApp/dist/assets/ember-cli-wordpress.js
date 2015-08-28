@@ -9,7 +9,12 @@ define('ember-cli-wordpress/adapters/application', ['exports', 'ember-data', 'em
 
   exports['default'] = DS['default'].RESTAdapter.extend({
     host: config['default'].wordpress.host,
-    namespace: config['default'].wordpress.namespace || 'wp-json'
+    namespace: config['default'].wordpress.namespace || 'wp-json',
+
+    shouldReloadRecord: function() { return true; },
+    shouldReloadAll: function() { return true; },
+    shouldBackgroundReloadRecord: function() { return true; },
+    shouldBackgroundReloadAll: function() { return true; }
   });
 
 });
@@ -334,6 +339,10 @@ define('ember-cli-wordpress/serializers/application', ['exports', 'ember-data', 
       categories: { embedded: 'always' },
       tags: { embedded: 'always' },
       author: { embedded: 'always' }
+    },
+
+    serializeId: function(id) {
+      return id.toString();
     },
 
     extractArray: function(store, type, payload) {

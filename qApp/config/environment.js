@@ -7,8 +7,8 @@ module.exports = function(environment) {
         baseURL: '/',
         locationType: 'auto',
         contentSecurityPolicy: {
-            'connect-src': "'self' http://localhost:4200 http://wplab.dev",
-            'script-src': "'self' http://localhost:4200 http://wplab.dev"
+            'connect-src': "'self' http://localhost:4200 http://0.0.0.0:4200 http://wplab.dev",
+            'script-src': "'self' http://localhost:4200 http://0.0.0.0:4200 http://wplab.dev"
         },
         EmberENV: {
             FEATURES: {
