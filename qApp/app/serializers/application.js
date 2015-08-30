@@ -3,6 +3,7 @@ import Ember from 'ember';
 
 export default DS.RESTSerializer.extend(DS.EmbeddedRecordsMixin,{
   primaryKey: 'ID',
+  isNewSerializerAPI: true,
 
   attrs: {
     categories: { embedded: 'always' },
@@ -37,6 +38,7 @@ export default DS.RESTSerializer.extend(DS.EmbeddedRecordsMixin,{
 
     return this._super(store, type, data);
   },
+
   extractSingle: function (store, type, payload, id) {
 
     var data = {},
