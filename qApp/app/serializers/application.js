@@ -4,6 +4,7 @@ import Ember from 'ember';
 export default DS.RESTSerializer.extend(DS.EmbeddedRecordsMixin,{
   primaryKey: 'ID',
   isNewSerializerAPI: true,
+/*
 
   attrs: {
     categories: { embedded: 'always' },
@@ -14,7 +15,28 @@ export default DS.RESTSerializer.extend(DS.EmbeddedRecordsMixin,{
   serializeId: function(id) {
     return id.toString();
   },
+*/
+  extractArray: function(store, type, payload) {
+    var payloadTemp = {};
+    payloadTemp[type.typeKey] = payload;
+    console.log(payloadTemp);
+    return this._super(store, type, payloadTemp);
+  },
 
+  extractSingle: function(store, type, payload, id) { 
+    var payloadTemp = {}; 
+    payloadTemp[type.typeKey] = [payload]; 
+    console.log(payloadTemp);
+    return this._super(store, type, payloadTemp, id); 
+  },
+
+  attrs: { 
+    items: { 
+      embedded: 'always' 
+    } 
+  }
+
+/*
   extractArray: function(store, type, payload) {
     var data = {},
     extracted = [],
@@ -58,4 +80,5 @@ export default DS.RESTSerializer.extend(DS.EmbeddedRecordsMixin,{
 
     return this._super(store, type, data, id);
   }
+*/
 });

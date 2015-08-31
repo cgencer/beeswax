@@ -49,3 +49,9 @@
 [submodule "library/honeyguide/stacks/js/vendor/exports-polyfill"]
 	path = library/honeyguide/stacks/js/vendor/exports-polyfill
 	url = https://github.com/fraction/exports-polyfill.git
+[submodule "library/honeyguide/plugins/wp-api"]
+	path = library/honeyguide/plugins/wp-api
+	url = https://github.com/WP-API/WP-API.git
+[submodule "library/honeyguide/plugins/rest-api-console"]
+	path = library/honeyguide/plugins/rest-api-console
+	url = https://github.com/WP-API/rest-api-console.git
