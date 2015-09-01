@@ -9,7 +9,16 @@ Ember.MODEL_FACTORY_INJECTIONS = true;
 var App = Ember.Application.extend({
   modulePrefix: config.modulePrefix,
   podModulePrefix: config.podModulePrefix,
-  Resolver: Resolver
+  Resolver: Resolver,
+  imports: {
+//    Handlebars: Handlebars,
+    jQuery: $,
+    console: window.console
+  },
+  LOG_TRANSITIONS_INTERNAL:  false,
+  LOG_ACTIVE_GENERATION:     true,
+  LOG_VIEW_LOOKUPS:          true,
+  LOG_RESOLVER:              false
 });
 
 // this should remove CORS errors
@@ -24,5 +33,13 @@ App.ApplicationAdapter = DS.RESTAdapter.extend({
 });
 
 loadInitializers(App, config.modulePrefix);
+
+Ember.run.backburner.DEBUG            = true;
+Ember.ENV.RAISE_ON_DEPRECATION        = true;
+Ember.LOG_STACKTRACE_ON_DEPRECATION   = true;
+Ember.LOG_BINDINGS                    = true;
+Ember.RSVP.on('error', function(error) {
+  Ember.Logger.assert(false, error);
+});
 
 export default App;

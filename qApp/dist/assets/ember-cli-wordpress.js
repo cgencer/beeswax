@@ -9,20 +9,14 @@ define('ember-cli-wordpress/adapters/application', ['exports', 'ember-data', 'em
 
   exports['default'] = DS['default'].RESTAdapter.extend({
     host: config['default'].wordpress.host,
-    namespace: config['default'].wordpress.namespace || "wp-json",
+    namespace: config['default'].wordpress.namespace || 'wp-json',
 
-    shouldReloadRecord: function () {
-      return true;
-    },
-    shouldReloadAll: function () {
-      return true;
-    },
-    shouldBackgroundReloadRecord: function () {
-      return true;
-    },
-    shouldBackgroundReloadAll: function () {
-      return true;
-    } });
+    shouldReloadRecord: function() { return true; },
+    shouldReloadAll: function() { return true; },
+    shouldBackgroundReloadRecord: function() { return true; },
+    shouldBackgroundReloadAll: function() { return true; },
+
+  });
 
 });
 define('ember-cli-wordpress/app', ['exports', 'ember', 'ember-data', 'ember/resolver', 'ember/load-initializers', 'ember-cli-wordpress/config/environment'], function (exports, Ember, DS, Resolver, loadInitializers, config) {
@@ -34,21 +28,38 @@ define('ember-cli-wordpress/app', ['exports', 'ember', 'ember-data', 'ember/reso
   var App = Ember['default'].Application.extend({
     modulePrefix: config['default'].modulePrefix,
     podModulePrefix: config['default'].podModulePrefix,
-    Resolver: Resolver['default']
+    Resolver: Resolver['default'],
+    imports: {
+  //    Handlebars: Handlebars,
+      jQuery: $,
+      console: window.console
+    },
+    LOG_TRANSITIONS_INTERNAL:  false,
+    LOG_ACTIVE_GENERATION:     true,
+    LOG_VIEW_LOOKUPS:          true,
+    LOG_RESOLVER:              false
   });
 
   // this should remove CORS errors
 
   App.ApplicationAdapter = DS['default'].RESTAdapter.extend({
     host: config['default'].wordpress.host,
-    ajax: function (url, method, hash) {
+    ajax: function(url, method, hash) {
       hash.crossDomain = true;
-      hash.xhrFields = { withCredentials: true };
+      hash.xhrFields = {withCredentials: true};
       return this._super(url, method, hash);
     }
   });
 
   loadInitializers['default'](App, config['default'].modulePrefix);
+
+  Ember['default'].run.backburner.DEBUG            = true;
+  Ember['default'].ENV.RAISE_ON_DEPRECATION        = true;
+  Ember['default'].LOG_STACKTRACE_ON_DEPRECATION   = true;
+  Ember['default'].LOG_BINDINGS                    = true;
+  Ember['default'].RSVP.on('error', function(error) {
+    Ember['default'].Logger.assert(false, error);
+  });
 
   exports['default'] = App;
 
@@ -148,14 +159,16 @@ define('ember-cli-wordpress/components/one-liner', ['exports', 'ember'], functio
 
 	'use strict';
 
-	exports['default'] = Ember['default'].Component.extend({});
+	exports['default'] = Ember['default'].Component.extend({
+	});
 
 });
 define('ember-cli-wordpress/components/single-post', ['exports', 'ember'], function (exports, Ember) {
 
 	'use strict';
 
-	exports['default'] = Ember['default'].Component.extend({});
+	exports['default'] = Ember['default'].Component.extend({
+	});
 
 });
 define('ember-cli-wordpress/helpers/is-equal', ['exports', 'ember-bootstrap/helpers/is-equal'], function (exports, is_equal) {
@@ -188,72 +201,20 @@ define('ember-cli-wordpress/helpers/read-path', ['exports', 'ember-bootstrap/hel
 	exports.readPath = read_path.readPath;
 
 });
-define('ember-cli-wordpress/initializers/app-version', ['exports', 'ember-cli-wordpress/config/environment', 'ember'], function (exports, config, Ember) {
-
-  'use strict';
-
-  var classify = Ember['default'].String.classify;
-
-  exports['default'] = {
-    name: "App Version",
-    initialize: function (container, application) {
-      var appName = classify(application.toString());
-      Ember['default'].libraries.register(appName, config['default'].APP.version);
-    }
-  };
-
-});
-define('ember-cli-wordpress/initializers/export-application-global', ['exports', 'ember', 'ember-cli-wordpress/config/environment'], function (exports, Ember, config) {
-
-  'use strict';
-
-  exports.initialize = initialize;
-
-  function initialize() {
-    var application = arguments[1] || arguments[0];
-    if (config['default'].exportApplicationGlobal !== false) {
-      var value = config['default'].exportApplicationGlobal;
-      var globalName;
-
-      if (typeof value === "string") {
-        globalName = value;
-      } else {
-        globalName = Ember['default'].String.classify(config['default'].modulePrefix);
-      }
-
-      if (!window[globalName]) {
-        window[globalName] = application;
-
-        application.reopen({
-          willDestroy: function () {
-            this._super.apply(this, arguments);
-            delete window[globalName];
-          }
-        });
-      }
-    }
-  };
-
-  exports['default'] = {
-    name: "export-application-global",
-
-    initialize: initialize
-  };
-
-});
 define('ember-cli-wordpress/initializers/load-bootstrap-config', ['exports', 'ember-cli-wordpress/config/environment', 'ember-bootstrap/config'], function (exports, ENV, Config) {
 
   'use strict';
 
   exports.initialize = initialize;
 
-  function initialize() {
-    Config['default'].load(ENV['default']["ember-bootstrap"] || {});
-  }exports['default'] = {
-    name: "load-bootstrap-config",
+  function initialize(/* container, application */) {
+      Config['default'].load(ENV['default']['ember-bootstrap'] || {});
+  }
+
+  exports['default'] = {
+    name: 'load-bootstrap-config',
     initialize: initialize
   };
-  /* container, application */
 
 });
 define('ember-cli-wordpress/models/category', ['exports', 'ember-cli-wordpress/models/term'], function (exports, Term) {
@@ -271,28 +232,28 @@ define('ember-cli-wordpress/models/post', ['exports', 'ember-data'], function (e
     title: DS['default'].attr(),
     status: DS['default'].attr(),
     type: DS['default'].attr(),
-    author: DS['default'].belongsTo("user"),
+    author: DS['default'].belongsTo('user'),
     content: DS['default'].attr(),
     parent: DS['default'].attr(),
     link: DS['default'].attr(),
-    date: DS['default'].attr("date"),
-    modified: DS['default'].attr("date"),
+    date: DS['default'].attr('date'),
+    modified: DS['default'].attr('date'),
     format: DS['default'].attr(),
     slug: DS['default'].attr(),
     guid: DS['default'].attr(),
     meta: DS['default'].attr(),
     excerpt: DS['default'].attr(),
-    menu_order: DS['default'].attr("number"),
+    menu_order: DS['default'].attr('number'),
     comment_status: DS['default'].attr(),
     ping_status: DS['default'].attr(),
-    sticky: DS['default'].attr("boolean"),
+    sticky: DS['default'].attr('boolean'),
     date_tz: DS['default'].attr(),
-    date_gmt: DS['default'].attr("date"),
+    date_gmt: DS['default'].attr('date'),
     modified_tz: DS['default'].attr(),
-    modified_gmt: DS['default'].attr("date"),
+    modified_gmt: DS['default'].attr('date'),
     featured_image: DS['default'].attr(),
-    tags: DS['default'].hasMany("tag"),
-    categories: DS['default'].hasMany("category")
+    tags: DS['default'].hasMany('tag'),
+    categories: DS['default'].hasMany('category')
   });
 
 });
@@ -314,9 +275,9 @@ define('ember-cli-wordpress/models/term', ['exports', 'ember-data'], function (e
     parent: DS['default'].attr(),
     taxonomy: DS['default'].attr(),
     meta: DS['default'].attr(),
-    count: DS['default'].attr("number"),
+    count: DS['default'].attr('number'),
     link: DS['default'].attr(),
-    posts: DS['default'].hasMany("post", { async: true })
+    posts: DS['default'].hasMany('post', { async: true })
   });
 
 });
@@ -335,7 +296,7 @@ define('ember-cli-wordpress/models/user', ['exports', 'ember-data'], function (e
     URL: DS['default'].attr(),
     avatar: DS['default'].attr(),
     description: DS['default'].attr(),
-    registered: DS['default'].attr("date")
+    registered: DS['default'].attr('date')
   });
 
 });
@@ -347,7 +308,7 @@ define('ember-cli-wordpress/router', ['exports', 'ember', 'ember-cli-wordpress/c
     location: config['default'].locationType
   });
 
-  Router.map(function () {
+  Router.map(function() {
     this.route("post", {
       path: "/post/:post"
     });
@@ -361,8 +322,8 @@ define('ember-cli-wordpress/routes/index', ['exports', 'ember'], function (expor
   'use strict';
 
   exports['default'] = Ember['default'].Route.extend({
-    model: function () {
-      return this.store.findAll("post");
+    model: function() {
+      return this.store.findAll('post');
     }
   });
 
@@ -372,7 +333,8 @@ define('ember-cli-wordpress/routes/post', ['exports', 'ember'], function (export
   'use strict';
 
   exports['default'] = Ember['default'].Route.extend({
-    model: function (params) {
+    model: function(params) {
+
       var type = this.routeName;
 
       return this.store.findAll(type, {
@@ -388,86 +350,35 @@ define('ember-cli-wordpress/serializers/application', ['exports', 'ember-data', 
 
   'use strict';
 
-  exports['default'] = DS['default'].RESTSerializer.extend(DS['default'].EmbeddedRecordsMixin, {
-    primaryKey: "ID",
+  exports['default'] = DS['default'].RESTSerializer.extend({     //DS.EmbeddedRecordsMixin,{
+    primaryKey: 'ID',
     isNewSerializerAPI: true,
-    /*
-    
-      attrs: {
-        categories: { embedded: 'always' },
-        tags: { embedded: 'always' },
-        author: { embedded: 'always' }
-      },
-    
-      serializeId: function(id) {
-        return id.toString();
-      },
-    */
-    extractArray: function (store, type, payload) {
-      var payloadTemp = {};
-      payloadTemp[type.typeKey] = payload;
-      console.log(payloadTemp);
-      return this._super(store, type, payloadTemp);
-    },
-
-    extractSingle: function (store, type, payload, id) {
-      var payloadTemp = {};
-      payloadTemp[type.typeKey] = [payload];
-      console.log(payloadTemp);
-      return this._super(store, type, payloadTemp, id);
-    },
 
     attrs: {
-      items: {
-        embedded: "always"
-      }
+      items: { embedded: 'always' },
+      categories: { embedded: 'always' },
+      tags: { embedded: 'always' },
+      author: { embedded: 'always' }
+    },
+  /*
+    extractArray: function(store, type, payload) {
+      var payloadTemp = {};
+      payloadTemp[type.typeKey] = payload;
+      return this._super(store, type, payloadTemp);
+    },
+  */
+    extractArray: function (store, primaryType, payload) {
+      var payloadTemp = {}; 
+      payloadTemp['post'] = payload; 
+      return this._super(store, type, payloadTemp, id); 
+    },
+
+    extractSingle: function(store, type, payload, id) { 
+      var payloadTemp = {}; 
+      payloadTemp[type.typeKey] = [payload]; 
+      return this._super(store, type, payloadTemp, id); 
     }
 
-    /*
-      extractArray: function(store, type, payload) {
-        var data = {},
-        extracted = [],
-        root = Ember.String.pluralize(type.typeKey);
-    
-        payload.forEach(function(e){
-    
-          if (typeof e.terms.post_tag !== 'undefined') {
-            e.tags = e.terms.post_tag;
-          }
-    
-          if (typeof e.terms.category !== 'undefined') {
-            e.categories = e.terms.category;
-          }
-    
-          delete e.terms;
-          extracted.push(e);
-        });
-    
-        data[root] = extracted;
-    
-        return this._super(store, type, data);
-      },
-    
-      extractSingle: function (store, type, payload, id) {
-    
-        var data = {},
-        root = Ember.String.pluralize(type.typeKey);
-    
-        if (typeof payload.terms.post_tag !== 'undefined') {
-          payload.tags = payload.terms.post_tag;
-        }
-    
-        if (typeof payload.terms.category !== 'undefined') {
-          payload.categories = payload.terms.category;
-        }
-    
-        delete payload.terms;
-    
-        data[root] = payload;
-    
-        return this._super(store, type, data, id);
-      }
-    */
   });
 
 });
@@ -3872,46 +3783,6 @@ define('ember-cli-wordpress/templates/post', ['exports'], function (exports) {
   }()));
 
 });
-define('ember-cli-wordpress/tests/adapters/application.jshint', function () {
-
-  'use strict';
-
-  module('JSHint - adapters');
-  test('adapters/application.js should pass jshint', function() { 
-    ok(true, 'adapters/application.js should pass jshint.'); 
-  });
-
-});
-define('ember-cli-wordpress/tests/app.jshint', function () {
-
-  'use strict';
-
-  module('JSHint - .');
-  test('app.js should pass jshint', function() { 
-    ok(true, 'app.js should pass jshint.'); 
-  });
-
-});
-define('ember-cli-wordpress/tests/components/one-liner.jshint', function () {
-
-  'use strict';
-
-  module('JSHint - components');
-  test('components/one-liner.js should pass jshint', function() { 
-    ok(true, 'components/one-liner.js should pass jshint.'); 
-  });
-
-});
-define('ember-cli-wordpress/tests/components/single-post.jshint', function () {
-
-  'use strict';
-
-  module('JSHint - components');
-  test('components/single-post.js should pass jshint', function() { 
-    ok(true, 'components/single-post.js should pass jshint.'); 
-  });
-
-});
 define('ember-cli-wordpress/tests/helpers/resolver', ['exports', 'ember/resolver', 'ember-cli-wordpress/config/environment'], function (exports, Resolver, config) {
 
   'use strict';
@@ -3926,30 +3797,17 @@ define('ember-cli-wordpress/tests/helpers/resolver', ['exports', 'ember/resolver
   exports['default'] = resolver;
 
 });
-define('ember-cli-wordpress/tests/helpers/resolver.jshint', function () {
-
-  'use strict';
-
-  module('JSHint - helpers');
-  test('helpers/resolver.js should pass jshint', function() { 
-    ok(true, 'helpers/resolver.js should pass jshint.'); 
-  });
-
-});
 define('ember-cli-wordpress/tests/helpers/start-app', ['exports', 'ember', 'ember-cli-wordpress/app', 'ember-cli-wordpress/router', 'ember-cli-wordpress/config/environment'], function (exports, Ember, Application, Router, config) {
 
   'use strict';
 
-
-
-  exports['default'] = startApp;
   function startApp(attrs) {
     var application;
 
     var attributes = Ember['default'].merge({}, config['default'].APP);
     attributes = Ember['default'].merge(attributes, attrs); // use defaults, but you can override;
 
-    Ember['default'].run(function () {
+    Ember['default'].run(function() {
       application = Application['default'].create(attributes);
       application.setupForTesting();
       application.injectTestHelpers();
@@ -3957,147 +3815,29 @@ define('ember-cli-wordpress/tests/helpers/start-app', ['exports', 'ember', 'embe
 
     return application;
   }
-
-});
-define('ember-cli-wordpress/tests/helpers/start-app.jshint', function () {
-
-  'use strict';
-
-  module('JSHint - helpers');
-  test('helpers/start-app.js should pass jshint', function() { 
-    ok(true, 'helpers/start-app.js should pass jshint.'); 
-  });
-
-});
-define('ember-cli-wordpress/tests/models/category.jshint', function () {
-
-  'use strict';
-
-  module('JSHint - models');
-  test('models/category.js should pass jshint', function() { 
-    ok(true, 'models/category.js should pass jshint.'); 
-  });
-
-});
-define('ember-cli-wordpress/tests/models/post.jshint', function () {
-
-  'use strict';
-
-  module('JSHint - models');
-  test('models/post.js should pass jshint', function() { 
-    ok(true, 'models/post.js should pass jshint.'); 
-  });
-
-});
-define('ember-cli-wordpress/tests/models/tag.jshint', function () {
-
-  'use strict';
-
-  module('JSHint - models');
-  test('models/tag.js should pass jshint', function() { 
-    ok(true, 'models/tag.js should pass jshint.'); 
-  });
-
-});
-define('ember-cli-wordpress/tests/models/term.jshint', function () {
-
-  'use strict';
-
-  module('JSHint - models');
-  test('models/term.js should pass jshint', function() { 
-    ok(true, 'models/term.js should pass jshint.'); 
-  });
-
-});
-define('ember-cli-wordpress/tests/models/user.jshint', function () {
-
-  'use strict';
-
-  module('JSHint - models');
-  test('models/user.js should pass jshint', function() { 
-    ok(true, 'models/user.js should pass jshint.'); 
-  });
-
-});
-define('ember-cli-wordpress/tests/router.jshint', function () {
-
-  'use strict';
-
-  module('JSHint - .');
-  test('router.js should pass jshint', function() { 
-    ok(true, 'router.js should pass jshint.'); 
-  });
-
-});
-define('ember-cli-wordpress/tests/routes/index.jshint', function () {
-
-  'use strict';
-
-  module('JSHint - routes');
-  test('routes/index.js should pass jshint', function() { 
-    ok(true, 'routes/index.js should pass jshint.'); 
-  });
-
-});
-define('ember-cli-wordpress/tests/routes/post.jshint', function () {
-
-  'use strict';
-
-  module('JSHint - routes');
-  test('routes/post.js should pass jshint', function() { 
-    ok(true, 'routes/post.js should pass jshint.'); 
-  });
-
-});
-define('ember-cli-wordpress/tests/serializers/application.jshint', function () {
-
-  'use strict';
-
-  module('JSHint - serializers');
-  test('serializers/application.js should pass jshint', function() { 
-    ok(false, 'serializers/application.js should pass jshint.\nserializers/application.js: line 2, col 8, \'Ember\' is defined but never used.\n\n1 error'); 
-  });
+  exports['default'] = startApp;
 
 });
 define('ember-cli-wordpress/tests/test-helper', ['ember-cli-wordpress/tests/helpers/resolver', 'ember-qunit'], function (resolver, ember_qunit) {
 
-	'use strict';
-
-	ember_qunit.setResolver(resolver['default']);
-
-});
-define('ember-cli-wordpress/tests/test-helper.jshint', function () {
-
   'use strict';
 
-  module('JSHint - .');
-  test('test-helper.js should pass jshint', function() { 
-    ok(true, 'test-helper.js should pass jshint.'); 
-  });
+  ember_qunit.setResolver(resolver['default']);
 
 });
 define('ember-cli-wordpress/tests/unit/adapters/application-test', ['ember-qunit'], function (ember_qunit) {
 
   'use strict';
 
-  ember_qunit.moduleFor("adapter:application", "ApplicationAdapter", {});
+  ember_qunit.moduleFor('adapter:application', 'ApplicationAdapter', {
+    // Specify the other units that are required for this test.
+    // needs: ['serializer:foo']
+  });
 
   // Replace this with your real tests.
-  ember_qunit.test("it exists", function (assert) {
+  ember_qunit.test('it exists', function(assert) {
     var adapter = this.subject();
     assert.ok(adapter);
-  });
-  // Specify the other units that are required for this test.
-  // needs: ['serializer:foo']
-
-});
-define('ember-cli-wordpress/tests/unit/adapters/application-test.jshint', function () {
-
-  'use strict';
-
-  module('JSHint - unit/adapters');
-  test('unit/adapters/application-test.js should pass jshint', function() { 
-    ok(true, 'unit/adapters/application-test.js should pass jshint.'); 
   });
 
 });
@@ -4105,30 +3845,21 @@ define('ember-cli-wordpress/tests/unit/components/single-post-test', ['ember-qun
 
   'use strict';
 
-  ember_qunit.moduleForComponent("single-post", "SinglePostComponent", {});
+  ember_qunit.moduleForComponent('single-post', 'SinglePostComponent', {
+    // specify the other units that are required for this test
+    // needs: ['component:foo', 'helper:bar']
+  });
 
-  ember_qunit.test("it renders", function (assert) {
+  ember_qunit.test('it renders', function(assert) {
     assert.expect(2);
 
     // creates the component instance
     var component = this.subject();
-    assert.equal(component._state, "preRender");
+    assert.equal(component._state, 'preRender');
 
     // appends the component to the page
     this.append();
-    assert.equal(component._state, "inDOM");
-  });
-  // specify the other units that are required for this test
-  // needs: ['component:foo', 'helper:bar']
-
-});
-define('ember-cli-wordpress/tests/unit/components/single-post-test.jshint', function () {
-
-  'use strict';
-
-  module('JSHint - unit/components');
-  test('unit/components/single-post-test.js should pass jshint', function() { 
-    ok(true, 'unit/components/single-post-test.js should pass jshint.'); 
+    assert.equal(component._state, 'inDOM');
   });
 
 });
@@ -4136,25 +3867,15 @@ define('ember-cli-wordpress/tests/unit/models/category-test', ['ember-qunit'], f
 
   'use strict';
 
-  ember_qunit.moduleForModel("category", "Category", {
+  ember_qunit.moduleForModel('category', 'Category', {
     // Specify the other units that are required for this test.
     needs: []
   });
 
-  ember_qunit.test("it exists", function (assert) {
+  ember_qunit.test('it exists', function(assert) {
     var model = this.subject();
     // var store = this.store();
     assert.ok(!!model);
-  });
-
-});
-define('ember-cli-wordpress/tests/unit/models/category-test.jshint', function () {
-
-  'use strict';
-
-  module('JSHint - unit/models');
-  test('unit/models/category-test.js should pass jshint', function() { 
-    ok(true, 'unit/models/category-test.js should pass jshint.'); 
   });
 
 });
@@ -4162,25 +3883,15 @@ define('ember-cli-wordpress/tests/unit/models/post-test', ['ember-qunit'], funct
 
   'use strict';
 
-  ember_qunit.moduleForModel("post", "Post", {
+  ember_qunit.moduleForModel('post', 'Post', {
     // Specify the other units that are required for this test.
     needs: []
   });
 
-  ember_qunit.test("it exists", function (assert) {
+  ember_qunit.test('it exists', function(assert) {
     var model = this.subject();
     // var store = this.store();
     assert.ok(!!model);
-  });
-
-});
-define('ember-cli-wordpress/tests/unit/models/post-test.jshint', function () {
-
-  'use strict';
-
-  module('JSHint - unit/models');
-  test('unit/models/post-test.js should pass jshint', function() { 
-    ok(true, 'unit/models/post-test.js should pass jshint.'); 
   });
 
 });
@@ -4188,25 +3899,15 @@ define('ember-cli-wordpress/tests/unit/models/tag-test', ['ember-qunit'], functi
 
   'use strict';
 
-  ember_qunit.moduleForModel("tag", "Tag", {
+  ember_qunit.moduleForModel('tag', 'Tag', {
     // Specify the other units that are required for this test.
     needs: []
   });
 
-  ember_qunit.test("it exists", function (assert) {
+  ember_qunit.test('it exists', function(assert) {
     var model = this.subject();
     // var store = this.store();
     assert.ok(!!model);
-  });
-
-});
-define('ember-cli-wordpress/tests/unit/models/tag-test.jshint', function () {
-
-  'use strict';
-
-  module('JSHint - unit/models');
-  test('unit/models/tag-test.js should pass jshint', function() { 
-    ok(true, 'unit/models/tag-test.js should pass jshint.'); 
   });
 
 });
@@ -4214,25 +3915,15 @@ define('ember-cli-wordpress/tests/unit/models/term-test', ['ember-qunit'], funct
 
   'use strict';
 
-  ember_qunit.moduleForModel("term", "Term", {
+  ember_qunit.moduleForModel('term', 'Term', {
     // Specify the other units that are required for this test.
     needs: []
   });
 
-  ember_qunit.test("it exists", function (assert) {
+  ember_qunit.test('it exists', function(assert) {
     var model = this.subject();
     // var store = this.store();
     assert.ok(!!model);
-  });
-
-});
-define('ember-cli-wordpress/tests/unit/models/term-test.jshint', function () {
-
-  'use strict';
-
-  module('JSHint - unit/models');
-  test('unit/models/term-test.js should pass jshint', function() { 
-    ok(true, 'unit/models/term-test.js should pass jshint.'); 
   });
 
 });
@@ -4240,25 +3931,15 @@ define('ember-cli-wordpress/tests/unit/models/user-test', ['ember-qunit'], funct
 
   'use strict';
 
-  ember_qunit.moduleForModel("user", "User", {
+  ember_qunit.moduleForModel('user', 'User', {
     // Specify the other units that are required for this test.
     needs: []
   });
 
-  ember_qunit.test("it exists", function (assert) {
+  ember_qunit.test('it exists', function(assert) {
     var model = this.subject();
     // var store = this.store();
     assert.ok(!!model);
-  });
-
-});
-define('ember-cli-wordpress/tests/unit/models/user-test.jshint', function () {
-
-  'use strict';
-
-  module('JSHint - unit/models');
-  test('unit/models/user-test.js should pass jshint', function() { 
-    ok(true, 'unit/models/user-test.js should pass jshint.'); 
   });
 
 });
@@ -4266,23 +3947,14 @@ define('ember-cli-wordpress/tests/unit/routes/index-test', ['ember-qunit'], func
 
   'use strict';
 
-  ember_qunit.moduleFor("route:index", "IndexRoute", {});
+  ember_qunit.moduleFor('route:index', 'IndexRoute', {
+    // Specify the other units that are required for this test.
+    // needs: ['controller:foo']
+  });
 
-  ember_qunit.test("it exists", function (assert) {
+  ember_qunit.test('it exists', function(assert) {
     var route = this.subject();
     assert.ok(route);
-  });
-  // Specify the other units that are required for this test.
-  // needs: ['controller:foo']
-
-});
-define('ember-cli-wordpress/tests/unit/routes/index-test.jshint', function () {
-
-  'use strict';
-
-  module('JSHint - unit/routes');
-  test('unit/routes/index-test.js should pass jshint', function() { 
-    ok(true, 'unit/routes/index-test.js should pass jshint.'); 
   });
 
 });
@@ -4290,23 +3962,14 @@ define('ember-cli-wordpress/tests/unit/routes/post-test', ['ember-qunit'], funct
 
   'use strict';
 
-  ember_qunit.moduleFor("route:post", "PostRoute", {});
+  ember_qunit.moduleFor('route:post', 'PostRoute', {
+    // Specify the other units that are required for this test.
+    // needs: ['controller:foo']
+  });
 
-  ember_qunit.test("it exists", function (assert) {
+  ember_qunit.test('it exists', function(assert) {
     var route = this.subject();
     assert.ok(route);
-  });
-  // Specify the other units that are required for this test.
-  // needs: ['controller:foo']
-
-});
-define('ember-cli-wordpress/tests/unit/routes/post-test.jshint', function () {
-
-  'use strict';
-
-  module('JSHint - unit/routes');
-  test('unit/routes/post-test.js should pass jshint', function() { 
-    ok(true, 'unit/routes/post-test.js should pass jshint.'); 
   });
 
 });
@@ -4314,24 +3977,15 @@ define('ember-cli-wordpress/tests/unit/serializers/application-test', ['ember-qu
 
   'use strict';
 
-  ember_qunit.moduleFor("serializer:application", "ApplicationSerializer", {});
+  ember_qunit.moduleFor('serializer:application', 'ApplicationSerializer', {
+    // Specify the other units that are required for this test.
+    // needs: ['serializer:foo']
+  });
 
   // Replace this with your real tests.
-  ember_qunit.test("it exists", function (assert) {
+  ember_qunit.test('it exists', function(assert) {
     var serializer = this.subject();
     assert.ok(serializer);
-  });
-  // Specify the other units that are required for this test.
-  // needs: ['serializer:foo']
-
-});
-define('ember-cli-wordpress/tests/unit/serializers/application-test.jshint', function () {
-
-  'use strict';
-
-  module('JSHint - unit/serializers');
-  test('unit/serializers/application-test.js should pass jshint', function() { 
-    ok(true, 'unit/serializers/application-test.js should pass jshint.'); 
   });
 
 });
@@ -4363,7 +4017,7 @@ catch(err) {
 if (runningTests) {
   require("ember-cli-wordpress/tests/test-helper");
 } else {
-  require("ember-cli-wordpress/app")["default"].create({"name":"ember-cli-wordpress","version":"0.0.0.28f53711"});
+  require("ember-cli-wordpress/app")["default"].create({});
 }
 
 /* jshint ignore:end */
