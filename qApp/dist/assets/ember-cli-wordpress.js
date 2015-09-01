@@ -229,31 +229,30 @@ define('ember-cli-wordpress/models/post', ['exports', 'ember-data'], function (e
   'use strict';
 
   exports['default'] = DS['default'].Model.extend({
-    title: DS['default'].attr(),
-    status: DS['default'].attr(),
-    type: DS['default'].attr(),
     author: DS['default'].belongsTo('user'),
-    content: DS['default'].attr(),
-    parent: DS['default'].attr(),
-    link: DS['default'].attr(),
-    date: DS['default'].attr('date'),
-    modified: DS['default'].attr('date'),
-    format: DS['default'].attr(),
-    slug: DS['default'].attr(),
-    guid: DS['default'].attr(),
-    meta: DS['default'].attr(),
-    excerpt: DS['default'].attr(),
-    menu_order: DS['default'].attr('number'),
     comment_status: DS['default'].attr(),
-    ping_status: DS['default'].attr(),
-    sticky: DS['default'].attr('boolean'),
-    date_tz: DS['default'].attr(),
+    content: DS['default'].attr(),
+    date: DS['default'].attr('date'),
     date_gmt: DS['default'].attr('date'),
-    modified_tz: DS['default'].attr(),
-    modified_gmt: DS['default'].attr('date'),
+    date_tz: DS['default'].attr(),
+    excerpt: DS['default'].attr(),
     featured_image: DS['default'].attr(),
-    tags: DS['default'].hasMany('tag'),
-    categories: DS['default'].hasMany('category')
+    format: DS['default'].attr(),
+    guid: DS['default'].attr(),
+    link: DS['default'].attr(),
+    menu_order: DS['default'].attr('number'),
+    meta: DS['default'].attr(),
+    modified: DS['default'].attr('date'),
+    modified_gmt: DS['default'].attr('date'),
+    modified_tz: DS['default'].attr(),
+    parent: DS['default'].attr(),
+    ping_status: DS['default'].attr(),
+    slug: DS['default'].attr(),
+    status: DS['default'].attr(),
+    sticky: DS['default'].attr('boolean'),
+    terms: DS['default'].hasMany('category'),
+    title: DS['default'].attr(),
+    type: DS['default'].attr()
   });
 
 });
@@ -269,15 +268,15 @@ define('ember-cli-wordpress/models/term', ['exports', 'ember-data'], function (e
   'use strict';
 
   exports['default'] = DS['default'].Model.extend({
-    name: DS['default'].attr(),
-    slug: DS['default'].attr(),
-    description: DS['default'].attr(),
-    parent: DS['default'].attr(),
-    taxonomy: DS['default'].attr(),
-    meta: DS['default'].attr(),
     count: DS['default'].attr('number'),
+    description: DS['default'].attr(),
     link: DS['default'].attr(),
-    posts: DS['default'].hasMany('post', { async: true })
+    meta: DS['default'].attr(),
+    name: DS['default'].attr(),
+    parent: DS['default'].attr(),
+    posts: DS['default'].hasMany('post', { async: true }),
+    slug: DS['default'].attr(),
+    taxonomy: DS['default'].attr()
   });
 
 });
@@ -286,17 +285,17 @@ define('ember-cli-wordpress/models/user', ['exports', 'ember-data'], function (e
   'use strict';
 
   exports['default'] = DS['default'].Model.extend({
-    username: DS['default'].attr(),
-    name: DS['default'].attr(),
-    first_name: DS['default'].attr(),
-    last_name: DS['default'].attr(),
-    nickname: DS['default'].attr(),
-    slug: DS['default'].attr(),
-    meta: DS['default'].attr(),
-    URL: DS['default'].attr(),
     avatar: DS['default'].attr(),
     description: DS['default'].attr(),
-    registered: DS['default'].attr('date')
+    first_name: DS['default'].attr(),
+    last_name: DS['default'].attr(),
+    meta: DS['default'].attr(),
+    name: DS['default'].attr(),
+    nickname: DS['default'].attr(),
+    registered: DS['default'].attr('date'),
+    slug: DS['default'].attr(),
+    URL: DS['default'].attr(),
+    username: DS['default'].attr()
   });
 
 });
@@ -360,23 +359,18 @@ define('ember-cli-wordpress/serializers/application', ['exports', 'ember-data', 
       tags: { embedded: 'always' },
       author: { embedded: 'always' }
     },
-  /*
-    extractArray: function(store, type, payload) {
-      var payloadTemp = {};
-      payloadTemp[type.typeKey] = payload;
-      return this._super(store, type, payloadTemp);
-    },
-  */
-    extractArray: function (store, primaryType, payload) {
-      var payloadTemp = {}; 
-      payloadTemp['post'] = payload; 
-      return this._super(store, type, payloadTemp, id); 
+
+    extractArray: function (store, type, payload) {
+      console.log({posts: payload});
+      return this._super(store, type, {
+        posts: payload
+      }, id);
     },
 
     extractSingle: function(store, type, payload, id) { 
-      var payloadTemp = {}; 
-      payloadTemp[type.typeKey] = [payload]; 
-      return this._super(store, type, payloadTemp, id); 
+      return this._super(store, type, {
+        posts: payload
+      }, id);
     }
 
   });

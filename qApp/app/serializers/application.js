@@ -11,23 +11,18 @@ export default DS.RESTSerializer.extend({     //DS.EmbeddedRecordsMixin,{
     tags: { embedded: 'always' },
     author: { embedded: 'always' }
   },
-/*
-  extractArray: function(store, type, payload) {
-    var payloadTemp = {};
-    payloadTemp[type.typeKey] = payload;
-    return this._super(store, type, payloadTemp);
-  },
-*/
-  extractArray: function (store, primaryType, payload) {
-    var payloadTemp = {}; 
-    payloadTemp['post'] = payload; 
-    return this._super(store, type, payloadTemp, id); 
+
+  extractArray: function (store, type, payload) {
+    console.log({posts: payload});
+    return this._super(store, type, {
+      posts: payload
+    }, id);
   },
 
   extractSingle: function(store, type, payload, id) { 
-    var payloadTemp = {}; 
-    payloadTemp[type.typeKey] = [payload]; 
-    return this._super(store, type, payloadTemp, id); 
+    return this._super(store, type, {
+      posts: payload
+    }, id);
   }
 
 });
