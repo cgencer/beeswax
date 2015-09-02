@@ -10,6 +10,10 @@ module.exports = function(environment) {
             'connect-src': "'self' http://localhost:4200 http://0.0.0.0:4200 http://wplab.dev",
             'script-src': "'self' http://localhost:4200 http://0.0.0.0:4200 http://wplab.dev"
         },
+        'ember-devtools': {
+            global: true,
+            enabled: environment === 'development'
+        },
         EmberENV: {
             FEATURES: {
                 // Here you can enable experimental features on an ember canary build
