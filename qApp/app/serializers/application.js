@@ -1,7 +1,8 @@
 import DS from 'ember-data';
 import Ember from 'ember';
+import rest_serializer from 'app/mixins/serializers/rest';
 
-export default DS.RESTSerializer.extend(DS.EmbeddedRecordsMixin, {
+export default DS.RESTSerializer.extend(rest_serializer, {
   primaryKey: 'ID',
   isNewSerializerAPI: true,
 
@@ -9,12 +10,11 @@ export default DS.RESTSerializer.extend(DS.EmbeddedRecordsMixin, {
     console.log({ 'posts': payload });
     return { 'posts': payload };
   },
-// http://hussfelt.net/2015/08/10/understanding-and-converting-new-jsonapi-2-0/
+// http://hussfelt.net/2015/08/10/understanding-emberjs-and-jsonapi-2-0/
   normalizeArrayResponse: function(store, primaryModelClass, payload, id, requestType) {
-    var result = {};
-    result[ Ember.String.pluralize(requestType.typeKey) ] = payload.objects;
-    console.log(result);
-    return this._super(store, primaryModelClass, payload, id, requestType);
+    var payloadTemp = {}; 
+    payloadTemp[type.typeKey] = payload; 
+    return this._super(store, primaryModelClass, payloadTemp, id, requestType);
   },
 /*
   extractArray: function(store, type, payload, id, requestType) {

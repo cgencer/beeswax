@@ -273,6 +273,38 @@ define('ember-cli-wordpress/initializers/load-bootstrap-config', ['exports', 'em
   /* container, application */
 
 });
+define('ember-cli-wordpress/mixins/serializers/rest_mixin', ['exports', 'ember'], function (exports, Ember) {
+
+    'use strict';
+
+    exports['default'] = Ember['default'].Mixin.create({
+        isNewSerializerAPI: true,
+
+        /**
+         * [normalizeResponse description]
+         * @param  {[type]} store             [description]
+         * @param  {[type]} primaryModelClass [description]
+         * @param  {[type]} payload           [description]
+         * @param  {[type]} id                [description]
+         * @param  {[type]} requestType       [description]
+         * @return {[type]}                   [description]
+         */
+        normalizeResponse: function (store, primaryModelClass, payload, id, requestType) {
+            // The "payload" object is exactly like the one returned from
+            // your API, nothing changed yet - do whatever you want to do.
+            // In the below example I am deleting the "request_id" not to
+            // pass this down to my serializers and generating errors
+            delete payload.request_id;
+
+            // The below calls the "super", which will run the internal conversion
+            // from the old format to the new JSONApi 2.0 standard. It will also
+            // run all your transforms and other hooks that you have
+            // Return the prepared object with relational data
+            return this._super(store, primaryModelClass, payload, id, requestType);
+        }
+    });
+
+});
 define('ember-cli-wordpress/models/category', ['exports', 'ember-cli-wordpress/models/term'], function (exports, Term) {
 
 	'use strict';
@@ -400,11 +432,11 @@ define('ember-cli-wordpress/routes/post', ['exports', 'ember'], function (export
   });
 
 });
-define('ember-cli-wordpress/serializers/application', ['exports', 'ember-data', 'ember'], function (exports, DS, Ember) {
+define('ember-cli-wordpress/serializers/application', ['exports', 'ember-data', 'ember', 'app/mixins/serializers/rest'], function (exports, DS, Ember, rest_serializer) {
 
   'use strict';
 
-  exports['default'] = DS['default'].RESTSerializer.extend(DS['default'].EmbeddedRecordsMixin, {
+  exports['default'] = DS['default'].RESTSerializer.extend(rest_serializer['default'], {
     primaryKey: "ID",
     isNewSerializerAPI: true,
 
@@ -412,12 +444,11 @@ define('ember-cli-wordpress/serializers/application', ['exports', 'ember-data', 
       console.log({ posts: payload });
       return { posts: payload };
     },
-    // http://hussfelt.net/2015/08/10/understanding-and-converting-new-jsonapi-2-0/
+    // http://hussfelt.net/2015/08/10/understanding-emberjs-and-jsonapi-2-0/
     normalizeArrayResponse: function (store, primaryModelClass, payload, id, requestType) {
-      var result = {};
-      result[Ember['default'].String.pluralize(requestType.typeKey)] = payload.objects;
-      console.log(result);
-      return this._super(store, primaryModelClass, payload, id, requestType);
+      var payloadTemp = {};
+      payloadTemp[type.typeKey] = payload;
+      return this._super(store, primaryModelClass, payloadTemp, id, requestType);
     } });
   /*
     extractArray: function(store, type, payload, id, requestType) {
@@ -3954,6 +3985,16 @@ define('ember-cli-wordpress/tests/helpers/start-app.jshint', function () {
   });
 
 });
+define('ember-cli-wordpress/tests/mixins/serializers/rest_mixin.jshint', function () {
+
+  'use strict';
+
+  module('JSHint - mixins/serializers');
+  test('mixins/serializers/rest_mixin.js should pass jshint', function() { 
+    ok(true, 'mixins/serializers/rest_mixin.js should pass jshint.'); 
+  });
+
+});
 define('ember-cli-wordpress/tests/models/category.jshint', function () {
 
   'use strict';
@@ -4040,7 +4081,7 @@ define('ember-cli-wordpress/tests/serializers/application.jshint', function () {
 
   module('JSHint - serializers');
   test('serializers/application.js should pass jshint', function() { 
-    ok(true, 'serializers/application.js should pass jshint.'); 
+    ok(false, 'serializers/application.js should pass jshint.\nserializers/application.js: line 16, col 17, \'type\' is not defined.\nserializers/application.js: line 2, col 8, \'Ember\' is defined but never used.\n\n2 errors'); 
   });
 
 });
@@ -4348,7 +4389,7 @@ catch(err) {
 if (runningTests) {
   require("ember-cli-wordpress/tests/test-helper");
 } else {
-  require("ember-cli-wordpress/app")["default"].create({"name":"ember-cli-wordpress","version":"0.0.0.aae2a370"});
+  require("ember-cli-wordpress/app")["default"].create({"name":"ember-cli-wordpress","version":"0.0.0.cd91d002"});
 }
 
 /* jshint ignore:end */
