@@ -12,10 +12,17 @@ export default DS.RESTSerializer.extend(rest_serializer, {
   },
 // http://hussfelt.net/2015/08/10/understanding-emberjs-and-jsonapi-2-0/
   normalizeArrayResponse: function(store, primaryModelClass, payload, id, requestType) {
-    var payloadTemp = {}; 
-    payloadTemp[type.typeKey] = payload; 
+    var payloadTemp = {};
+    payloadTemp['posts'] = payload;
     return this._super(store, primaryModelClass, payloadTemp, id, requestType);
   },
+
+  normalizeSingleResponse: function(store, primaryModelClass, payload, id, requestType) {
+    var payloadTemp = {};
+    payloadTemp['posts'] = payload;
+    return this._super(store, primaryModelClass, payloadTemp, id, requestType);
+  },
+
 /*
   extractArray: function(store, type, payload, id, requestType) {
     var payloadTemp = {}; 

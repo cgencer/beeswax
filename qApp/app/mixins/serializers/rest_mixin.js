@@ -19,7 +19,7 @@ export default Ember.Mixin.create({
         // your API, nothing changed yet - do whatever you want to do.
         // In the below example I am deleting the "request_id" not to
         // pass this down to my serializers and generating errors
-        delete payload.request_id;
+//        delete payload.request_id;
 
         // The below calls the "super", which will run the internal conversion
         // from the old format to the new JSONApi 2.0 standard. It will also
