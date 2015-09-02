@@ -407,42 +407,53 @@ define('ember-cli-wordpress/serializers/application', ['exports', 'ember-data', 
   exports['default'] = DS['default'].RESTSerializer.extend(DS['default'].EmbeddedRecordsMixin, {
     primaryKey: "ID",
     isNewSerializerAPI: true,
-    /*
-      attrs: {
-        items: { embedded: 'always' },
-        categories: { embedded: 'always' },
-        tags: { embedded: 'always' },
-        author: { embedded: 'always' }
-      },
-    */
-    extractArray: function (store, type, payload, id, requestType) {
-      var payloadTemp = {};
-      payloadTemp[type.typeKey] = payload;
-      return this._super(store, type, payloadTemp, id, requestType);
-      /*
-          var result = {};
-          result[ Ember.String.pluralize(type.typeKey) ] = payload.objects;
-          payload = result;
-          return this._super(store, type, payload, id, requestType);
-      */
+
+    normalizePayload: function (payload) {
+      console.log({ posts: payload });
+      return { posts: payload };
     },
-    extractSingle: function (store, type, payload, id, requestType) {
-      var payloadTemp = {};
-      payloadTemp[type.typeKey] = payload;
+    // http://hussfelt.net/2015/08/10/understanding-and-converting-new-jsonapi-2-0/
+    normalizeArrayResponse: function (store, primaryModelClass, payload, id, requestType) {
+      var result = {};
+      result[Ember['default'].String.pluralize(requestType.typeKey)] = payload.objects;
+      console.log(result);
+      return this._super(store, primaryModelClass, payload, id, requestType);
+    } });
+  /*
+    extractArray: function(store, type, payload, id, requestType) {
+      var payloadTemp = {}; 
+      payloadTemp[type.typeKey] = payload; 
       return this._super(store, type, payloadTemp, id, requestType);
-      /*
-          var result = {};
-          result[ type.typeKey ] = payload.objects;
-          payload = result;
-          return this._super(store, type, payload, id, requestType);
-      */
     },
 
-    normalizePayload: function (type, payload) {
+    attrs: {
+      items: { embedded: 'always' },
+      categories: { embedded: 'always' },
+      tags: { embedded: 'always' },
+      author: { embedded: 'always' }
+    },
+
+    extractArray: function(store, type, payload, id, requestType) {
+
+      var result = {};
+      result[ Ember.String.pluralize(type.typeKey) ] = payload.objects;
+      payload = result;
+      return this._super(store, type, payload, id, requestType);
+    },
+    extractSingle: function(store, type, payload, id, requestType) {
+      var payloadTemp = {}; 
+      payloadTemp[type.typeKey] = payload; 
+      return this._super(store, type, payloadTemp, id, requestType);
+      var result = {};
+      result[ type.typeKey ] = payload.objects;
+      payload = result;
+      return this._super(store, type, payload, id, requestType);
+    },
+
+    normalizePayload: function(type, payload) {
       return { posts: payload };
     }
-
-  });
+  */
 
 });
 define('ember-cli-wordpress/templates/application', ['exports'], function (exports) {
@@ -4029,7 +4040,7 @@ define('ember-cli-wordpress/tests/serializers/application.jshint', function () {
 
   module('JSHint - serializers');
   test('serializers/application.js should pass jshint', function() { 
-    ok(false, 'serializers/application.js should pass jshint.\nserializers/application.js: line 2, col 8, \'Ember\' is defined but never used.\n\n1 error'); 
+    ok(true, 'serializers/application.js should pass jshint.'); 
   });
 
 });
@@ -4337,7 +4348,7 @@ catch(err) {
 if (runningTests) {
   require("ember-cli-wordpress/tests/test-helper");
 } else {
-  require("ember-cli-wordpress/app")["default"].create({"name":"ember-cli-wordpress","version":"0.0.0.1de73920"});
+  require("ember-cli-wordpress/app")["default"].create({"name":"ember-cli-wordpress","version":"0.0.0.aae2a370"});
 }
 
 /* jshint ignore:end */
