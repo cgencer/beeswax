@@ -10,7 +10,7 @@ export default DS.RESTSerializer.extend({
     var payloadTemp = {};
     payloadTemp[ Ember.String.pluralize(primaryModelClass.modelName) ] = payload;
 //console.log('arrayResponse');
-//console.dir(payloadTemp);
+console.dir(payloadTemp);
     return this._super(store, primaryModelClass, payloadTemp, id, requestType);
   },
 

@@ -12,7 +12,7 @@ var App = Ember.Application.extend({
   Resolver: Resolver,
   imports: {
 //    Handlebars: Handlebars,
-    jQuery: $,
+//    jQuery: $,
     console: window.console
   },
   LOG_TRANSITIONS_INTERNAL:  false,
