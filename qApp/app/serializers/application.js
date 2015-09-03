@@ -1,62 +1,32 @@
 import DS from 'ember-data';
 import Ember from 'ember';
-import rest_serializer from 'app/mixins/serializers/rest';
 
-export default DS.RESTSerializer.extend(rest_serializer, {
+export default DS.RESTSerializer.extend({
   primaryKey: 'ID',
   isNewSerializerAPI: true,
 
-  normalizePayload: function(payload) {
-    console.log({ 'posts': payload });
-    return { 'posts': payload };
-  },
-// http://hussfelt.net/2015/08/10/understanding-emberjs-and-jsonapi-2-0/
+ // http://hussfelt.net/2015/08/10/understanding-emberjs-and-jsonapi-2-0/
   normalizeArrayResponse: function(store, primaryModelClass, payload, id, requestType) {
     var payloadTemp = {};
-    payloadTemp['posts'] = payload;
+    payloadTemp[ Ember.String.pluralize(primaryModelClass.modelName) ] = payload;
+//console.log('arrayResponse');
+//console.dir(payloadTemp);
     return this._super(store, primaryModelClass, payloadTemp, id, requestType);
   },
 
   normalizeSingleResponse: function(store, primaryModelClass, payload, id, requestType) {
     var payloadTemp = {};
-    payloadTemp['posts'] = payload;
+    payloadTemp[ primaryModelClass.modelName ] = payload;
     return this._super(store, primaryModelClass, payloadTemp, id, requestType);
   },
 
 /*
-  extractArray: function(store, type, payload, id, requestType) {
-    var payloadTemp = {}; 
-    payloadTemp[type.typeKey] = payload; 
-    return this._super(store, type, payloadTemp, id, requestType);
-  },
-
-  attrs: {
-    items: { embedded: 'always' },
-    categories: { embedded: 'always' },
-    tags: { embedded: 'always' },
-    author: { embedded: 'always' }
-  },
-
-  extractArray: function(store, type, payload, id, requestType) {
-
-    var result = {};
-    result[ Ember.String.pluralize(type.typeKey) ] = payload.objects;
-    payload = result;
-    return this._super(store, type, payload, id, requestType);
-  },
-  extractSingle: function(store, type, payload, id, requestType) {
-    var payloadTemp = {}; 
-    payloadTemp[type.typeKey] = payload; 
-    return this._super(store, type, payloadTemp, id, requestType);
-    var result = {};
-    result[ type.typeKey ] = payload.objects;
-    payload = result;
-    return this._super(store, type, payload, id, requestType);
-  },
-
-  normalizePayload: function(type, payload) {
-    return { posts: payload };
+  normalizeResponse: function(store, primaryModelClass, payload, id, requestType) {
+    var payloadTemp = {};
+    payloadTemp[ primaryModelClass.modelName ] = payload;
+console.log('normalizeResponse');
+console.log(payloadTemp);
+    return this._super(store, primaryModelClass, payloadTemp, id, requestType);
   }
 */
-
 });
