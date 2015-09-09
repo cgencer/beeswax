@@ -24,8 +24,8 @@ export default DS.Model.extend({
   modified_tz: DS.attr(),
   modified_gmt: DS.attr('date'),
   featured_image: DS.attr(),
-  tags: DS.hasMany('tag'),
-  categories: DS.hasMany('category')
+  tags: DS.hasMany('tag', {async: false}),
+  categories: DS.hasMany('category', {async: false})
 });
 /*
   author: DS.belongsTo('user'),
