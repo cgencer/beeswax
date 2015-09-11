@@ -3,11 +3,16 @@
 		<div class="input-group">
 			<div class="input-group-btn">
 				<span class="dropdown ddLeft">
-					{{view "select" 
-									content=queryRules 
-									optionLabelPath="content.name"
-									selection=selectedFilter
-									prompt="Select a filter..."}}
+					{{#bs-dropdown}}
+						{{#bs-dropdown-button}}
+							Select a filter... <span class="caret"></span>
+						{{/bs-dropdown-button}}
+						{{#bs-dropdown-menu}}
+							{{#each queryRules as |rule|}}
+							<li {{action "selectionAHappened" rule rule.id on="mouseUp"}}>{{#link-to "index"}}{{rule.name}}{{/link-to}}</li>
+							{{/each}}
+						{{/bs-dropdown-menu}}
+					{{/bs-dropdown}}
 				</span>
 				<span class="dropdown ddMid">
 					{{#bs-dropdown}}
@@ -21,10 +26,17 @@
 					{{/bs-dropdown}}
 				</span>
 				<span class="dropdown ddRight">
-					{{view "select" 
-									content=currentValues
-									selection=selectedFilterValue
-									prompt="Select a value..."}}
+					{{#bs-dropdown}}
+						{{#bs-dropdown-button}}
+							Select a value... <span class="caret"></span>
+						{{/bs-dropdown-button}}
+						{{#bs-dropdown-menu}}
+							{{#each currentValues as |cval|}}
+							<li {{action "selectionBHappened" cval on="mouseUp"}}>{{#link-to "index"}}{{cval}}{{/link-to}}</li>
+							{{/each}}
+						{{/bs-dropdown-menu}}
+					{{/bs-dropdown}}
+
 				</span>
 			</div>
 		</div>
@@ -34,4 +46,4 @@
 	</div>
 </div>
 
-{{selectedFilter.name}} and {{selectedFilterValue}}
+{{selectedFilterA.name}} and {{selectedValue}}

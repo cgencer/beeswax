@@ -3,7 +3,8 @@ import Ember from 'ember';
 console.log('oneliner component loaded.');
 export default Ember.Component.extend({
     selectedFilter: null,
-    selectedFilterValue: null,
+    selectedCompare: null,
+    selectedValue: null,
     currentValues: null,
     queryRules: [
         {
@@ -141,19 +142,16 @@ export default Ember.Component.extend({
             related: "year"
         }
     ],
-    countries: [
-        {
-            name: 'United States',
-            cities: ['Chicago', 'Miami']
-        },
-        {
-            name: 'Brazil',
-            cities: ['Sao Paulo', 'Rio de Janeiro']
-        }
-    ],
-    selectedFilterChanged: function() {
-    	var proxy = this.get('selectedFilter.values');
-    	this.set('currentValues', proxy);
-    	console.log(this.get('queryRules'));
-    }.observes('selectedFilter')
+
+    actions: {
+    	selectionAHappened: function(val, id) {
+    		console.log('selected A: '+id);
+	    	this.set('selectedFilterA', val);
+	    	this.set('currentValues', val.values);
+    	},
+    	selectionBHappened: function(val) {
+    		console.log('selected B: '+val);
+	    	this.set('selectedValue', val);
+    	}
+    }
 });
