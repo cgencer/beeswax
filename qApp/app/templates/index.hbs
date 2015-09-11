@@ -1,8 +1,8 @@
-<h2>Latest Posts</h2>
+<h2>results</h2>
 
 <section id="query">
   {{#each query in model}}
-    {{one-liner model=query}}
+    {{one-liner model=query queryRules=App.QueryRules}}
   {{/each}}
 </section>
 

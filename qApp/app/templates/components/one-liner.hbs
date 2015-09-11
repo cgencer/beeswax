@@ -3,27 +3,16 @@
 		<div class="input-group">
 			<div class="input-group-btn">
 				<span class="dropdown ddLeft">
-					{{#bs-dropdown}}
-						{{#bs-dropdown-button}}
-							&nbsp;&nbsp;&nbsp; <span class="caret"></span>
-						{{/bs-dropdown-button}}
-						{{#bs-dropdown-menu}}
-							<li>{{#link-to "index"}}Content-type{{/link-to}}</li>
-							<li>{{#link-to "index"}}Other{{/link-to}}</li>
-						{{/bs-dropdown-menu}}
-					{{/bs-dropdown}}
+					{{view "select" 
+									content=countries 
+									optionLabelPath="content.name"
+									selection=selectedCountry
+									prompt="Select a country ..."}}
 				</span>
 				<span class="dropdown ddMid">
-					{{#bs-dropdown}}
-						{{#bs-dropdown-button}}
-							&nbsp;&nbsp;&nbsp; <span class="caret"></span>
-						{{/bs-dropdown-button}}
-						{{#bs-dropdown-menu}}
-							<li>{{#link-to "index"}}<{{/link-to}}</li>
-							<li>{{#link-to "index"}}={{/link-to}}</li>
-							<li>{{#link-to "index"}}>{{/link-to}}</li>
-						{{/bs-dropdown-menu}}
-					{{/bs-dropdown}}
+					{{view "select" 
+									content=currentCities
+									prompt="Select a city ..."}}
 				</span>
 				<span class="dropdown ddRight">
 					{{#bs-dropdown}}
@@ -43,3 +32,5 @@
 		<a id="addLiner" class="btn btn-primary btn-xs oneLinerButton">+</a>
 	</div>
 </div>
+
+
