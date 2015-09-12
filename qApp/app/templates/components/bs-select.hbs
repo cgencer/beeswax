@@ -3,7 +3,7 @@
 		{{#bs-dropdown-button}}{{ddLabel}} <span class="caret"></span>{{/bs-dropdown-button}}
 		{{#bs-dropdown-menu}}
 			{{#each ddData as |rule|}}
-				<li {{action 'selectedAnItem' rule ddid on='mouseUp'}}>{{#link-to "index"}}{{rule.name}}{{/link-to}}</li>
+				<li {{action 'selectedAnItem' rule ddId on='mouseUp'}}>{{#link-to "index"}}{{rule.name}}{{/link-to}}</li>
 			{{/each}}
 		{{/bs-dropdown-menu}}
 	{{/bs-dropdown}}

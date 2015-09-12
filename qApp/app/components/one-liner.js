@@ -151,7 +151,7 @@ export default Ember.Component.extend({
     actions: {
     	selectedAnItem: function(info, id) {
     		if(undefined==info.id){info.id=info.name;}
-    		console.log('@oneliner:'+info.id);
+    		console.log('@oneliner:'+info.id+'...'+id);
     		if(undefined != info.values){
     			if(0==info.values.length){
     			// replace secondary dropdown with input fiels
