@@ -2,22 +2,16 @@
 	<div class="col-md-8">
 		<div class="input-group">
 			<div class="input-group-btn">
-				<span class="dropdown ddLeft">
-					{{#bs-dropdown}}
-						{{#bs-dropdown-button}}
-							Select a filter... <span class="caret"></span>
-						{{/bs-dropdown-button}}
-						{{#bs-dropdown-menu}}
-							{{#each queryRules as |rule|}}
-							<li {{action "selectionAHappened" rule rule.id on="mouseUp"}}>{{#link-to "index"}}{{rule.name}}{{/link-to}}</li>
-							{{/each}}
-						{{/bs-dropdown-menu}}
-					{{/bs-dropdown}}
-				</span>
+
+				{{bs-select dd="ddLeft" 
+							ddId='filter'
+							ddLabel="Select a filter..."
+							ddData=queryRules
+							action='selectedAnItem'
+				}}
 				<span class="dropdown ddMid">
 					{{#bs-dropdown}}
-						{{#bs-dropdown-button}}
-							&nbsp;&nbsp;&nbsp; <span class="caret"></span>
+						{{#bs-dropdown-button}}&nbsp;&nbsp;&nbsp; <span class="caret"></span>
 						{{/bs-dropdown-button}}
 						{{#bs-dropdown-menu}}
 							<li>{{#link-to "index"}}Something{{/link-to}}</li>
@@ -25,19 +19,13 @@
 						{{/bs-dropdown-menu}}
 					{{/bs-dropdown}}
 				</span>
-				<span class="dropdown ddRight">
-					{{#bs-dropdown}}
-						{{#bs-dropdown-button}}
-							Select a value... <span class="caret"></span>
-						{{/bs-dropdown-button}}
-						{{#bs-dropdown-menu}}
-							{{#each currentValues as |cval|}}
-							<li {{action "selectionBHappened" cval on="mouseUp"}}>{{#link-to "index"}}{{cval}}{{/link-to}}</li>
-							{{/each}}
-						{{/bs-dropdown-menu}}
-					{{/bs-dropdown}}
+				{{bs-select dd="ddRight" 
+							ddId='value'
+							ddLabel="Select a value..."
+							ddData=currentValues
+							action='selectedAnItem'
+				}}
 
-				</span>
 			</div>
 		</div>
 	</div>

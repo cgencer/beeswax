@@ -15,6 +15,7 @@
     "jquery": "^1.11.1",
     "loader.js": "ember-cli/loader.js#1.0.1",
     "qunit": "*",
-    "requirejs": "~2.1.20"
+    "requirejs": "~2.1.20",
+    "jquery.inputmask": "3.1.49"
   }
 }

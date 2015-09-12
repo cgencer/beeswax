@@ -1,6 +1,5 @@
 import Ember from 'ember';
 
-console.log('oneliner component loaded.');
 export default Ember.Component.extend({
     selectedFilter: null,
     selectedCompare: null,
@@ -10,7 +9,9 @@ export default Ember.Component.extend({
         {
             id: 'post_type',
             className: 'choices',
-            values: ['post', 'page', 'any'],
+            values: [
+            	{name: "post"}, {name: "page"}, {name: "page"}
+			],
             required: true,
             name: "Content Type",
             related: null,
@@ -19,7 +20,9 @@ export default Ember.Component.extend({
         {
         	id: 'post_status',
             className: 'choices',
-            values: ['publish', 'pending', 'private', 'future', 'trash', 'any'],
+            values: [
+            	{name: 'publish'}, {name: 'pending'}, {name: 'private'}, {name: 'future'}, {name: 'trash'}, {name: 'any'}
+            ],
             required: false,
             name: "Status",
             related: null,
@@ -56,7 +59,9 @@ export default Ember.Component.extend({
         {
         	id: 'orderby',
             className: 'choices',
-            values: ['none', 'ID', 'author', 'title', 'name', 'type', 'date', 'modified', 'parent', 'rand', 'comment_count', 'menu_order', 'meta_value', 'meta_value_num', 'post__in'],
+            values: [
+            	{name: 'none'}, {name: 'ID'}, {name: 'author'}, {name: 'title'}, {name: 'name'}, {name: 'type'}, {name: 'date'}, {name: 'modified'}, {name: 'parent'}, {name: 'rand'}, {name: 'comment_count'}, {name: 'menu_order'}, {name: 'meta_value'}, {name: 'meta_value_num'}, {name: 'post__in'}
+            ],
             required: false,
             name: "order by",
             related: null
@@ -64,7 +69,7 @@ export default Ember.Component.extend({
         {
         	id: 'order',
             className: 'choices',
-            values: ['ASC', 'DESC'],
+            values: [{name: 'ASC'}, {name: 'DESC'}],
             required: false,
             name: "order",
             related: "orderby"
@@ -99,7 +104,7 @@ export default Ember.Component.extend({
         {
         	id: 'ignore_sticky_posts',
             className: 'choices',
-            values: ['true', 'false'],
+            values: [{name: 'true'}, {name: 'false'}],
             required: false,
             name: "Ignore sticky posts",
             related: null
@@ -144,14 +149,17 @@ export default Ember.Component.extend({
     ],
 
     actions: {
-    	selectionAHappened: function(val, id) {
-    		console.log('selected A: '+id);
-	    	this.set('selectedFilterA', val);
-	    	this.set('currentValues', val.values);
-    	},
-    	selectionBHappened: function(val) {
-    		console.log('selected B: '+val);
-	    	this.set('selectedValue', val);
-    	}
+    	selectedAnItem: function(info, id) {
+    		if(undefined==info.id){info.id=info.name;}
+    		console.log('@oneliner:'+info.id);
+    		if(undefined != info.values){
+    			if(0==info.values.length){
+    			// replace secondary dropdown with input fiels
+	    		}else{
+			    	this.set('selected'+id, info);
+			    	this.set('currentValues', info.values);
+    			}	
+    		}
+		},
     }
 });
