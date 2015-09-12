@@ -151,15 +151,19 @@ export default Ember.Component.extend({
     actions: {
     	selectedAnItem: function(info, id) {
     		if(undefined==info.id){info.id=info.name;}
-    		console.log('@oneliner:'+info.id+'...'+id);
+    		console.log('@oneliner:'+info.id+'.> '+id);
+    		console.dir(info);
+
     		if(undefined != info.values){
     			if(0==info.values.length){
-    			// replace secondary dropdown with input fiels
+    				// replace secondary dropdown with input fiels
+
 	    		}else{
-			    	this.set('selected'+id, info);
 			    	this.set('currentValues', info.values);
     			}	
     		}
+    		this.set('selected'+id, info);
+
 		},
     }
 });

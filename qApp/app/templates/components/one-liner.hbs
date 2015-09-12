@@ -4,10 +4,11 @@
 			<div class="input-group-btn">
 
 				{{bs-select dd="ddLeft" 
-							ddId='filter'
+							ddId='Filter'
 							ddLabel="Select a filter..."
 							ddData=queryRules
 							action='selectedAnItem'
+							bbSelect=true
 				}}
 				<span class="dropdown ddMid">
 					{{#bs-dropdown}}
@@ -20,10 +21,11 @@
 					{{/bs-dropdown}}
 				</span>
 				{{bs-select dd="ddRight" 
-							ddId='value'
+							ddId='Value'
 							ddLabel="Select a value..."
 							ddData=currentValues
 							action='selectedAnItem'
+							bbSelect=true
 				}}
 
 			</div>
@@ -34,4 +36,4 @@
 	</div>
 </div>
 
-{{selectedFilter}} and {{selectedValue}}
+{{selectedFilter.name}} and {{selectedValue.name}}
