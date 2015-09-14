@@ -3,6 +3,7 @@ import DS from 'ember-data';
 import Resolver from 'ember/resolver';
 import loadInitializers from 'ember/load-initializers';
 import config from './config/environment';
+import _ from 'lodash/lodash';
 
 Ember.MODEL_FACTORY_INJECTIONS = true;
 

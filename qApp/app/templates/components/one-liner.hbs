@@ -9,23 +9,23 @@
 							ddData=queryRules
 							action='selectedAnItem'
 							bbSelect=true
+							bbReplaceable=false
 				}}
-				<span class="dropdown ddMid">
-					{{#bs-dropdown}}
-						{{#bs-dropdown-button}}&nbsp;&nbsp;&nbsp; <span class="caret"></span>
-						{{/bs-dropdown-button}}
-						{{#bs-dropdown-menu}}
-							<li>{{#link-to "index"}}Something{{/link-to}}</li>
-							<li>{{#link-to "index"}}Other{{/link-to}}</li>
-						{{/bs-dropdown-menu}}
-					{{/bs-dropdown}}
-				</span>
+				{{bs-select dd="ddMid" 
+							ddId='Compare'
+							ddLabel="Select a comparison..."
+							ddData=comparison
+							action='selectedAnItem'
+							bbSelect=true
+							bbReplaceable=false
+				}}
 				{{bs-select dd="ddRight" 
 							ddId='Value'
 							ddLabel="Select a value..."
 							ddData=currentValues
 							action='selectedAnItem'
 							bbSelect=true
+							bbReplaceable=true
 				}}
 
 			</div>

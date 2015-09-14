@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import _ from 'lodash/lodash';
 //import DS from 'ember-data';
 
 export default Ember.Mixin.create({
