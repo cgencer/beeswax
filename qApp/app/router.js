@@ -8,7 +8,7 @@ var Router = Ember.Router.extend({
 Router.map(function() {
   this.route("post", { path: '/post/:post_id' });
   this.route('posts', function() {
-  	this.route('by_type', { path: '/:post_type' });
+  	this.route('by_type', { path: '/by_type/:post_type' });
   });
 });
 
