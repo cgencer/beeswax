@@ -1,1 +1,7 @@
 <h2>results for posts/by_type</h2>
+
+<section id="main">
+  {{#each post in model}}
+    {{single-post model=post}}
+  {{/each}}
+</section>
