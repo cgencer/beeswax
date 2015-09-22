@@ -3,7 +3,6 @@ import DS from 'ember-data';
 import Resolver from 'ember/resolver';
 import loadInitializers from 'ember/load-initializers';
 import config from './config/environment';
-import _ from 'lodash/lodash';
 
 Ember.MODEL_FACTORY_INJECTIONS = true;
 
@@ -24,6 +23,7 @@ var App = Ember.Application.extend({
 
 // this should remove CORS errors
 
+/*
 App.ApplicationAdapter = DS.RESTAdapter.extend({
   host: config.wordpress.host,
   ajax: function(url, method, hash) {
@@ -32,6 +32,7 @@ App.ApplicationAdapter = DS.RESTAdapter.extend({
     return this._super(url, method, hash);
   }
 });
+*/
 
 loadInitializers(App, config.modulePrefix);
 

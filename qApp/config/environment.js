@@ -7,8 +7,8 @@ module.exports = function(environment) {
         baseURL: '/',
         locationType: 'auto',
         contentSecurityPolicy: {
-            'connect-src': "'self' http://localhost:4200 http://0.0.0.0:4200 http://wplab.dev",
-            'script-src': "'self' http://localhost:4200 http://0.0.0.0:4200 http://wplab.dev"
+            'connect-src': "'self' wplab.dev http://localhost:4200 http://0.0.0.0:4200 http://wplab.dev",
+            'script-src': "'self' wplab.dev http://localhost:4200 http://0.0.0.0:4200 http://wplab.dev"
         },
         'ember-devtools': {
             global: true,
@@ -39,7 +39,6 @@ module.exports = function(environment) {
         // Testem prefers this...
         ENV.baseURL = '/';
         ENV.locationType = 'none';
-
         // keep test console output quieter
         ENV.APP.LOG_ACTIVE_GENERATION = false;
         ENV.APP.LOG_VIEW_LOOKUPS = false;

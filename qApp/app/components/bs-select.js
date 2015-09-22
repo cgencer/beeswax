@@ -3,9 +3,10 @@ import Ember from 'ember';
 export default Ember.Component.extend(Ember.Evented, {
     actions: {
     	selectedAnItem: function(info, id) {
-			var parentView = this.get('parentView');	// gets you the one-liner view
 
-			var lastElement = $(this.get('element')).siblings(':last').find('.dropdown');
+//	not used, but referencing...
+//			var parentView = this.get('parentView');	// gets you the one-liner view
+//			var lastElement = $(this.get('element')).siblings(':last').find('.dropdown');
 
     		this.sendAction('action', info, id);
 /*			this.globalEvents.trigger('oneliner:bar', {
