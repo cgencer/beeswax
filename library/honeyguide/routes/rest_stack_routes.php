@@ -1,8 +1,8 @@
 <?php
 
-return new Rest_Stack_Routes();
+// https://codecov.io/github/WP-API/WP-API/plugin.php?ref=c9f484768fc555fdd614c39141da689a253e223b
 
-class Rest_Stack_Routes extends WP_REST_Controller {
+class WP_REST_Stacks_Controller extends WP_REST_Controller {
 
     /**
      * Register the routes for the objects of the controller.
@@ -10,8 +10,8 @@ class Rest_Stack_Routes extends WP_REST_Controller {
     public function register_routes() {
         $version = '1';
         $namespace = 'api';
-        $base = 'route';
-        register_rest_route( $namespace, '/' . $base, array(
+        $base = 'stack';
+        register_rest_route( $namespace.'-v'.$version, '/'.$base, array(
             array(
                 'methods'         => WP_REST_Server::READABLE,
                 'callback'        => array( $this, 'get_items' ),
@@ -21,7 +21,7 @@ class Rest_Stack_Routes extends WP_REST_Controller {
                 ),
             ),
         ) );
-        register_rest_route( $namespace, '/' . $base . '/(?P<id>[\d]+)', array(
+        register_rest_route( $namespace.'-v'.$version, '/'.$base.'/(?P<id>[\d]+)', array(
             array(
                 'methods'         => WP_REST_Server::READABLE,
                 'callback'        => array( $this, 'get_item' ),
@@ -33,7 +33,7 @@ class Rest_Stack_Routes extends WP_REST_Controller {
                 ),
             ),
         ) );
-        register_rest_route( $namespace, '/' . $base . '/schema', array(
+        register_rest_route( $namespace.'-v'.$version, '/'.$base . '/schema', array(
             'methods'         => WP_REST_Server::READABLE,
             'callback'        => array( $this, 'get_public_item_schema' ),
         ) );
@@ -83,8 +83,8 @@ class Rest_Stack_Routes extends WP_REST_Controller {
      * @return WP_Error|bool
      */
     public function get_items_permissions_check( $request ) {
-        //return true; <--use to make readable by all
-        return current_user_can( 'edit_something' );
+        return true; // <--use to make readable by all
+//        return current_user_can( 'edit_something' );
     }
 
     /**
@@ -94,7 +94,8 @@ class Rest_Stack_Routes extends WP_REST_Controller {
      * @return WP_Error|bool
      */
     public function get_item_permissions_check( $request ) {
-        return $this->get_items_permissions_check( $request );
+        return true;
+//        return $this->get_items_permissions_check( $request );
     }
 
     /**

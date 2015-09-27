@@ -73,6 +73,38 @@ class honeyguide_theme {
 				include_once($filename);
 			}
 		}
+
+		add_action( 'rest_api_init', array( $this, 'create_initial_rest_routes' ), 0 );
+		add_action( 'init', array( $this, 'add_extra_api_post_type_arguments' ), 11 );
+	}
+
+	public function add_extra_api_post_type_arguments() {
+		global $wp_post_types;
+
+		$wp_post_types['stack'] = new stdClass();
+
+		$wp_post_types['stack']->show_in_rest = true;
+		$wp_post_types['stack']->rest_base = 'stack';
+		$wp_post_types['stack']->rest_controller_class = 'WP_REST_Stacks_Controller';
+
+// TODO: teammembers & services
+	}
+
+	public function create_initial_rest_routes() {
+
+		foreach ( get_post_types( array( 'show_in_rest' => true ), 'objects' ) as $post_type ) {
+
+			$class = ! empty( $post_type->rest_controller_class ) ? $post_type->rest_controller_class : 'WP_REST_Posts_Controller';
+
+			if ( !class_exists( $class ) ) {
+		    	continue;
+			}
+			$controller = new $class( $post_type->name );
+			if ( !is_subclass_of( $controller, 'WP_REST_Controller' ) ) {
+	    		continue;
+			}
+			$controller->register_routes();
+		}
 	}
 
 	public function loadPage($page) {
