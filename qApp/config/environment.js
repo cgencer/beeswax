@@ -5,6 +5,10 @@ module.exports = function(environment) {
         modulePrefix: 'ember-cli-wordpress',
         environment: environment,
         baseURL: '/',
+        'ember-apijax': {
+            host: 'http://wplab.dev/wp-json/wp/v2/'
+        },
+
         locationType: 'auto',
         contentSecurityPolicy: {
             'connect-src': "'self' wplab.dev http://localhost:4200 http://0.0.0.0:4200 http://wplab.dev",
@@ -51,8 +55,8 @@ module.exports = function(environment) {
     }
 
     ENV.wordpress = {
-        host: "http://wplab.dev",
-        namespace: "wp-json"
+        host: "http://wplab.dev/wp-json/wp",
+        namespace: "v2"
     }
 
     return ENV;

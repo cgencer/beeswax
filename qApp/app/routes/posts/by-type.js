@@ -7,6 +7,8 @@ export default Ember.Route.extend({
 // http://wplab.dev/wp-json/posts?type[]=stack
 console.log('posts/by_type.js: '+params.post_type);
 
+//console.dir(this.store.find('stack'));
+//console.dir(this.apijax.GET('stack'));
 //    return this.store.findAll('post', params);
 /*
 	return this.store.findAll('post', {
@@ -32,7 +34,9 @@ console.log('posts/by_type.js: '+params.post_type);
 		}
 	});
 */
-	return Ember.$.getJSON('http://wplab.dev/wp-json/posts?type[]='+params.post_type+'&callback=?');
+	return this.store.find(params.post_type);
+
+//	return Ember.$.getJSON('http://wplab.dev/wp-json/wp/v2/'+params.post_type); //+'&callback=?');
 
 //	return this.store.findAll('post', {type: 'stack', posts_per_page: 2, order: 'ASC'});
   }

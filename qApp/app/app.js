@@ -21,6 +21,13 @@ var App = Ember.Application.extend({
   LOG_RESOLVER:              false
 });
 
+Ember.RSVP.configure('onerror', function(error) {
+  if (error instanceof Error) {
+    Ember.Logger.assert(false, error);
+    Ember.Logger.error(error.stack);
+  }
+});
+
 // this should remove CORS errors
 
 /*

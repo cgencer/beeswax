@@ -87,11 +87,11 @@ class honeyguide_theme {
 	public function add_extra_api_post_type_arguments() {
 		global $wp_post_types;
 
-		if(!isset($wp_post_types['stack'])){$wp_post_types['stack'] = new stdClass();}
+		if(!isset($wp_post_types['stacks'])){$wp_post_types['stacks'] = new stdClass();}
 
-		$wp_post_types['stack']->show_in_rest = true;
-		$wp_post_types['stack']->rest_base = 'stack';
-		$wp_post_types['stack']->rest_controller_class = 'WP_REST_Posts_Controller';
+		$wp_post_types['stacks']->show_in_rest = true;
+		$wp_post_types['stacks']->rest_base = 'stacks';
+		$wp_post_types['stacks']->rest_controller_class = 'WP_REST_Posts_Controller';
 
 // TODO: teammembers & services
 	}
