@@ -10,8 +10,6 @@ if(!class_exists('Mustache_Engine')) {
 include_once get_template_directory() . '/library/honeyguide/plugins/multiple_sidebars.php';
 require_once get_template_directory() . '/library/honeyguide/plugins/post-link-plus.php';
 
-require_once get_template_directory() . '/library/honeyguide/routes/rest_stack_routes.php';
-
 require_once get_template_directory() . '/library/honeyguide/plugins/multiple-featured-images/multiple-featured-images.php';
 if(!class_exists('FirePHP')) require_once get_template_directory() . '/library/honeyguide/vendor/firephp/lib/FirePHPCore/fb.php';
 
