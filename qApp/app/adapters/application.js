@@ -14,12 +14,14 @@ App.ApplicationAdapter = DS.RESTAdapter.extend({
   }
 });
 */
+
 /*
   ajax: function(path, options) {
     var options = options || {};
     options.dataType = 'json';
   },
 */
+
 /*
   headers: Ember.computed('session.authToken', function() {
 	return {

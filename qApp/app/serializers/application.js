@@ -12,8 +12,6 @@ export default DS.RESTSerializer.extend({
 
     console.log('[-serializer-]>>> modelName is: ' + primaryModelClass.modelName);
     payloadTemp[ primaryModelClass.modelName ] = payload;
-
-    console.dir(payloadTemp);
     return this._super(store, primaryModelClass, payloadTemp, id, requestType);
   },
 
@@ -24,7 +22,8 @@ export default DS.RESTSerializer.extend({
   },
 
   modelNameFromPayloadKey: function(payloadKey) {
-    console.log('payloadKey is '+payloadKey);
+    console.log('[-serializer-]>>> payloadKey is: ' + payloadKey);
+
 /*
     if (payloadKey === 'stacks') {
       return this._super(payloadKey.replace('stacks', 'stack'));

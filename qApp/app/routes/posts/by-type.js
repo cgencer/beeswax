@@ -19,10 +19,16 @@ export default Ember.Route.extend({
 		return peters;
 	});
 */
-	
-	console.dir(this.store.findAll('stacks'));
 
-	return {stacks: [{slug: 90}, {slug: 98}, {slug: 97}]};
+//	return {stacks: [{slug: 90}, {slug: 98}, {slug: 97}]};
+
+	return {
+		stacks: [
+			{slug: 90}, 
+			{slug: 98}, 
+			{slug: 97}
+		]
+	};
 
 	return this.store.findAll('stacks');
 
