@@ -10,10 +10,10 @@ export default DS.RESTSerializer.extend({
     var payloadTemp = {};
 //    payloadTemp[ Ember.String.pluralize(primaryModelClass.modelName) ] = payload;
 
+    console.log('[-serializer-]>>> modelName is: ' + primaryModelClass.modelName);
     payloadTemp[ primaryModelClass.modelName ] = payload;
 
-//console.log('arrayResponse');
-//console.dir(payloadTemp);
+    console.dir(payloadTemp);
     return this._super(store, primaryModelClass, payloadTemp, id, requestType);
   },
 
@@ -25,11 +25,14 @@ export default DS.RESTSerializer.extend({
 
   modelNameFromPayloadKey: function(payloadKey) {
     console.log('payloadKey is '+payloadKey);
+/*
     if (payloadKey === 'stacks') {
       return this._super(payloadKey.replace('stacks', 'stack'));
     } else {
       return this._super(payloadKey);
     }
+*/
+      return this._super(payloadKey);
   }
 
 /*

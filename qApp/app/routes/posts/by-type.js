@@ -9,21 +9,26 @@ export default Ember.Route.extend({
 	console.log('posts/by_type.js: '+params.post_type);
 	console.dir(params);
 
-	return this.store.findAll('stacks', {
-		type: params.post_type
-	});	//params.post_type);
+
+	// ***********************************************************************************************
+	// THIS SHOULD BRING FILTERING OF RESULTS FROM BACKEND, BUT NEEDS THE WORK DONE ALSO ON REST-SIDE
+	// ***********************************************************************************************
+/*
+	this.store.query('stacks', { id: 93, name: 'test'}).then(function(peters) {
+		// calls http://wplab.dev/wp-json/wp/v2/stacks?id=93&name=test
+		return peters;
+	});
+*/
+	
+	console.dir(this.store.findAll('stacks'));
+
+	return {stacks: [{slug: 90}, {slug: 98}, {slug: 97}]};
+
+	return this.store.findAll('stacks');
 
 //	return Ember.$.getJSON('http://wplab.dev/wp-json/wp/v2/'+params.post_type); //+'&callback=?');
 
 //	return this.store.findAll('post', {type: 'stack', posts_per_page: 2, order: 'ASC'});
-
-/*
-	return this.store.findAll('post', {
-		type: params.post_type ? params.post_type : 'posts', 
-		posts_per_page: 2, 
-		order: 'ASC'
-	});
-*/
 
 /*
 	Ember.$.ajaxSetup({
@@ -41,12 +46,6 @@ export default Ember.Route.extend({
 			type: params.post_type 
 		}
 	});
-*/
-/*
-endişe: normal şartlarda parasal konularda çok endişeli olmam. ama son senelerde 
-kendim için doğru yaşam biçiminden dolayı, rahat ve yapmak istediklerime fırsat
-sağlayan işleri tercih etmeme yol açtı. iş seçimlerim, stabilitesi ve güvenirliği
-yeterince olmadığı için gelecek konusunda 
 */
   }
 });

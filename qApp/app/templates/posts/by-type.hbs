@@ -2,7 +2,11 @@
 
 <section id="main">
   <h4>here we go...</h4>
-  <ol>{{#each post in model}}
-    <li>{{post.slug}}</li>
-  {{/each}}</ol>
+
+{{log 'model is:' stacks}}
+
+	{{#each stacks as |item|}}
+		{{item.slug}}<br>
+	{{/each}}
+
 </section>

@@ -1,8 +1,15 @@
 <h2>results for posts/by_type:</h2>
-here we are.<br />
 
 <section id="main">
-  <ol>{{#each post in model}}
+  <h4>here we go...</h4>
+
+	{{#each stacks as |stack|}}
+	    <li>{{stack.id}}</li>
+	{{/each}}
+
+
+  <ol>{{#each post in stacks}}
     <li>{{post.slug}}</li>
   {{/each}}</ol>
+
 </section>
