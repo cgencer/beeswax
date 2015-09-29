@@ -7,8 +7,11 @@ export default Ember.Route.extend({
   model: function(params) {
 
 	console.log('posts/by_type.js: '+params.post_type);
+	console.dir(params);
 
-	return this.store.findAll('stacks', {});	//params.post_type);
+	return this.store.findAll('stacks', {
+		type: params.post_type
+	});	//params.post_type);
 
 //	return Ember.$.getJSON('http://wplab.dev/wp-json/wp/v2/'+params.post_type); //+'&callback=?');
 
@@ -39,6 +42,11 @@ export default Ember.Route.extend({
 		}
 	});
 */
-
+/*
+endişe: normal şartlarda parasal konularda çok endişeli olmam. ama son senelerde 
+kendim için doğru yaşam biçiminden dolayı, rahat ve yapmak istediklerime fırsat
+sağlayan işleri tercih etmeme yol açtı. iş seçimlerim, stabilitesi ve güvenirliği
+yeterince olmadığı için gelecek konusunda 
+*/
   }
 });

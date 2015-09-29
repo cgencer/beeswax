@@ -10,6 +10,7 @@ Router.map(function() {
   this.route("post", { path: '/post/:post_id' });
   this.resource('posts', function() {
   	this.route('by_type', { path: '/by_type/:post_type' });
+  	this.route('by_type', { path: '/by_type/:post_type/:test' });
   });
 });
 
