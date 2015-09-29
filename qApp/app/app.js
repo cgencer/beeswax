@@ -28,19 +28,6 @@ Ember.RSVP.configure('onerror', function(error) {
   }
 });
 
-// this should remove CORS errors
-
-/*
-App.ApplicationAdapter = DS.RESTAdapter.extend({
-  host: config.wordpress.host,
-  ajax: function(url, method, hash) {
-    hash.crossDomain = true;
-    hash.xhrFields = {withCredentials: true};
-    return this._super(url, method, hash);
-  }
-});
-*/
-
 loadInitializers(App, config.modulePrefix);
 
 Ember.run.backburner.DEBUG            = true;

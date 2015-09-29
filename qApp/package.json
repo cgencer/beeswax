@@ -42,6 +42,5 @@
     "handlebars": "^1.3.0"
   },
   "dependencies": {
-    "ember-apijax": "^0.2.1"
   }
 }
